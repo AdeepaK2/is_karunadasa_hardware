@@ -10,7 +10,9 @@ import {
   mockSales,
   mockSuppliers,
   mockExpenses,
+  mockUsers,
 } from '@/lib/mockData';
+import { getDefaultRoute } from '@/lib/permissions';
 
 interface AppContextType {
   // Data
@@ -20,6 +22,7 @@ interface AppContextType {
   sales: Sale[];
   suppliers: Supplier[];
   expenses: Expense[];
+  users: User[];
   currentUser: User | null;
   cart: CartItem[];
   theme: 'light' | 'dark';
@@ -80,6 +83,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [sales, setSales] = useState<Sale[]>([]);
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);
   const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
@@ -93,15 +97,17 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     const storedSales = storage.getSales();
     const storedSuppliers = storage.getSuppliers();
     const storedExpenses = storage.getExpenses();
+    const storedUsers = storage.getUsers();
     const storedTheme = storage.getTheme();
 
-    setProducts(storedProducts || mockProducts);
-    setCustomers(storedCustomers || mockCustomers);
-    setEmployees(storedEmployees || mockEmployees);
-    setSales(storedSales || mockSales);
-    setSuppliers(storedSuppliers || mockSuppliers);
-    setExpenses(storedExpenses || mockExpenses);
-    setTheme(storedTheme || 'light');
+    setProducts(Array.isArray(storedProducts) ? storedProducts : mockProducts);
+    setCustomers(Array.isArray(storedCustomers) ? storedCustomers : mockCustomers);
+    setEmployees(Array.isArray(storedEmployees) ? storedEmployees : mockEmployees);
+    setSales(Array.isArray(storedSales) ? storedSales : mockSales);
+    setSuppliers(Array.isArray(storedSuppliers) ? storedSuppliers : mockSuppliers);
+    setExpenses(Array.isArray(storedExpenses) ? storedExpenses : mockExpenses);
+    setUsers(Array.isArray(storedUsers) ? storedUsers : mockUsers);
+    setTheme((storedTheme === 'light' || storedTheme === 'dark') ? storedTheme : 'light');
     setIsInitialized(true);
   };
 
@@ -109,8 +115,24 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     if (typeof window !== 'undefined') {
       initializeData();
       const storedUser = storage.getCurrentUser();
-      if (storedUser) {
-        setCurrentUser(storedUser);
+      if (storedUser && typeof storedUser === 'object' && 'id' in storedUser) {
+        // Ensure the user has permissions
+        const userWithPermissions = storedUser as User;
+        if (!userWithPermissions.permissions) {
+          // If permissions are missing, add them based on role
+          const { getPermissionsForRole } = require('@/lib/permissions');
+          userWithPermissions.permissions = getPermissionsForRole(userWithPermissions.role);
+        }
+        setCurrentUser(userWithPermissions);
+      }
+      
+      // Apply stored theme immediately on mount
+      const storedTheme = storage.getTheme();
+      if (storedTheme === 'light' || storedTheme === 'dark') {
+        document.documentElement.classList.remove('light', 'dark');
+        document.documentElement.classList.add(storedTheme);
+      } else {
+        document.documentElement.classList.add('light');
       }
     }
   }, []);
@@ -154,8 +176,17 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (isInitialized) {
+      storage.setUsers(users);
+    }
+  }, [users, isInitialized]);
+
+  useEffect(() => {
+    if (isInitialized && typeof window !== 'undefined') {
       storage.setTheme(theme);
-      document.documentElement.classList.toggle('dark', theme === 'dark');
+      // Remove both classes first
+      document.documentElement.classList.remove('light', 'dark');
+      // Add the current theme
+      document.documentElement.classList.add(theme);
     }
   }, [theme, isInitialized]);
 
@@ -321,6 +352,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const logout = () => {
     setCurrentUser(null);
     storage.remove('pos_current_user');
+    setCart([]);
   };
 
   // Theme function
@@ -337,6 +369,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         sales,
         suppliers,
         expenses,
+        users,
         currentUser,
         cart,
         theme,

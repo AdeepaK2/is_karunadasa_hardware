@@ -1,4 +1,36 @@
-import { Product, Customer, Employee, Sale, Supplier, Expense } from '@/types';
+import { Product, Customer, Employee, Sale, Supplier, Expense, User } from '@/types';
+import { getPermissionsForRole } from './permissions';
+
+// Mock Users with permissions
+export const mockUsers: User[] = [
+  {
+    id: '1',
+    name: 'Admin User',
+    email: 'admin@hardware.com',
+    role: 'admin',
+    phone: '+1234567890',
+    createdAt: new Date('2024-01-01'),
+    permissions: getPermissionsForRole('admin'),
+  },
+  {
+    id: '2',
+    name: 'Manager User',
+    email: 'manager@hardware.com',
+    role: 'manager',
+    phone: '+1234567891',
+    createdAt: new Date('2024-01-01'),
+    permissions: getPermissionsForRole('manager'),
+  },
+  {
+    id: '3',
+    name: 'Cashier User',
+    email: 'cashier@hardware.com',
+    role: 'cashier',
+    phone: '+1234567892',
+    createdAt: new Date('2024-01-01'),
+    permissions: getPermissionsForRole('cashier'),
+  },
+];
 
 // Mock Products
 export const mockProducts: Product[] = [

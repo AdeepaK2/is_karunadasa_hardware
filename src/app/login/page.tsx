@@ -4,26 +4,34 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useApp } from '@/contexts/AppContext';
 import { User, Lock, LogIn } from 'lucide-react';
+import { getPermissionsForRole, getDefaultRoute } from '@/lib/permissions';
 
 export default function LoginPage() {
   const [role, setRole] = useState<'admin' | 'manager' | 'cashier'>('cashier');
   const [name, setName] = useState('');
-  const { login } = useApp();
+  const { login, users } = useApp();
   const router = useRouter();
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     
-    const mockUser = {
-      id: '1',
-      name: name || `${role.charAt(0).toUpperCase()}${role.slice(1)} User`,
-      email: `${role}@hardwarestore.com`,
-      role: role,
-      createdAt: new Date(),
-    };
+    // Find existing user or create one with proper permissions
+    let user = users.find(u => u.role === role);
+    
+    if (!user) {
+      user = {
+        id: Date.now().toString(),
+        name: name || `${role.charAt(0).toUpperCase()}${role.slice(1)} User`,
+        email: `${role}@hardwarestore.com`,
+        role: role,
+        createdAt: new Date(),
+        permissions: getPermissionsForRole(role),
+      };
+    }
 
-    login(mockUser);
-    router.push('/dashboard');
+    login(user);
+    const defaultRoute = getDefaultRoute(role);
+    router.push(defaultRoute);
   };
 
   return (

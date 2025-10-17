@@ -2,6 +2,24 @@
 
 export type UserRole = 'admin' | 'manager' | 'cashier';
 
+export interface UserPermissions {
+  canViewDashboard: boolean;
+  canManageBilling: boolean;
+  canViewInventory: boolean;
+  canEditInventory: boolean;
+  canDeleteInventory: boolean;
+  canManageCustomers: boolean;
+  canManageEmployees: boolean;
+  canManageSuppliers: boolean;
+  canViewReports: boolean;
+  canManageExpenses: boolean;
+  canAccessSettings: boolean;
+  canViewSales: boolean;
+  canGiveDiscounts: boolean;
+  canDeleteTransactions: boolean;
+  canEditPrices: boolean;
+}
+
 export interface User {
   id: string;
   name: string;
@@ -9,6 +27,7 @@ export interface User {
   role: UserRole;
   phone?: string;
   createdAt: Date;
+  permissions: UserPermissions;
 }
 
 export interface Product {

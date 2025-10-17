@@ -7,6 +7,7 @@ const STORAGE_KEYS = {
   SALES: 'pos_sales',
   SUPPLIERS: 'pos_suppliers',
   EXPENSES: 'pos_expenses',
+  USERS: 'pos_users',
   CURRENT_USER: 'pos_current_user',
   THEME: 'pos_theme',
 } as const;
@@ -69,6 +70,9 @@ export const storage = {
 
   getExpenses: () => storage.get(STORAGE_KEYS.EXPENSES),
   setExpenses: (expenses: any) => storage.set(STORAGE_KEYS.EXPENSES, expenses),
+
+  getUsers: () => storage.get(STORAGE_KEYS.USERS),
+  setUsers: (users: any) => storage.set(STORAGE_KEYS.USERS, users),
 
   getCurrentUser: () => storage.get(STORAGE_KEYS.CURRENT_USER),
   setCurrentUser: (user: any) => storage.set(STORAGE_KEYS.CURRENT_USER, user),
