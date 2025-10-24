@@ -29,6 +29,7 @@ export default function Page() {
     clearCart,
     applyDiscount,
     addSale,
+    addCustomer,
     currentUser,
   } = useApp();
 
@@ -50,6 +51,16 @@ export default function Page() {
   const [discountInputs, setDiscountInputs] = useState<Map<string, string>>(
     new Map()
   );
+
+  // New customer form state
+  const [showAddCustomerForm, setShowAddCustomerForm] = useState(false);
+  const [newCustomerData, setNewCustomerData] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    address: "",
+  });
+  const [customerSearchQuery, setCustomerSearchQuery] = useState("");
 
   // Get unique categories
   const categories = ["All", ...new Set(products.map((p) => p.category))];
@@ -187,6 +198,55 @@ export default function Page() {
     }
   };
 
+  // Add new customer handler
+  const handleAddNewCustomer = () => {
+    if (!newCustomerData.name.trim() || !newCustomerData.phone.trim()) {
+      alert("Please enter customer name and phone number");
+      return;
+    }
+
+    // Validate Sri Lankan phone format
+    const phoneRegex = /^(\+94|0)?[0-9\s]{9,11}$/;
+    if (!phoneRegex.test(newCustomerData.phone.replace(/\s/g, ""))) {
+      alert("Please enter a valid Sri Lankan phone number");
+      return;
+    }
+
+    const newCustomer = {
+      name: newCustomerData.name.trim(),
+      phone: newCustomerData.phone.trim(),
+      email: newCustomerData.email.trim() || undefined,
+      address: newCustomerData.address.trim() || undefined,
+      outstandingBalance: 0,
+      loyaltyPoints: 0,
+    };
+
+    addCustomer(newCustomer);
+
+    // Select the newly added customer
+    const addedCustomer = {
+      ...newCustomer,
+      id: Date.now().toString(),
+      createdAt: new Date(),
+    };
+    setSelectedCustomer(addedCustomer);
+
+    // Reset form and close
+    setNewCustomerData({ name: "", phone: "", email: "", address: "" });
+    setShowAddCustomerForm(false);
+    setShowCustomerModal(false);
+  };
+
+  // Filter customers by name or phone
+  const filteredCustomers = customers.filter((customer) => {
+    const searchLower = customerSearchQuery.toLowerCase();
+    const matchesName = customer.name.toLowerCase().includes(searchLower);
+    const matchesPhone = customer.phone
+      .replace(/[\s\-+]/g, "")
+      .includes(searchLower.replace(/[\s\-+]/g, ""));
+    return matchesName || matchesPhone;
+  });
+
   const generateReceipt = (sale: any) => {
     const doc = new jsPDF();
 
@@ -291,7 +351,7 @@ export default function Page() {
             {/* Sticky header for columns */}
             <div className="sticky top-0 z-20 bg-white dark:bg-gray-800 px-3 py-2 rounded-t-md border-b border-gray-200 dark:border-gray-700">
               <div className="w-full flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400 font-medium">
-                <div className="w-20 shrink-0">ID</div>
+                <div className="w-20 shrink-0">SKU</div>
                 <div className="flex-1">Name</div>
                 <div className="w-32">Type</div>
                 <div className="w-20 text-center">Stock</div>
@@ -307,7 +367,7 @@ export default function Page() {
               >
                 <div className="w-full flex items-center gap-4">
                   <div className="text-xs text-gray-500 dark:text-gray-400 w-20 shrink-0 whitespace-nowrap">
-                    {product.id}
+                    {product.sku}
                   </div>
 
                   <div className="flex-1 min-w-0">
@@ -627,60 +687,220 @@ export default function Page() {
 
       {/* Customer Selection Modal */}
       {showCustomerModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-md p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                Select Customer
-              </h3>
-              <button
-                onClick={() => setShowCustomerModal(false)}
-                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-              >
-                <X className="w-6 h-6" />
-              </button>
-            </div>
-            <div className="space-y-2 max-h-96 overflow-y-auto">
-              <button
-                onClick={() => {
-                  setSelectedCustomer(null);
-                  setShowCustomerModal(false);
-                }}
-                className="w-full text-left px-4 py-3 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600"
-              >
-                <p className="font-medium text-gray-900 dark:text-white">
-                  Walk-in Customer
-                </p>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  No customer details
-                </p>
-              </button>
-              {customers.map((customer) => (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-md max-h-[90vh] flex flex-col">
+            {/* Modal Header */}
+            <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                  {showAddCustomerForm ? "Add New Customer" : "Select Customer"}
+                </h3>
                 <button
-                  key={customer.id}
                   onClick={() => {
-                    setSelectedCustomer(customer);
                     setShowCustomerModal(false);
+                    setShowAddCustomerForm(false);
+                    setNewCustomerData({
+                      name: "",
+                      phone: "",
+                      email: "",
+                      address: "",
+                    });
+                    setCustomerSearchQuery("");
                   }}
-                  className={`w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 ${
-                    selectedCustomer?.id === customer.id
-                      ? "bg-blue-50 dark:bg-blue-900/30 border-2 border-blue-500"
-                      : "bg-gray-50 dark:bg-gray-700"
-                  }`}
+                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
                 >
-                  <p className="font-medium text-gray-900 dark:text-white">
-                    {customer.name}
-                  </p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                    {customer.phone}
-                  </p>
-                  {customer.outstandingBalance > 0 && (
-                    <p className="text-xs text-red-600 dark:text-red-400 mt-1">
-                      Due: LKR {customer.outstandingBalance}
-                    </p>
-                  )}
+                  <X className="w-6 h-6" />
                 </button>
-              ))}
+              </div>
+
+              {!showAddCustomerForm && (
+                <>
+                  {/* Search Input */}
+                  <div className="relative mb-3">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                    <input
+                      type="text"
+                      placeholder="Search by name or phone..."
+                      value={customerSearchQuery}
+                      onChange={(e) => setCustomerSearchQuery(e.target.value)}
+                      className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                    />
+                  </div>
+
+                  {/* Add New Customer Button */}
+                  <button
+                    onClick={() => setShowAddCustomerForm(true)}
+                    className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+                  >
+                    <Plus className="w-4 h-4" />
+                    Add New Customer
+                  </button>
+                </>
+              )}
+            </div>
+
+            {/* Modal Content */}
+            <div className="flex-1 overflow-y-auto p-6">
+              {showAddCustomerForm ? (
+                /* Add Customer Form */
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Name <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Customer name"
+                      value={newCustomerData.name}
+                      onChange={(e) =>
+                        setNewCustomerData({
+                          ...newCustomerData,
+                          name: e.target.value,
+                        })
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Phone <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="tel"
+                      placeholder="+94 71 234 5678"
+                      value={newCustomerData.phone}
+                      onChange={(e) =>
+                        setNewCustomerData({
+                          ...newCustomerData,
+                          phone: e.target.value,
+                        })
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                    />
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                      Format: +94 71 234 5678
+                    </p>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      placeholder="customer@example.com"
+                      value={newCustomerData.email}
+                      onChange={(e) =>
+                        setNewCustomerData({
+                          ...newCustomerData,
+                          email: e.target.value,
+                        })
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Address
+                    </label>
+                    <textarea
+                      placeholder="Customer address"
+                      value={newCustomerData.address}
+                      onChange={(e) =>
+                        setNewCustomerData({
+                          ...newCustomerData,
+                          address: e.target.value,
+                        })
+                      }
+                      rows={2}
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white resize-none"
+                    />
+                  </div>
+
+                  <div className="flex gap-2 pt-2">
+                    <button
+                      onClick={() => {
+                        setShowAddCustomerForm(false);
+                        setNewCustomerData({
+                          name: "",
+                          phone: "",
+                          email: "",
+                          address: "",
+                        });
+                      }}
+                      className="flex-1 px-4 py-2.5 bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-500 font-medium text-sm"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={handleAddNewCustomer}
+                      className="flex-1 px-4 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium text-sm"
+                    >
+                      Add Customer
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                /* Customer List */
+                <div className="space-y-2">
+                  <button
+                    onClick={() => {
+                      setSelectedCustomer(null);
+                      setShowCustomerModal(false);
+                      setCustomerSearchQuery("");
+                    }}
+                    className="w-full text-left px-4 py-3 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
+                  >
+                    <p className="font-medium text-gray-900 dark:text-white">
+                      Walk-in Customer
+                    </p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      No customer details
+                    </p>
+                  </button>
+
+                  {filteredCustomers.length === 0 ? (
+                    <div className="text-center py-8">
+                      <p className="text-gray-500 dark:text-gray-400 text-sm">
+                        No customers found
+                      </p>
+                      <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                        Try a different search or add a new customer
+                      </p>
+                    </div>
+                  ) : (
+                    filteredCustomers.map((customer) => (
+                      <button
+                        key={customer.id}
+                        onClick={() => {
+                          setSelectedCustomer(customer);
+                          setShowCustomerModal(false);
+                          setCustomerSearchQuery("");
+                        }}
+                        className={`w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors ${
+                          selectedCustomer?.id === customer.id
+                            ? "bg-blue-50 dark:bg-blue-900/30 border-2 border-blue-500"
+                            : "bg-gray-50 dark:bg-gray-700"
+                        }`}
+                      >
+                        <p className="font-medium text-gray-900 dark:text-white">
+                          {customer.name}
+                        </p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                          {customer.phone}
+                        </p>
+                        {customer.outstandingBalance > 0 && (
+                          <p className="text-xs text-red-600 dark:text-red-400 mt-1">
+                            Due: LKR {customer.outstandingBalance}
+                          </p>
+                        )}
+                      </button>
+                    ))
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>

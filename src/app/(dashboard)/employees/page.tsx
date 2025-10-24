@@ -347,6 +347,7 @@ export default function EmployeesPage() {
                 <input
                   type="tel"
                   required
+                  placeholder="+94 71 234 5678"
                   value={formData.phone}
                   onChange={(e) =>
                     setFormData({ ...formData, phone: e.target.value })
