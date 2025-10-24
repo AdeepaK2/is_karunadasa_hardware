@@ -1,26 +1,36 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { useApp } from '@/contexts/AppContext';
-import { Plus, Search, Edit, Trash2, X, Phone, Mail, DollarSign, Calendar } from 'lucide-react';
-import { Employee } from '@/types';
-import { format } from 'date-fns';
+import React, { useState } from "react";
+import { useApp } from "@/contexts/AppContext";
+import {
+  Plus,
+  Search,
+  Edit,
+  Trash2,
+  X,
+  Phone,
+  Mail,
+  DollarSign,
+  Calendar,
+} from "lucide-react";
+import { Employee } from "@/types";
+import { format } from "date-fns";
 
 export default function EmployeesPage() {
   const { employees, addEmployee, updateEmployee, deleteEmployee } = useApp();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filterRole, setFilterRole] = useState('all');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterRole, setFilterRole] = useState("all");
   const [showModal, setShowModal] = useState(false);
   const [editingEmployee, setEditingEmployee] = useState<Employee | null>(null);
   const [formData, setFormData] = useState({
-    name: '',
-    role: 'cashier' as 'admin' | 'manager' | 'cashier',
-    phone: '',
-    email: '',
+    name: "",
+    role: "cashier" as "admin" | "manager" | "cashier",
+    phone: "",
+    email: "",
     salary: 0,
     joiningDate: new Date(),
     isActive: true,
-    attendanceStatus: 'present' as 'present' | 'absent' | 'leave',
+    attendanceStatus: "present" as "present" | "absent" | "leave",
   });
 
   const filteredEmployees = employees.filter((employee) => {
@@ -28,7 +38,7 @@ export default function EmployeesPage() {
       employee.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       employee.phone.includes(searchQuery) ||
       employee.email?.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesRole = filterRole === 'all' || employee.role === filterRole;
+    const matchesRole = filterRole === "all" || employee.role === filterRole;
     return matchesSearch && matchesRole;
   });
 
@@ -44,14 +54,14 @@ export default function EmployeesPage() {
 
   const resetForm = () => {
     setFormData({
-      name: '',
-      role: 'cashier',
-      phone: '',
-      email: '',
+      name: "",
+      role: "cashier",
+      phone: "",
+      email: "",
       salary: 0,
       joiningDate: new Date(),
       isActive: true,
-      attendanceStatus: 'present',
+      attendanceStatus: "present",
     });
     setEditingEmployee(null);
     setShowModal(false);
@@ -63,7 +73,7 @@ export default function EmployeesPage() {
       name: employee.name,
       role: employee.role,
       phone: employee.phone,
-      email: employee.email || '',
+      email: employee.email || "",
       salary: employee.salary,
       joiningDate: employee.joiningDate,
       isActive: employee.isActive,
@@ -73,21 +83,25 @@ export default function EmployeesPage() {
   };
 
   const handleDelete = (id: string) => {
-    if (confirm('Are you sure you want to delete this employee?')) {
+    if (confirm("Are you sure you want to delete this employee?")) {
       deleteEmployee(id);
     }
   };
 
   const totalSalary = employees.reduce((sum, e) => sum + e.salary, 0);
   const activeEmployees = employees.filter((e) => e.isActive).length;
-  const presentToday = employees.filter((e) => e.attendanceStatus === 'present').length;
+  const presentToday = employees.filter(
+    (e) => e.attendanceStatus === "present"
+  ).length;
 
   return (
     <div className="p-6 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Employee Management</h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+            Employee Management
+          </h1>
           <p className="text-gray-600 dark:text-gray-400 mt-1">
             Manage staff information and attendance
           </p>
@@ -104,20 +118,34 @@ export default function EmployeesPage() {
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
-          <p className="text-sm text-gray-600 dark:text-gray-400">Total Employees</p>
-          <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">{employees.length}</p>
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            Total Employees
+          </p>
+          <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+            {employees.length}
+          </p>
         </div>
         <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
           <p className="text-sm text-gray-600 dark:text-gray-400">Active</p>
-          <p className="text-2xl font-bold text-green-600 dark:text-green-400 mt-1">{activeEmployees}</p>
+          <p className="text-2xl font-bold text-green-600 dark:text-green-400 mt-1">
+            {activeEmployees}
+          </p>
         </div>
         <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
-          <p className="text-sm text-gray-600 dark:text-gray-400">Present Today</p>
-          <p className="text-2xl font-bold text-blue-600 dark:text-blue-400 mt-1">{presentToday}</p>
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            Present Today
+          </p>
+          <p className="text-2xl font-bold text-blue-600 dark:text-blue-400 mt-1">
+            {presentToday}
+          </p>
         </div>
         <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
-          <p className="text-sm text-gray-600 dark:text-gray-400">Monthly Salary</p>
-          <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">₹{totalSalary.toLocaleString()}</p>
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            Monthly Salary
+          </p>
+          <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+            LKR {totalSalary.toLocaleString()}
+          </p>
         </div>
       </div>
 
@@ -181,7 +209,10 @@ export default function EmployeesPage() {
             </thead>
             <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
               {filteredEmployees.map((employee) => (
-                <tr key={employee.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                <tr
+                  key={employee.id}
+                  className="hover:bg-gray-50 dark:hover:bg-gray-700"
+                >
                   <td className="px-4 py-4">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center">
@@ -190,8 +221,12 @@ export default function EmployeesPage() {
                         </span>
                       </div>
                       <div>
-                        <p className="font-medium text-gray-900 dark:text-white">{employee.name}</p>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">{employee.email}</p>
+                        <p className="font-medium text-gray-900 dark:text-white">
+                          {employee.name}
+                        </p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                          {employee.email}
+                        </p>
                       </div>
                     </div>
                   </td>
@@ -200,21 +235,23 @@ export default function EmployeesPage() {
                       {employee.role}
                     </span>
                   </td>
-                  <td className="px-4 py-4 text-sm text-gray-900 dark:text-white">{employee.phone}</td>
+                  <td className="px-4 py-4 text-sm text-gray-900 dark:text-white">
+                    {employee.phone}
+                  </td>
                   <td className="px-4 py-4 font-medium text-gray-900 dark:text-white">
-                    ₹{employee.salary.toLocaleString()}
+                    LKR {employee.salary.toLocaleString()}
                   </td>
                   <td className="px-4 py-4 text-sm text-gray-900 dark:text-white">
-                    {format(new Date(employee.joiningDate), 'MMM dd, yyyy')}
+                    {format(new Date(employee.joiningDate), "MMM dd, yyyy")}
                   </td>
                   <td className="px-4 py-4">
                     <span
                       className={`px-2 py-1 text-xs font-medium rounded-full capitalize ${
-                        employee.attendanceStatus === 'present'
-                          ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400'
-                          : employee.attendanceStatus === 'leave'
-                          ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400'
-                          : 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400'
+                        employee.attendanceStatus === "present"
+                          ? "bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400"
+                          : employee.attendanceStatus === "leave"
+                          ? "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400"
+                          : "bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400"
                       }`}
                     >
                       {employee.attendanceStatus}
@@ -224,11 +261,11 @@ export default function EmployeesPage() {
                     <span
                       className={`px-2 py-1 text-xs font-medium rounded-full ${
                         employee.isActive
-                          ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400'
-                          : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-400'
+                          ? "bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400"
+                          : "bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-400"
                       }`}
                     >
-                      {employee.isActive ? 'Active' : 'Inactive'}
+                      {employee.isActive ? "Active" : "Inactive"}
                     </span>
                   </td>
                   <td className="px-4 py-4 text-right">
@@ -260,7 +297,7 @@ export default function EmployeesPage() {
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto">
             <div className="sticky top-0 bg-white dark:bg-gray-800 px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
               <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                {editingEmployee ? 'Edit Employee' : 'Add New Employee'}
+                {editingEmployee ? "Edit Employee" : "Add New Employee"}
               </h3>
               <button
                 onClick={resetForm}
@@ -279,7 +316,9 @@ export default function EmployeesPage() {
                   type="text"
                   required
                   value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
               </div>
@@ -290,7 +329,9 @@ export default function EmployeesPage() {
                 </label>
                 <select
                   value={formData.role}
-                  onChange={(e) => setFormData({ ...formData, role: e.target.value as any })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, role: e.target.value as any })
+                  }
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 >
                   <option value="cashier">Cashier</option>
@@ -307,7 +348,9 @@ export default function EmployeesPage() {
                   type="tel"
                   required
                   value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, phone: e.target.value })
+                  }
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
               </div>
@@ -319,7 +362,9 @@ export default function EmployeesPage() {
                 <input
                   type="email"
                   value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
               </div>
@@ -331,8 +376,10 @@ export default function EmployeesPage() {
                 <input
                   type="number"
                   required
-                  value={formData.salary || ''}
-                  onChange={(e) => setFormData({ ...formData, salary: Number(e.target.value) })}
+                  value={formData.salary || ""}
+                  onChange={(e) =>
+                    setFormData({ ...formData, salary: Number(e.target.value) })
+                  }
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   min="0"
                 />
@@ -344,7 +391,12 @@ export default function EmployeesPage() {
                 </label>
                 <select
                   value={formData.attendanceStatus}
-                  onChange={(e) => setFormData({ ...formData, attendanceStatus: e.target.value as any })}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      attendanceStatus: e.target.value as any,
+                    })
+                  }
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 >
                   <option value="present">Present</option>
@@ -358,10 +410,15 @@ export default function EmployeesPage() {
                   type="checkbox"
                   id="isActive"
                   checked={formData.isActive}
-                  onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, isActive: e.target.checked })
+                  }
                   className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                 />
-                <label htmlFor="isActive" className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label
+                  htmlFor="isActive"
+                  className="text-sm font-medium text-gray-700 dark:text-gray-300"
+                >
                   Active Employee
                 </label>
               </div>
@@ -378,7 +435,7 @@ export default function EmployeesPage() {
                   type="submit"
                   className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
                 >
-                  {editingEmployee ? 'Update Employee' : 'Add Employee'}
+                  {editingEmployee ? "Update Employee" : "Add Employee"}
                 </button>
               </div>
             </form>

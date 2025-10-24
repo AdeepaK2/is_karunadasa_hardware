@@ -1,29 +1,40 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { useApp } from '@/contexts/AppContext';
-import { Plus, Search, Edit, Trash2, X, Phone, Mail, MapPin, CreditCard } from 'lucide-react';
-import { Customer } from '@/types';
-import { format } from 'date-fns';
+import React, { useState } from "react";
+import { useApp } from "@/contexts/AppContext";
+import {
+  Plus,
+  Search,
+  Edit,
+  Trash2,
+  X,
+  Phone,
+  Mail,
+  MapPin,
+  CreditCard,
+} from "lucide-react";
+import { Customer } from "@/types";
+import { format } from "date-fns";
 
 export default function CustomersPage() {
   const { customers, addCustomer, updateCustomer, deleteCustomer } = useApp();
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [editingCustomer, setEditingCustomer] = useState<Customer | null>(null);
   const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    email: '',
-    address: '',
+    name: "",
+    phone: "",
+    email: "",
+    address: "",
     outstandingBalance: 0,
     loyaltyPoints: 0,
   });
 
-  const filteredCustomers = customers.filter((customer) =>
-    customer.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    customer.phone.includes(searchQuery) ||
-    customer.email?.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredCustomers = customers.filter(
+    (customer) =>
+      customer.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      customer.phone.includes(searchQuery) ||
+      customer.email?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -38,10 +49,10 @@ export default function CustomersPage() {
 
   const resetForm = () => {
     setFormData({
-      name: '',
-      phone: '',
-      email: '',
-      address: '',
+      name: "",
+      phone: "",
+      email: "",
+      address: "",
       outstandingBalance: 0,
       loyaltyPoints: 0,
     });
@@ -54,8 +65,8 @@ export default function CustomersPage() {
     setFormData({
       name: customer.name,
       phone: customer.phone,
-      email: customer.email || '',
-      address: customer.address || '',
+      email: customer.email || "",
+      address: customer.address || "",
       outstandingBalance: customer.outstandingBalance,
       loyaltyPoints: customer.loyaltyPoints,
     });
@@ -63,19 +74,24 @@ export default function CustomersPage() {
   };
 
   const handleDelete = (id: string) => {
-    if (confirm('Are you sure you want to delete this customer?')) {
+    if (confirm("Are you sure you want to delete this customer?")) {
       deleteCustomer(id);
     }
   };
 
-  const totalOutstanding = customers.reduce((sum, c) => sum + c.outstandingBalance, 0);
+  const totalOutstanding = customers.reduce(
+    (sum, c) => sum + c.outstandingBalance,
+    0
+  );
 
   return (
     <div className="p-6 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Customer Management</h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+            Customer Management
+          </h1>
           <p className="text-gray-600 dark:text-gray-400 mt-1">
             Manage customer information and track transactions
           </p>
@@ -92,17 +108,25 @@ export default function CustomersPage() {
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
-          <p className="text-sm text-gray-600 dark:text-gray-400">Total Customers</p>
-          <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">{customers.length}</p>
-        </div>
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
-          <p className="text-sm text-gray-600 dark:text-gray-400">Outstanding Amount</p>
-          <p className="text-2xl font-bold text-red-600 dark:text-red-400 mt-1">
-            ₹{totalOutstanding.toLocaleString()}
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            Total Customers
+          </p>
+          <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+            {customers.length}
           </p>
         </div>
         <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
-          <p className="text-sm text-gray-600 dark:text-gray-400">Credit Customers</p>
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            Outstanding Amount
+          </p>
+          <p className="text-2xl font-bold text-red-600 dark:text-red-400 mt-1">
+            LKR {totalOutstanding.toLocaleString()}
+          </p>
+        </div>
+        <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            Credit Customers
+          </p>
           <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
             {customers.filter((c) => c.outstandingBalance > 0).length}
           </p>
@@ -138,7 +162,9 @@ export default function CustomersPage() {
                   </span>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900 dark:text-white">{customer.name}</h3>
+                  <h3 className="font-semibold text-gray-900 dark:text-white">
+                    {customer.name}
+                  </h3>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
                     {customer.loyaltyPoints} points
                   </p>
@@ -180,12 +206,15 @@ export default function CustomersPage() {
               {customer.outstandingBalance > 0 && (
                 <div className="flex items-center gap-2 text-sm text-red-600 dark:text-red-400 mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
                   <CreditCard className="w-4 h-4" />
-                  <span className="font-semibold">Due: ₹{customer.outstandingBalance.toLocaleString()}</span>
+                  <span className="font-semibold">
+                    Due: LKR {customer.outstandingBalance.toLocaleString()}
+                  </span>
                 </div>
               )}
               {customer.lastPurchase && (
                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
-                  Last purchase: {format(new Date(customer.lastPurchase), 'MMM dd, yyyy')}
+                  Last purchase:{" "}
+                  {format(new Date(customer.lastPurchase), "MMM dd, yyyy")}
                 </p>
               )}
             </div>
@@ -199,7 +228,7 @@ export default function CustomersPage() {
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-md">
             <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
               <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                {editingCustomer ? 'Edit Customer' : 'Add New Customer'}
+                {editingCustomer ? "Edit Customer" : "Add New Customer"}
               </h3>
               <button
                 onClick={resetForm}
@@ -218,7 +247,9 @@ export default function CustomersPage() {
                   type="text"
                   required
                   value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
               </div>
@@ -231,7 +262,9 @@ export default function CustomersPage() {
                   type="tel"
                   required
                   value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, phone: e.target.value })
+                  }
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
               </div>
@@ -243,7 +276,9 @@ export default function CustomersPage() {
                 <input
                   type="email"
                   value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
               </div>
@@ -254,7 +289,9 @@ export default function CustomersPage() {
                 </label>
                 <textarea
                   value={formData.address}
-                  onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, address: e.target.value })
+                  }
                   rows={3}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
@@ -267,8 +304,13 @@ export default function CustomersPage() {
                   </label>
                   <input
                     type="number"
-                    value={formData.outstandingBalance || ''}
-                    onChange={(e) => setFormData({ ...formData, outstandingBalance: Number(e.target.value) })}
+                    value={formData.outstandingBalance || ""}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        outstandingBalance: Number(e.target.value),
+                      })
+                    }
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                     min="0"
                   />
@@ -279,8 +321,13 @@ export default function CustomersPage() {
                   </label>
                   <input
                     type="number"
-                    value={formData.loyaltyPoints || ''}
-                    onChange={(e) => setFormData({ ...formData, loyaltyPoints: Number(e.target.value) })}
+                    value={formData.loyaltyPoints || ""}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        loyaltyPoints: Number(e.target.value),
+                      })
+                    }
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                     min="0"
                   />
@@ -299,7 +346,7 @@ export default function CustomersPage() {
                   type="submit"
                   className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
                 >
-                  {editingCustomer ? 'Update Customer' : 'Add Customer'}
+                  {editingCustomer ? "Update Customer" : "Add Customer"}
                 </button>
               </div>
             </form>

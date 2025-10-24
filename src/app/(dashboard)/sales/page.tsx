@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { useApp } from '@/contexts/AppContext';
-import { Search, Download, Eye, Filter } from 'lucide-react';
-import { format } from 'date-fns';
+import React, { useState } from "react";
+import { useApp } from "@/contexts/AppContext";
+import { Search, Download, Eye, Filter } from "lucide-react";
+import { format } from "date-fns";
 
 export default function SalesPage() {
   const { sales, customers } = useApp();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filterPaymentMode, setFilterPaymentMode] = useState('all');
-  const [filterStatus, setFilterStatus] = useState('all');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterPaymentMode, setFilterPaymentMode] = useState("all");
+  const [filterStatus, setFilterStatus] = useState("all");
   const [selectedSale, setSelectedSale] = useState<any>(null);
 
   const filteredSales = sales.filter((sale) => {
@@ -17,21 +17,26 @@ export default function SalesPage() {
       sale.invoiceNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
       sale.customerName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       sale.cashierName.toLowerCase().includes(searchQuery.toLowerCase());
-    
-    const matchesPayment = filterPaymentMode === 'all' || sale.paymentMode === filterPaymentMode;
-    const matchesStatus = filterStatus === 'all' || sale.status === filterStatus;
-    
+
+    const matchesPayment =
+      filterPaymentMode === "all" || sale.paymentMode === filterPaymentMode;
+    const matchesStatus =
+      filterStatus === "all" || sale.status === filterStatus;
+
     return matchesSearch && matchesPayment && matchesStatus;
   });
 
   const totalRevenue = filteredSales.reduce((sum, sale) => sum + sale.total, 0);
-  const averageOrderValue = filteredSales.length > 0 ? totalRevenue / filteredSales.length : 0;
+  const averageOrderValue =
+    filteredSales.length > 0 ? totalRevenue / filteredSales.length : 0;
 
   return (
     <div className="p-6 space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Sales History</h1>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+          Sales History
+        </h1>
         <p className="text-gray-600 dark:text-gray-400 mt-1">
           View and manage all sales transactions
         </p>
@@ -40,25 +45,33 @@ export default function SalesPage() {
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
-          <p className="text-sm text-gray-600 dark:text-gray-400">Total Orders</p>
-          <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">{filteredSales.length}</p>
-        </div>
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
-          <p className="text-sm text-gray-600 dark:text-gray-400">Total Revenue</p>
-          <p className="text-2xl font-bold text-green-600 dark:text-green-400 mt-1">
-            ₹{totalRevenue.toLocaleString()}
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            Total Orders
+          </p>
+          <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+            {filteredSales.length}
           </p>
         </div>
         <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
-          <p className="text-sm text-gray-600 dark:text-gray-400">Avg Order Value</p>
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            Total Revenue
+          </p>
+          <p className="text-2xl font-bold text-green-600 dark:text-green-400 mt-1">
+            LKR {totalRevenue.toLocaleString()}
+          </p>
+        </div>
+        <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            Avg Order Value
+          </p>
           <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
-            ₹{averageOrderValue.toFixed(0)}
+            LKR {averageOrderValue.toFixed(0)}
           </p>
         </div>
         <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
           <p className="text-sm text-gray-600 dark:text-gray-400">Completed</p>
           <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
-            {filteredSales.filter((s) => s.status === 'completed').length}
+            {filteredSales.filter((s) => s.status === "completed").length}
           </p>
         </div>
       </div>
@@ -134,23 +147,30 @@ export default function SalesPage() {
             </thead>
             <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
               {filteredSales.map((sale) => (
-                <tr key={sale.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                <tr
+                  key={sale.id}
+                  className="hover:bg-gray-50 dark:hover:bg-gray-700"
+                >
                   <td className="px-4 py-4">
-                    <p className="font-medium text-gray-900 dark:text-white">{sale.invoiceNumber}</p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">{sale.cashierName}</p>
+                    <p className="font-medium text-gray-900 dark:text-white">
+                      {sale.invoiceNumber}
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      {sale.cashierName}
+                    </p>
                   </td>
                   <td className="px-4 py-4 text-sm text-gray-900 dark:text-white">
-                    {format(new Date(sale.date), 'MMM dd, yyyy')}
+                    {format(new Date(sale.date), "MMM dd, yyyy")}
                     <br />
                     <span className="text-xs text-gray-500 dark:text-gray-400">
-                      {format(new Date(sale.date), 'hh:mm a')}
+                      {format(new Date(sale.date), "hh:mm a")}
                     </span>
                   </td>
                   <td className="px-4 py-4 text-sm text-gray-900 dark:text-white">
-                    {sale.customerName || 'Walk-in Customer'}
+                    {sale.customerName || "Walk-in Customer"}
                   </td>
                   <td className="px-4 py-4 text-sm text-gray-900 dark:text-white">
-                    {sale.items.length} item{sale.items.length !== 1 ? 's' : ''}
+                    {sale.items.length} item{sale.items.length !== 1 ? "s" : ""}
                   </td>
                   <td className="px-4 py-4">
                     <span className="px-2 py-1 text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300 rounded-full uppercase">
@@ -158,16 +178,16 @@ export default function SalesPage() {
                     </span>
                   </td>
                   <td className="px-4 py-4 font-semibold text-gray-900 dark:text-white">
-                    ₹{sale.total.toLocaleString()}
+                    LKR {sale.total.toLocaleString()}
                   </td>
                   <td className="px-4 py-4">
                     <span
                       className={`px-2 py-1 text-xs font-medium rounded-full ${
-                        sale.status === 'completed'
-                          ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400'
-                          : sale.status === 'pending'
-                          ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400'
-                          : 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400'
+                        sale.status === "completed"
+                          ? "bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400"
+                          : sale.status === "pending"
+                          ? "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400"
+                          : "bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400"
                       }`}
                     >
                       {sale.status}
@@ -208,30 +228,47 @@ export default function SalesPage() {
               {/* Header Info */}
               <div className="grid grid-cols-2 gap-4 pb-4 border-b border-gray-200 dark:border-gray-700">
                 <div>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">Invoice Number</p>
-                  <p className="font-semibold text-gray-900 dark:text-white">{selectedSale.invoiceNumber}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">Date</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    Invoice Number
+                  </p>
                   <p className="font-semibold text-gray-900 dark:text-white">
-                    {format(new Date(selectedSale.date), 'MMM dd, yyyy hh:mm a')}
+                    {selectedSale.invoiceNumber}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">Customer</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    Date
+                  </p>
                   <p className="font-semibold text-gray-900 dark:text-white">
-                    {selectedSale.customerName || 'Walk-in Customer'}
+                    {format(
+                      new Date(selectedSale.date),
+                      "MMM dd, yyyy hh:mm a"
+                    )}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">Cashier</p>
-                  <p className="font-semibold text-gray-900 dark:text-white">{selectedSale.cashierName}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    Customer
+                  </p>
+                  <p className="font-semibold text-gray-900 dark:text-white">
+                    {selectedSale.customerName || "Walk-in Customer"}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    Cashier
+                  </p>
+                  <p className="font-semibold text-gray-900 dark:text-white">
+                    {selectedSale.cashierName}
+                  </p>
                 </div>
               </div>
 
               {/* Items */}
               <div>
-                <h4 className="font-semibold text-gray-900 dark:text-white mb-3">Items</h4>
+                <h4 className="font-semibold text-gray-900 dark:text-white mb-3">
+                  Items
+                </h4>
                 <div className="space-y-3">
                   {selectedSale.items.map((item: any, index: number) => (
                     <div
@@ -239,13 +276,19 @@ export default function SalesPage() {
                       className="flex justify-between items-start p-3 bg-gray-50 dark:bg-gray-700 rounded-lg"
                     >
                       <div className="flex-1">
-                        <p className="font-medium text-gray-900 dark:text-white">{item.product.name}</p>
+                        <p className="font-medium text-gray-900 dark:text-white">
+                          {item.product.name}
+                        </p>
                         <p className="text-sm text-gray-500 dark:text-gray-400">
-                          ₹{item.product.sellingPrice} × {item.quantity}
+                          LKR {item.product.sellingPrice} × {item.quantity}
                         </p>
                       </div>
                       <p className="font-semibold text-gray-900 dark:text-white">
-                        ₹{(item.product.sellingPrice * item.quantity - item.discount).toFixed(2)}
+                        LKR{" "}
+                        {(
+                          item.product.sellingPrice * item.quantity -
+                          item.discount
+                        ).toFixed(2)}
                       </p>
                     </div>
                   ))}
@@ -256,39 +299,45 @@ export default function SalesPage() {
               <div className="pt-4 border-t border-gray-200 dark:border-gray-700 space-y-2">
                 <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
                   <span>Subtotal:</span>
-                  <span>₹{selectedSale.subtotal.toFixed(2)}</span>
+                  <span>LKR {selectedSale.subtotal.toFixed(2)}</span>
                 </div>
                 {selectedSale.discount > 0 && (
                   <div className="flex justify-between text-sm text-green-600 dark:text-green-400">
                     <span>Discount:</span>
-                    <span>-₹{selectedSale.discount.toFixed(2)}</span>
+                    <span>-LKR {selectedSale.discount.toFixed(2)}</span>
                   </div>
                 )}
                 <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
                   <span>Tax:</span>
-                  <span>₹{selectedSale.tax.toFixed(2)}</span>
+                  <span>LKR {selectedSale.tax.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-lg font-bold text-gray-900 dark:text-white pt-2 border-t border-gray-200 dark:border-gray-700">
                   <span>Total:</span>
-                  <span>₹{selectedSale.total.toFixed(2)}</span>
+                  <span>LKR {selectedSale.total.toFixed(2)}</span>
                 </div>
               </div>
 
               {/* Payment Info */}
               <div className="flex items-center justify-between p-4 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
                 <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Payment Mode</p>
-                  <p className="font-semibold text-gray-900 dark:text-white uppercase">{selectedSale.paymentMode}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    Payment Mode
+                  </p>
+                  <p className="font-semibold text-gray-900 dark:text-white uppercase">
+                    {selectedSale.paymentMode}
+                  </p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Status</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    Status
+                  </p>
                   <span
                     className={`px-3 py-1 text-sm font-medium rounded-full ${
-                      selectedSale.status === 'completed'
-                        ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400'
-                        : selectedSale.status === 'pending'
-                        ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400'
-                        : 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400'
+                      selectedSale.status === "completed"
+                        ? "bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400"
+                        : selectedSale.status === "pending"
+                        ? "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400"
+                        : "bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400"
                     }`}
                   >
                     {selectedSale.status}
