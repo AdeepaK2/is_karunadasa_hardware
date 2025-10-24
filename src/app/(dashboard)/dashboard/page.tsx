@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { useApp } from '@/contexts/AppContext';
-import { useRouteProtection } from '@/hooks/useRouteProtection';
+import React from "react";
+import { useApp } from "@/contexts/AppContext";
+import { useRouteProtection } from "@/hooks/useRouteProtection";
 import {
   DollarSign,
   ShoppingCart,
@@ -10,9 +10,19 @@ import {
   Package,
   TrendingUp,
   AlertTriangle,
-} from 'lucide-react';
-import { AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { format, subDays, startOfDay } from 'date-fns';
+} from "lucide-react";
+import {
+  AreaChart,
+  Area,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
+import { format, subDays, startOfDay } from "date-fns";
 
 export default function DashboardPage() {
   const { hasAccess } = useRouteProtection();
@@ -23,8 +33,12 @@ export default function DashboardPage() {
       <div className="flex items-center justify-center h-full">
         <div className="text-center">
           <AlertTriangle className="w-16 h-16 text-yellow-500 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Access Denied</h2>
-          <p className="text-gray-600 dark:text-gray-400">You don't have permission to view this page.</p>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+            Access Denied
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400">
+            You don't have permission to view this page.
+          </p>
         </div>
       </div>
     );
@@ -32,15 +46,15 @@ export default function DashboardPage() {
 
   // Calculate stats
   const today = startOfDay(new Date());
-  const todaySales = sales.filter((sale) => 
-    startOfDay(new Date(sale.date)).getTime() === today.getTime()
+  const todaySales = sales.filter(
+    (sale) => startOfDay(new Date(sale.date)).getTime() === today.getTime()
   );
-  
+
   const todayRevenue = todaySales.reduce((sum, sale) => sum + sale.total, 0);
   const monthRevenue = sales
     .filter((sale) => new Date(sale.date).getMonth() === new Date().getMonth())
     .reduce((sum, sale) => sum + sale.total, 0);
-  
+
   const lowStockItems = products.filter((p) => p.quantity <= p.reorderLevel);
   const totalInventoryValue = products.reduce(
     (sum, p) => sum + p.sellingPrice * p.quantity,
@@ -55,7 +69,7 @@ export default function DashboardPage() {
     );
     const revenue = daySales.reduce((sum, sale) => sum + sale.total, 0);
     return {
-      date: format(date, 'MMM dd'),
+      date: format(date, "MMM dd"),
       revenue: revenue,
       orders: daySales.length,
     };
@@ -84,45 +98,45 @@ export default function DashboardPage() {
   const stats = [
     {
       name: "Today's Sales",
-      value: `₹${todayRevenue.toLocaleString()}`,
+      value: `LKR ${todayRevenue.toLocaleString()}`,
       icon: DollarSign,
-      change: '+12.5%',
-      color: 'bg-green-500',
+      change: "+12.5%",
+      color: "bg-green-500",
     },
     {
-      name: 'Monthly Revenue',
-      value: `₹${monthRevenue.toLocaleString()}`,
+      name: "Monthly Revenue",
+      value: `LKR ${monthRevenue.toLocaleString()}`,
       icon: TrendingUp,
-      change: '+8.2%',
-      color: 'bg-blue-500',
+      change: "+8.2%",
+      color: "bg-blue-500",
     },
     {
-      name: 'Total Customers',
+      name: "Total Customers",
       value: customers.length,
       icon: Users,
-      change: '+3',
-      color: 'bg-purple-500',
+      change: "+3",
+      color: "bg-purple-500",
     },
     {
-      name: 'Low Stock Items',
+      name: "Low Stock Items",
       value: lowStockItems.length,
       icon: AlertTriangle,
-      change: 'Urgent',
-      color: 'bg-red-500',
+      change: "Urgent",
+      color: "bg-red-500",
     },
     {
       name: "Today's Orders",
       value: todaySales.length,
       icon: ShoppingCart,
       change: `${todaySales.length} orders`,
-      color: 'bg-orange-500',
+      color: "bg-orange-500",
     },
     {
-      name: 'Inventory Value',
-      value: `₹${totalInventoryValue.toLocaleString()}`,
+      name: "Inventory Value",
+      value: `LKR ${totalInventoryValue.toLocaleString()}`,
       icon: Package,
-      change: 'Total',
-      color: 'bg-indigo-500',
+      change: "Total",
+      color: "bg-indigo-500",
     },
   ];
 
@@ -130,7 +144,9 @@ export default function DashboardPage() {
     <div className="p-6 space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+          Dashboard
+        </h1>
         <p className="text-gray-600 dark:text-gray-400 mt-1">
           Welcome back! Here's what's happening today.
         </p>
@@ -147,7 +163,9 @@ export default function DashboardPage() {
             >
               <div className="flex items-center justify-between">
                 <div className="flex-1">
-                  <p className="text-sm text-gray-600 dark:text-gray-400">{stat.name}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    {stat.name}
+                  </p>
                   <p className="text-2xl font-bold text-gray-900 dark:text-white mt-2">
                     {stat.value}
                   </p>
@@ -173,14 +191,17 @@ export default function DashboardPage() {
           </h3>
           <ResponsiveContainer width="100%" height={300}>
             <AreaChart data={salesChartData}>
-              <CartesianGrid strokeDasharray="3 3" className="stroke-gray-200 dark:stroke-gray-700" />
+              <CartesianGrid
+                strokeDasharray="3 3"
+                className="stroke-gray-200 dark:stroke-gray-700"
+              />
               <XAxis dataKey="date" className="text-xs" />
               <YAxis className="text-xs" />
-              <Tooltip 
+              <Tooltip
                 contentStyle={{
-                  backgroundColor: 'var(--tw-bg-opacity)',
-                  border: '1px solid #e5e7eb',
-                  borderRadius: '0.5rem',
+                  backgroundColor: "var(--tw-bg-opacity)",
+                  border: "1px solid #e5e7eb",
+                  borderRadius: "0.5rem",
                 }}
               />
               <Area
@@ -201,20 +222,23 @@ export default function DashboardPage() {
           </h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={topProducts}>
-              <CartesianGrid strokeDasharray="3 3" className="stroke-gray-200 dark:stroke-gray-700" />
-              <XAxis 
-                dataKey="product.name" 
+              <CartesianGrid
+                strokeDasharray="3 3"
+                className="stroke-gray-200 dark:stroke-gray-700"
+              />
+              <XAxis
+                dataKey="product.name"
                 className="text-xs"
                 angle={-45}
                 textAnchor="end"
                 height={80}
               />
               <YAxis className="text-xs" />
-              <Tooltip 
+              <Tooltip
                 contentStyle={{
-                  backgroundColor: 'var(--tw-bg-opacity)',
-                  border: '1px solid #e5e7eb',
-                  borderRadius: '0.5rem',
+                  backgroundColor: "var(--tw-bg-opacity)",
+                  border: "1px solid #e5e7eb",
+                  borderRadius: "0.5rem",
                 }}
               />
               <Bar dataKey="quantity" fill="#10b981" />
@@ -241,15 +265,15 @@ export default function DashboardPage() {
                     {sale.invoiceNumber}
                   </p>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
-                    {sale.customerName || 'Walk-in Customer'}
+                    {sale.customerName || "Walk-in Customer"}
                   </p>
                 </div>
                 <div className="text-right">
                   <p className="font-semibold text-gray-900 dark:text-white">
-                    ₹{sale.total.toLocaleString()}
+                    LKR {sale.total.toLocaleString()}
                   </p>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
-                    {format(new Date(sale.date), 'MMM dd, hh:mm a')}
+                    {format(new Date(sale.date), "MMM dd, hh:mm a")}
                   </p>
                 </div>
               </div>
@@ -307,11 +331,15 @@ export default function DashboardPage() {
               key={employee.id}
               className="flex items-center gap-3 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg"
             >
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                employee.attendanceStatus === 'present' ? 'bg-green-100 dark:bg-green-900' : 
-                employee.attendanceStatus === 'leave' ? 'bg-yellow-100 dark:bg-yellow-900' : 
-                'bg-red-100 dark:bg-red-900'
-              }`}>
+              <div
+                className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                  employee.attendanceStatus === "present"
+                    ? "bg-green-100 dark:bg-green-900"
+                    : employee.attendanceStatus === "leave"
+                    ? "bg-yellow-100 dark:bg-yellow-900"
+                    : "bg-red-100 dark:bg-red-900"
+                }`}
+              >
                 <span className="text-lg font-semibold">
                   {employee.name.charAt(0)}
                 </span>

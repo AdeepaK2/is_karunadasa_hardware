@@ -1,33 +1,42 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { useApp } from '@/contexts/AppContext';
-import PermissionGuard from '@/components/PermissionGuard';
-import { Plus, Search, Edit, Trash2, AlertTriangle, Download, Upload, X } from 'lucide-react';
-import { Product } from '@/types';
+import React, { useState } from "react";
+import { useApp } from "@/contexts/AppContext";
+import PermissionGuard from "@/components/PermissionGuard";
+import {
+  Plus,
+  Search,
+  Edit,
+  Trash2,
+  AlertTriangle,
+  Download,
+  Upload,
+  X,
+} from "lucide-react";
+import { Product } from "@/types";
 
 export default function InventoryPage() {
   const { products, addProduct, updateProduct, deleteProduct } = useApp();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filterCategory, setFilterCategory] = useState('All');
-  const [sortBy, setSortBy] = useState('name');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterCategory, setFilterCategory] = useState("All");
+  const [sortBy, setSortBy] = useState("name");
   const [showModal, setShowModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [formData, setFormData] = useState({
-    name: '',
-    sku: '',
-    category: '',
-    brand: '',
+    name: "",
+    sku: "",
+    category: "",
+    brand: "",
     purchasePrice: 0,
     sellingPrice: 0,
     quantity: 0,
     reorderLevel: 0,
-    supplier: '',
-    barcode: '',
-    description: '',
+    supplier: "",
+    barcode: "",
+    description: "",
   });
 
-  const categories = ['All', ...new Set(products.map((p) => p.category))];
+  const categories = ["All", ...new Set(products.map((p) => p.category))];
 
   // Filter and sort products
   let filteredProducts = products.filter((product) => {
@@ -35,18 +44,21 @@ export default function InventoryPage() {
       product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       product.sku.toLowerCase().includes(searchQuery.toLowerCase()) ||
       product.brand.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = filterCategory === 'All' || product.category === filterCategory;
+    const matchesCategory =
+      filterCategory === "All" || product.category === filterCategory;
     return matchesSearch && matchesCategory;
   });
 
   filteredProducts = filteredProducts.sort((a, b) => {
-    if (sortBy === 'name') return a.name.localeCompare(b.name);
-    if (sortBy === 'quantity') return a.quantity - b.quantity;
-    if (sortBy === 'price') return a.sellingPrice - b.sellingPrice;
+    if (sortBy === "name") return a.name.localeCompare(b.name);
+    if (sortBy === "quantity") return a.quantity - b.quantity;
+    if (sortBy === "price") return a.sellingPrice - b.sellingPrice;
     return 0;
   });
 
-  const lowStockCount = products.filter((p) => p.quantity <= p.reorderLevel).length;
+  const lowStockCount = products.filter(
+    (p) => p.quantity <= p.reorderLevel
+  ).length;
   const outOfStockCount = products.filter((p) => p.quantity === 0).length;
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -61,17 +73,17 @@ export default function InventoryPage() {
 
   const resetForm = () => {
     setFormData({
-      name: '',
-      sku: '',
-      category: '',
-      brand: '',
+      name: "",
+      sku: "",
+      category: "",
+      brand: "",
       purchasePrice: 0,
       sellingPrice: 0,
       quantity: 0,
       reorderLevel: 0,
-      supplier: '',
-      barcode: '',
-      description: '',
+      supplier: "",
+      barcode: "",
+      description: "",
     });
     setEditingProduct(null);
     setShowModal(false);
@@ -89,20 +101,30 @@ export default function InventoryPage() {
       quantity: product.quantity,
       reorderLevel: product.reorderLevel,
       supplier: product.supplier,
-      barcode: product.barcode || '',
-      description: product.description || '',
+      barcode: product.barcode || "",
+      description: product.description || "",
     });
     setShowModal(true);
   };
 
   const handleDelete = (id: string) => {
-    if (confirm('Are you sure you want to delete this product?')) {
+    if (confirm("Are you sure you want to delete this product?")) {
       deleteProduct(id);
     }
   };
 
   const exportCSV = () => {
-    const headers = ['Name', 'SKU', 'Category', 'Brand', 'Purchase Price', 'Selling Price', 'Quantity', 'Reorder Level', 'Supplier'];
+    const headers = [
+      "Name",
+      "SKU",
+      "Category",
+      "Brand",
+      "Purchase Price",
+      "Selling Price",
+      "Quantity",
+      "Reorder Level",
+      "Supplier",
+    ];
     const rows = products.map((p) => [
       p.name,
       p.sku,
@@ -114,13 +136,13 @@ export default function InventoryPage() {
       p.reorderLevel,
       p.supplier,
     ]);
-    
-    const csv = [headers, ...rows].map((row) => row.join(',')).join('\n');
-    const blob = new Blob([csv], { type: 'text/csv' });
+
+    const csv = [headers, ...rows].map((row) => row.join(",")).join("\n");
+    const blob = new Blob([csv], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = `inventory-${new Date().toISOString().split('T')[0]}.csv`;
+    a.download = `inventory-${new Date().toISOString().split("T")[0]}.csv`;
     a.click();
   };
 
@@ -129,7 +151,9 @@ export default function InventoryPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Inventory Management</h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+            Inventory Management
+          </h1>
           <p className="text-gray-600 dark:text-gray-400 mt-1">
             Manage your products and stock levels
           </p>
@@ -148,22 +172,37 @@ export default function InventoryPage() {
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
-          <p className="text-sm text-gray-600 dark:text-gray-400">Total Products</p>
-          <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">{products.length}</p>
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            Total Products
+          </p>
+          <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+            {products.length}
+          </p>
         </div>
         <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
-          <p className="text-sm text-gray-600 dark:text-gray-400">Total Value</p>
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            Total Value
+          </p>
           <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
-            ₹{products.reduce((sum, p) => sum + p.sellingPrice * p.quantity, 0).toLocaleString()}
+            LKR{" "}
+            {products
+              .reduce((sum, p) => sum + p.sellingPrice * p.quantity, 0)
+              .toLocaleString()}
           </p>
         </div>
         <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-red-200 dark:border-red-900 bg-red-50 dark:bg-red-900/20">
           <p className="text-sm text-red-600 dark:text-red-400">Low Stock</p>
-          <p className="text-2xl font-bold text-red-600 dark:text-red-400 mt-1">{lowStockCount}</p>
+          <p className="text-2xl font-bold text-red-600 dark:text-red-400 mt-1">
+            {lowStockCount}
+          </p>
         </div>
         <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-orange-200 dark:border-orange-900 bg-orange-50 dark:bg-orange-900/20">
-          <p className="text-sm text-orange-600 dark:text-orange-400">Out of Stock</p>
-          <p className="text-2xl font-bold text-orange-600 dark:text-orange-400 mt-1">{outOfStockCount}</p>
+          <p className="text-sm text-orange-600 dark:text-orange-400">
+            Out of Stock
+          </p>
+          <p className="text-2xl font-bold text-orange-600 dark:text-orange-400 mt-1">
+            {outOfStockCount}
+          </p>
         </div>
       </div>
 
@@ -244,20 +283,37 @@ export default function InventoryPage() {
             </thead>
             <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
               {filteredProducts.map((product) => (
-                <tr key={product.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                <tr
+                  key={product.id}
+                  className="hover:bg-gray-50 dark:hover:bg-gray-700"
+                >
                   <td className="px-4 py-4">
                     <div>
-                      <p className="font-medium text-gray-900 dark:text-white">{product.name}</p>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">{product.supplier}</p>
+                      <p className="font-medium text-gray-900 dark:text-white">
+                        {product.name}
+                      </p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        {product.supplier}
+                      </p>
                     </div>
                   </td>
-                  <td className="px-4 py-4 text-sm text-gray-900 dark:text-white">{product.sku}</td>
-                  <td className="px-4 py-4 text-sm text-gray-900 dark:text-white">{product.category}</td>
-                  <td className="px-4 py-4 text-sm text-gray-900 dark:text-white">{product.brand}</td>
+                  <td className="px-4 py-4 text-sm text-gray-900 dark:text-white">
+                    {product.sku}
+                  </td>
+                  <td className="px-4 py-4 text-sm text-gray-900 dark:text-white">
+                    {product.category}
+                  </td>
+                  <td className="px-4 py-4 text-sm text-gray-900 dark:text-white">
+                    {product.brand}
+                  </td>
                   <td className="px-4 py-4">
                     <div>
-                      <p className="font-medium text-gray-900 dark:text-white">₹{product.sellingPrice}</p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">Cost: ₹{product.purchasePrice}</p>
+                      <p className="font-medium text-gray-900 dark:text-white">
+                        LKR {product.sellingPrice}
+                      </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        Cost: LKR {product.purchasePrice}
+                      </p>
                     </div>
                   </td>
                   <td className="px-4 py-4 text-sm font-medium text-gray-900 dark:text-white">
@@ -312,7 +368,7 @@ export default function InventoryPage() {
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             <div className="sticky top-0 bg-white dark:bg-gray-800 px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
               <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                {editingProduct ? 'Edit Product' : 'Add New Product'}
+                {editingProduct ? "Edit Product" : "Add New Product"}
               </h3>
               <button
                 onClick={resetForm}
@@ -332,7 +388,9 @@ export default function InventoryPage() {
                     type="text"
                     required
                     value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   />
                 </div>
@@ -344,7 +402,9 @@ export default function InventoryPage() {
                     type="text"
                     required
                     value={formData.sku}
-                    onChange={(e) => setFormData({ ...formData, sku: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, sku: e.target.value })
+                    }
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   />
                 </div>
@@ -356,7 +416,9 @@ export default function InventoryPage() {
                     type="text"
                     required
                     value={formData.category}
-                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, category: e.target.value })
+                    }
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   />
                 </div>
@@ -368,7 +430,9 @@ export default function InventoryPage() {
                     type="text"
                     required
                     value={formData.brand}
-                    onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, brand: e.target.value })
+                    }
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   />
                 </div>
@@ -379,8 +443,13 @@ export default function InventoryPage() {
                   <input
                     type="number"
                     required
-                    value={formData.purchasePrice || ''}
-                    onChange={(e) => setFormData({ ...formData, purchasePrice: Number(e.target.value) })}
+                    value={formData.purchasePrice || ""}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        purchasePrice: Number(e.target.value),
+                      })
+                    }
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                     min="0"
                     step="0.01"
@@ -393,8 +462,13 @@ export default function InventoryPage() {
                   <input
                     type="number"
                     required
-                    value={formData.sellingPrice || ''}
-                    onChange={(e) => setFormData({ ...formData, sellingPrice: Number(e.target.value) })}
+                    value={formData.sellingPrice || ""}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        sellingPrice: Number(e.target.value),
+                      })
+                    }
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                     min="0"
                     step="0.01"
@@ -407,8 +481,13 @@ export default function InventoryPage() {
                   <input
                     type="number"
                     required
-                    value={formData.quantity || ''}
-                    onChange={(e) => setFormData({ ...formData, quantity: Number(e.target.value) })}
+                    value={formData.quantity || ""}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        quantity: Number(e.target.value),
+                      })
+                    }
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                     min="0"
                   />
@@ -420,8 +499,13 @@ export default function InventoryPage() {
                   <input
                     type="number"
                     required
-                    value={formData.reorderLevel || ''}
-                    onChange={(e) => setFormData({ ...formData, reorderLevel: Number(e.target.value) })}
+                    value={formData.reorderLevel || ""}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        reorderLevel: Number(e.target.value),
+                      })
+                    }
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                     min="0"
                   />
@@ -434,7 +518,9 @@ export default function InventoryPage() {
                     type="text"
                     required
                     value={formData.supplier}
-                    onChange={(e) => setFormData({ ...formData, supplier: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, supplier: e.target.value })
+                    }
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   />
                 </div>
@@ -445,7 +531,9 @@ export default function InventoryPage() {
                   <input
                     type="text"
                     value={formData.barcode}
-                    onChange={(e) => setFormData({ ...formData, barcode: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, barcode: e.target.value })
+                    }
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   />
                 </div>
@@ -457,7 +545,9 @@ export default function InventoryPage() {
                 </label>
                 <textarea
                   value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, description: e.target.value })
+                  }
                   rows={3}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
@@ -475,7 +565,7 @@ export default function InventoryPage() {
                   type="submit"
                   className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
                 >
-                  {editingProduct ? 'Update Product' : 'Add Product'}
+                  {editingProduct ? "Update Product" : "Add Product"}
                 </button>
               </div>
             </form>
