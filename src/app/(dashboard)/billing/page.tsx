@@ -249,7 +249,7 @@ export default function Page() {
 
   return (
     <div className="p-6 h-full">
-      <div className="flex gap-6 h-full">
+      <div className="flex gap-4 h-full">
         {/* Products Section - Left Side */}
         <div className="flex-1 space-y-4">
           <div className="flex items-center justify-between">
@@ -346,7 +346,7 @@ export default function Page() {
         </div>
 
         {/* Cart Section - Right Side */}
-        <div className="w-96 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 flex flex-col">
+        <div className="w-[480px] bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 flex flex-col">
           {/* Cart Header */}
           <div className="p-4 border-b border-gray-200 dark:border-gray-700">
             <div className="flex items-center justify-between">
