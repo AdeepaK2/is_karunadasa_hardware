@@ -26,23 +26,63 @@ export default function CustomersPage() {
     phone: "",
     email: "",
     address: "",
+    nic: "",
     outstandingBalance: 0,
     loyaltyPoints: 0,
   });
+  const [countryCode, setCountryCode] = useState("+94");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [nicError, setNicError] = useState("");
+
+  // Validate NIC number (Old: 9 digits + V/X, New: 12 digits)
+  const validateNIC = (nic: string): boolean => {
+    if (!nic) {
+      setNicError("NIC number is required");
+      return false;
+    }
+
+    // Remove spaces and convert to uppercase
+    const cleanNIC = nic.replace(/\s/g, "").toUpperCase();
+
+    // Old NIC format: 9 digits followed by V or X
+    const oldNICPattern = /^\d{9}[VX]$/;
+    // New NIC format: 12 digits
+    const newNICPattern = /^\d{12}$/;
+
+    if (oldNICPattern.test(cleanNIC) || newNICPattern.test(cleanNIC)) {
+      setNicError("");
+      return true;
+    }
+
+    setNicError(
+      "Invalid NIC format. Use 9 digits + V/X (old) or 12 digits (new)"
+    );
+    return false;
+  };
 
   const filteredCustomers = customers.filter(
     (customer) =>
       customer.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       customer.phone.includes(searchQuery) ||
-      customer.email?.toLowerCase().includes(searchQuery.toLowerCase())
+      customer.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      customer.nic?.includes(searchQuery)
   );
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validate NIC before submitting
+    if (!validateNIC(formData.nic)) {
+      return;
+    }
+
+    // Combine country code and phone number
+    const fullPhone = `${countryCode} ${phoneNumber}`;
+
     if (editingCustomer) {
-      updateCustomer(editingCustomer.id, formData);
+      updateCustomer(editingCustomer.id, { ...formData, phone: fullPhone });
     } else {
-      addCustomer(formData);
+      addCustomer({ ...formData, phone: fullPhone });
     }
     resetForm();
   };
@@ -53,23 +93,40 @@ export default function CustomersPage() {
       phone: "",
       email: "",
       address: "",
+      nic: "",
       outstandingBalance: 0,
       loyaltyPoints: 0,
     });
+    setCountryCode("+94");
+    setPhoneNumber("");
+    setNicError("");
     setEditingCustomer(null);
     setShowModal(false);
   };
 
   const handleEdit = (customer: Customer) => {
     setEditingCustomer(customer);
+
+    // Split phone number into country code and number
+    const phoneParts = customer.phone.trim().split(/\s+/);
+    if (phoneParts.length > 1 && phoneParts[0].startsWith("+")) {
+      setCountryCode(phoneParts[0]);
+      setPhoneNumber(phoneParts.slice(1).join(" "));
+    } else {
+      setCountryCode("+94");
+      setPhoneNumber(customer.phone);
+    }
+
     setFormData({
       name: customer.name,
       phone: customer.phone,
       email: customer.email || "",
       address: customer.address || "",
+      nic: customer.nic || "",
       outstandingBalance: customer.outstandingBalance,
       loyaltyPoints: customer.loyaltyPoints,
     });
+    setNicError("");
     setShowModal(true);
   };
 
@@ -139,7 +196,7 @@ export default function CustomersPage() {
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
           <input
             type="text"
-            placeholder="Search customers by name, phone, or email..."
+            placeholder="Search customers by name, phone, NIC, or email..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
@@ -191,6 +248,12 @@ export default function CustomersPage() {
                 <Phone className="w-4 h-4" />
                 <span>{customer.phone}</span>
               </div>
+              {customer.nic && (
+                <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                  <CreditCard className="w-4 h-4" />
+                  <span>{customer.nic}</span>
+                </div>
+              )}
               {customer.email && (
                 <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
                   <Mail className="w-4 h-4" />
@@ -258,16 +321,57 @@ export default function CustomersPage() {
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Phone *
                 </label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    required
+                    placeholder="+94"
+                    value={countryCode}
+                    onChange={(e) => setCountryCode(e.target.value)}
+                    className="w-20 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  />
+                  <input
+                    type="tel"
+                    required
+                    placeholder="71 234 5678"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  />
+                </div>
+                <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                  Default country code is +94 (Sri Lanka)
+                </p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  NIC Number *
+                </label>
                 <input
-                  type="tel"
+                  type="text"
                   required
-                  placeholder="+94 71 234 5678"
-                  value={formData.phone}
-                  onChange={(e) =>
-                    setFormData({ ...formData, phone: e.target.value })
-                  }
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  placeholder="993456789V or 200012345678"
+                  value={formData.nic}
+                  onChange={(e) => {
+                    setFormData({ ...formData, nic: e.target.value });
+                    setNicError("");
+                  }}
+                  onBlur={() => validateNIC(formData.nic)}
+                  className={`w-full px-3 py-2 border ${
+                    nicError
+                      ? "border-red-500 dark:border-red-500"
+                      : "border-gray-300 dark:border-gray-600"
+                  } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white`}
                 />
+                {nicError && (
+                  <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+                    {nicError}
+                  </p>
+                )}
+                <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                  Old format: 9 digits + V/X | New format: 12 digits
+                </p>
               </div>
 
               <div>

@@ -1,6 +1,6 @@
 // Core Types for POS System
 
-export type UserRole = 'admin' | 'manager' | 'cashier';
+export type UserRole = "admin" | "manager" | "cashier";
 
 export interface UserPermissions {
   canViewDashboard: boolean;
@@ -59,6 +59,7 @@ export interface Customer {
   phone: string;
   email?: string;
   address?: string;
+  nic?: string;
   outstandingBalance: number;
   loyaltyPoints: number;
   createdAt: Date;
@@ -74,10 +75,10 @@ export interface Employee {
   salary: number;
   joiningDate: Date;
   isActive: boolean;
-  attendanceStatus: 'present' | 'absent' | 'leave';
+  attendanceStatus: "present" | "absent" | "leave";
 }
 
-export type PaymentMode = 'cash' | 'card' | 'upi' | 'credit';
+export type PaymentMode = "cash" | "card" | "upi" | "credit";
 
 export interface Sale {
   id: string;
@@ -93,13 +94,13 @@ export interface Sale {
   cashierId: string;
   cashierName: string;
   date: Date;
-  status: 'completed' | 'pending' | 'cancelled';
+  status: "completed" | "pending" | "cancelled";
 }
 
 export interface StockMovement {
   id: string;
   productId: string;
-  type: 'purchase' | 'sale' | 'return' | 'adjustment';
+  type: "purchase" | "sale" | "return" | "adjustment";
   quantity: number;
   date: Date;
   reference?: string;

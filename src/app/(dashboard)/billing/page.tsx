@@ -59,8 +59,38 @@ export default function Page() {
     phone: "",
     email: "",
     address: "",
+    nic: "",
   });
   const [customerSearchQuery, setCustomerSearchQuery] = useState("");
+  const [countryCode, setCountryCode] = useState("+94");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [nicError, setNicError] = useState("");
+
+  // Validate NIC number (Old: 9 digits + V/X, New: 12 digits)
+  const validateNIC = (nic: string): boolean => {
+    if (!nic) {
+      setNicError("NIC number is required");
+      return false;
+    }
+
+    // Remove spaces and convert to uppercase
+    const cleanNIC = nic.replace(/\s/g, "").toUpperCase();
+
+    // Old NIC format: 9 digits followed by V or X
+    const oldNICPattern = /^\d{9}[VX]$/;
+    // New NIC format: 12 digits
+    const newNICPattern = /^\d{12}$/;
+
+    if (oldNICPattern.test(cleanNIC) || newNICPattern.test(cleanNIC)) {
+      setNicError("");
+      return true;
+    }
+
+    setNicError(
+      "Invalid NIC format. Use 9 digits + V/X (old) or 12 digits (new)"
+    );
+    return false;
+  };
 
   // Get unique categories
   const categories = ["All", ...new Set(products.map((p) => p.category))];
@@ -200,23 +230,32 @@ export default function Page() {
 
   // Add new customer handler
   const handleAddNewCustomer = () => {
-    if (!newCustomerData.name.trim() || !newCustomerData.phone.trim()) {
+    if (!newCustomerData.name.trim() || !phoneNumber.trim()) {
       alert("Please enter customer name and phone number");
       return;
     }
 
-    // Validate Sri Lankan phone format
-    const phoneRegex = /^(\+94|0)?[0-9\s]{9,11}$/;
-    if (!phoneRegex.test(newCustomerData.phone.replace(/\s/g, ""))) {
-      alert("Please enter a valid Sri Lankan phone number");
+    // Validate NIC
+    if (!validateNIC(newCustomerData.nic)) {
+      return;
+    }
+
+    // Combine country code and phone number
+    const fullPhone = `${countryCode} ${phoneNumber}`;
+
+    // Validate Sri Lankan phone format (9 digits for the number part)
+    const phoneDigits = phoneNumber.replace(/\s/g, "");
+    if (countryCode === "+94" && !/^[0-9]{9,10}$/.test(phoneDigits)) {
+      alert("Please enter a valid Sri Lankan phone number (9-10 digits)");
       return;
     }
 
     const newCustomer = {
       name: newCustomerData.name.trim(),
-      phone: newCustomerData.phone.trim(),
+      phone: fullPhone.trim(),
       email: newCustomerData.email.trim() || undefined,
       address: newCustomerData.address.trim() || undefined,
+      nic: newCustomerData.nic.trim(),
       outstandingBalance: 0,
       loyaltyPoints: 0,
     };
@@ -232,7 +271,16 @@ export default function Page() {
     setSelectedCustomer(addedCustomer);
 
     // Reset form and close
-    setNewCustomerData({ name: "", phone: "", email: "", address: "" });
+    setNewCustomerData({
+      name: "",
+      phone: "",
+      email: "",
+      address: "",
+      nic: "",
+    });
+    setCountryCode("+94");
+    setPhoneNumber("");
+    setNicError("");
     setShowAddCustomerForm(false);
     setShowCustomerModal(false);
   };
@@ -704,7 +752,11 @@ export default function Page() {
                       phone: "",
                       email: "",
                       address: "",
+                      nic: "",
                     });
+                    setCountryCode("+94");
+                    setPhoneNumber("");
+                    setNicError("");
                     setCustomerSearchQuery("");
                   }}
                   className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
@@ -766,20 +818,58 @@ export default function Page() {
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                       Phone <span className="text-red-500">*</span>
                     </label>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        required
+                        placeholder="+94"
+                        value={countryCode}
+                        onChange={(e) => setCountryCode(e.target.value)}
+                        className="w-20 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                      />
+                      <input
+                        type="tel"
+                        required
+                        placeholder="71 234 5678"
+                        value={phoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value)}
+                        className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                      />
+                    </div>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                      Default country code is +94 (Sri Lanka)
+                    </p>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      NIC Number <span className="text-red-500">*</span>
+                    </label>
                     <input
-                      type="tel"
-                      placeholder="+94 71 234 5678"
-                      value={newCustomerData.phone}
-                      onChange={(e) =>
+                      type="text"
+                      placeholder="993456789V or 200012345678"
+                      value={newCustomerData.nic}
+                      onChange={(e) => {
                         setNewCustomerData({
                           ...newCustomerData,
-                          phone: e.target.value,
-                        })
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                          nic: e.target.value,
+                        });
+                        setNicError("");
+                      }}
+                      onBlur={() => validateNIC(newCustomerData.nic)}
+                      className={`w-full px-3 py-2 border ${
+                        nicError
+                          ? "border-red-500 dark:border-red-500"
+                          : "border-gray-300 dark:border-gray-600"
+                      } rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white`}
                     />
+                    {nicError && (
+                      <p className="mt-1 text-xs text-red-600 dark:text-red-400">
+                        {nicError}
+                      </p>
+                    )}
                     <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                      Format: +94 71 234 5678
+                      Old format: 9 digits + V/X | New format: 12 digits
                     </p>
                   </div>
 
@@ -828,7 +918,11 @@ export default function Page() {
                           phone: "",
                           email: "",
                           address: "",
+                          nic: "",
                         });
+                        setCountryCode("+94");
+                        setPhoneNumber("");
+                        setNicError("");
                       }}
                       className="flex-1 px-4 py-2.5 bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-500 font-medium text-sm"
                     >
