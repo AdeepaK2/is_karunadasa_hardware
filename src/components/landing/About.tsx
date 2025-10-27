@@ -1,7 +1,5 @@
 'use client';
 
-import { Store } from 'lucide-react';
-
 export default function About() {
   return (
     <section id="about" className="py-16 px-4 sm:px-6 lg:px-8 bg-white dark:bg-gray-900">
@@ -45,7 +43,11 @@ export default function About() {
 
           <div className="bg-gray-200 dark:bg-gray-800 rounded-lg p-12 flex items-center justify-center">
             <div className="text-center">
-              <Store className="w-32 h-32 text-gray-400 dark:text-gray-600 mx-auto mb-4" />
+              <img
+                src="/hw_logo.png"
+                alt="Karunadasa Hardware Logo"
+                className="w-32 h-32 object-contain mx-auto mb-4"
+              />
               <p className="text-gray-600 dark:text-gray-400 italic">
                 "Quality products, honest service"
               </p>

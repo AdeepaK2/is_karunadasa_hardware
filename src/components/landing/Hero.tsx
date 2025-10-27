@@ -1,63 +1,63 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowRight, Wrench } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 export default function Hero() {
   return (
-    <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-amber-50 dark:bg-gray-900">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center space-y-6">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 dark:text-white leading-tight">
+    <section className="relative pt-24 pb-16 px-4 sm:px-6 lg:px-8 min-h-[80vh] flex items-center">
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src="/hero_section.png"
+          alt="Karunadasa Hardware - Your Trusted Hardware Store in Athurugiriya"
+          className="w-full h-full object-cover"
+        />
+        {/* Dark overlay for better text readability */}
+        <div className="absolute inset-0 bg-black bg-opacity-30"></div>
+      </div>
+
+      {/* Content Overlay */}
+      <div className="relative z-10 max-w-6xl mx-auto w-full">
+        <div className="text-center space-y-6 text-white">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight drop-shadow-lg">
             Karunadasa Hardware
           </h1>
-          
-          <p className="text-lg sm:text-xl text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
-            Your neighborhood hardware store in Athurugiriya. Quality tools, building materials, 
+
+          <p className="text-lg sm:text-xl max-w-2xl mx-auto drop-shadow-md">
+            Your neighborhood hardware store in Athurugiriya. Quality tools, building materials,
             and everything you need for your construction and repair projects.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
             <a
               href="#contact"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded transition-colors shadow-lg"
             >
               Visit Our Store
               <ArrowRight className="w-4 h-4" />
             </a>
             <a
               href="tel:0112887654"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-gray-800 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 text-white font-semibold rounded transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white font-semibold rounded transition-colors shadow-lg"
             >
               Call: 011 288 7654
             </a>
           </div>
 
-          {/* Simple illustration */}
-          <div className="pt-12 flex justify-center">
-            <div className="relative">
-              <div className="bg-orange-600 p-8 rounded-lg inline-block">
-                <Wrench className="w-32 h-32 text-white" />
-              </div>
-              <div className="absolute -bottom-2 -right-2 bg-gray-800 text-white px-4 py-2 rounded text-sm font-medium">
-                Serving Athurugiriya
-              </div>
+          {/* Stats overlay */}
+          <div className="grid grid-cols-3 gap-4 max-w-2xl mx-auto pt-12 text-center">
+            <div className="bg-white bg-opacity-20 backdrop-blur-sm rounded-lg p-4 border-r border-white border-opacity-30">
+              <div className="text-2xl font-bold">Wide Range</div>
+              <div className="text-sm opacity-90">of Products</div>
             </div>
-          </div>
-
-          {/* Simple stats */}
-          <div className="grid grid-cols-3 gap-4 max-w-2xl mx-auto pt-8 text-center">
-            <div className="border-r border-gray-300 dark:border-gray-700">
-              <div className="text-2xl font-bold text-gray-900 dark:text-white">Wide Range</div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">of Products</div>
+            <div className="bg-white bg-opacity-20 backdrop-blur-sm rounded-lg p-4 border-r border-white border-opacity-30">
+              <div className="text-2xl font-bold">Local</div>
+              <div className="text-sm opacity-90">Family Business</div>
             </div>
-            <div className="border-r border-gray-300 dark:border-gray-700">
-              <div className="text-2xl font-bold text-gray-900 dark:text-white">Local</div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">Family Business</div>
-            </div>
-            <div>
-              <div className="text-2xl font-bold text-gray-900 dark:text-white">Fair</div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">Prices</div>
+            <div className="bg-white bg-opacity-20 backdrop-blur-sm rounded-lg p-4">
+              <div className="text-2xl font-bold">Fair</div>
+              <div className="text-sm opacity-90">Prices</div>
             </div>
           </div>
         </div>

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Store, Mail, Phone, MapPin } from 'lucide-react';
+import { Mail, Phone, MapPin } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -11,7 +11,11 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <Store className="w-6 h-6 text-orange-500" />
+              <img
+                src="/hw_logo.png"
+                alt="Karunadasa Hardware Logo"
+                className="w-6 h-6 object-contain"
+              />
               <span className="text-lg font-bold text-white">
                 Karunadasa Hardware
               </span>

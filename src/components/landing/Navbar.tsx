@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Store, Menu, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { useState } from 'react';
 
 export default function Navbar() {
@@ -13,7 +13,11 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center gap-2">
-            <Store className="w-7 h-7 text-orange-600 dark:text-orange-500" />
+            <img
+              src="/hw_logo.png"
+              alt="Karunadasa Hardware Logo"
+              className="w-8 h-8 object-contain"
+            />
             <span className="text-lg font-bold text-gray-900 dark:text-white">
               Karunadasa Hardware
             </span>
