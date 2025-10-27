@@ -13,18 +13,16 @@ export default function Hero() {
           alt="Karunadasa Hardware - Your Trusted Hardware Store in Athurugiriya"
           className="w-full h-full object-cover"
         />
-        {/* Dark overlay for better text readability */}
-        <div className="absolute inset-0 bg-black bg-opacity-30"></div>
       </div>
 
       {/* Content Overlay */}
       <div className="relative z-10 max-w-6xl mx-auto w-full">
         <div className="text-center space-y-6 text-white">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight drop-shadow-lg">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight drop-shadow-2xl text-shadow-lg" style={{textShadow: '2px 2px 4px rgba(0,0,0,0.8), 4px 4px 8px rgba(0,0,0,0.6)'}}>
             Karunadasa Hardware
           </h1>
 
-          <p className="text-lg sm:text-xl max-w-2xl mx-auto drop-shadow-md">
+          <p className="text-lg sm:text-xl max-w-2xl mx-auto drop-shadow-xl" style={{textShadow: '1px 1px 3px rgba(0,0,0,0.8), 2px 2px 6px rgba(0,0,0,0.6)'}}>
             Your neighborhood hardware store in Athurugiriya. Quality tools, building materials,
             and everything you need for your construction and repair projects.
           </p>
@@ -32,14 +30,16 @@ export default function Hero() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
             <a
               href="#contact"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded transition-colors shadow-lg"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded transition-colors shadow-2xl border-2 border-orange-400"
+              style={{textShadow: '1px 1px 2px rgba(0,0,0,0.8)', boxShadow: '0 4px 15px rgba(0,0,0,0.3), 0 2px 8px rgba(255,165,0,0.2)'}}
             >
               Visit Our Store
               <ArrowRight className="w-4 h-4" />
             </a>
             <a
               href="tel:0112887654"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white font-semibold rounded transition-colors shadow-lg"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white font-semibold rounded transition-colors shadow-2xl border-2 border-gray-600"
+              style={{textShadow: '1px 1px 2px rgba(0,0,0,0.8)', boxShadow: '0 4px 15px rgba(0,0,0,0.4)'}}
             >
               Call: 011 288 7654
             </a>
@@ -47,17 +47,17 @@ export default function Hero() {
 
           {/* Stats overlay */}
           <div className="grid grid-cols-3 gap-4 max-w-2xl mx-auto pt-12 text-center">
-            <div className="bg-white bg-opacity-20 backdrop-blur-sm rounded-lg p-4 border-r border-white border-opacity-30">
-              <div className="text-2xl font-bold">Wide Range</div>
-              <div className="text-sm opacity-90">of Products</div>
+            <div className="bg-black bg-opacity-70 backdrop-blur-md rounded-lg p-4 border border-white border-opacity-20 shadow-2xl">
+              <div className="text-2xl font-bold text-white" style={{textShadow: '1px 1px 2px rgba(0,0,0,0.8)'}}>Wide Range</div>
+              <div className="text-sm text-gray-200 opacity-90" style={{textShadow: '1px 1px 2px rgba(0,0,0,0.8)'}}>of Products</div>
             </div>
-            <div className="bg-white bg-opacity-20 backdrop-blur-sm rounded-lg p-4 border-r border-white border-opacity-30">
-              <div className="text-2xl font-bold">Local</div>
-              <div className="text-sm opacity-90">Family Business</div>
+            <div className="bg-black bg-opacity-70 backdrop-blur-md rounded-lg p-4 border border-white border-opacity-20 shadow-2xl">
+              <div className="text-2xl font-bold text-white" style={{textShadow: '1px 1px 2px rgba(0,0,0,0.8)'}}>Local</div>
+              <div className="text-sm text-gray-200 opacity-90" style={{textShadow: '1px 1px 2px rgba(0,0,0,0.8)'}}>Family Business</div>
             </div>
-            <div className="bg-white bg-opacity-20 backdrop-blur-sm rounded-lg p-4">
-              <div className="text-2xl font-bold">Fair</div>
-              <div className="text-sm opacity-90">Prices</div>
+            <div className="bg-black bg-opacity-70 backdrop-blur-md rounded-lg p-4 border border-white border-opacity-20 shadow-2xl">
+              <div className="text-2xl font-bold text-white" style={{textShadow: '1px 1px 2px rgba(0,0,0,0.8)'}}>Fair</div>
+              <div className="text-sm text-gray-200 opacity-90" style={{textShadow: '1px 1px 2px rgba(0,0,0,0.8)'}}>Prices</div>
             </div>
           </div>
         </div>
