@@ -361,6 +361,17 @@ export const mockEmployees: Employee[] = [
     isActive: true,
     attendanceStatus: "leave",
   },
+  {
+    id: "5",
+    name: "Sanduni Perera",
+    role: "cashier",
+    phone: "+94 76 888 9999",
+    email: "sanduni@hardwarestore.lk",
+    salary: 26000,
+    joiningDate: new Date("2024-03-15"),
+    isActive: true,
+    attendanceStatus: "present",
+  },
 ];
 
 // Mock Sales
@@ -1061,6 +1072,13 @@ export function initializeDummyAttendance() {
       leaveRate: 0.05,
       absentRate: 0.03,
     },
+    "5": {
+      // Sanduni Perera - Very good attendance
+      presentRate: 0.91,
+      lateRate: 0.04,
+      leaveRate: 0.03,
+      absentRate: 0.02,
+    },
   };
 
   mockEmployees.forEach((employee) => {
@@ -1115,6 +1133,14 @@ export function initializeDummyAttendance() {
         status = "On Leave";
       }
 
+      // Employee 5 was late on Oct 8 and absent on Oct 23
+      if (employee.id === "5" && index === 7) {
+        status = "Late";
+      }
+      if (employee.id === "5" && index === 22) {
+        status = "Absent";
+      }
+
       // Admin was always present (override random for first employee)
       if (employee.id === "1") {
         status = "Present";
@@ -1126,5 +1152,7 @@ export function initializeDummyAttendance() {
 
   // Save to localStorage
   localStorage.setItem(ATTENDANCE_STORAGE_KEY, JSON.stringify(attendanceData));
-  console.log("✅ Dummy attendance data initialized for October 2025");
+  console.log(
+    "✅ Dummy attendance data initialized for October 2025 (5 employees, ~100 records)"
+  );
 }

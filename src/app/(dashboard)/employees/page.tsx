@@ -282,9 +282,10 @@ export default function EmployeesPage() {
             📊 Sample Attendance Data Available
           </p>
           <p className="text-xs text-blue-700 dark:text-blue-400 mt-1">
-            Dummy attendance data for October 2025 has been loaded. Click the
-            calendar icon <CalendarDays className="w-3 h-3 inline" /> in the
-            Actions column to view monthly attendance for any employee.
+            Dummy attendance data for 5 employees in October 2025 (~100 records)
+            has been loaded. Click the calendar icon{" "}
+            <CalendarDays className="w-3 h-3 inline" /> in the Actions column to
+            view monthly attendance for any employee.
           </p>
         </div>
       </div>
