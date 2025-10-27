@@ -205,7 +205,7 @@ export default function ProfilePage() {
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-green-600 dark:text-green-400">
-                  ₹{totalSpent.toLocaleString()}
+                  LKR {totalSpent.toLocaleString()}
                 </div>
                 <div className="text-sm text-gray-600 dark:text-gray-400">Total Spent</div>
               </div>
@@ -249,7 +249,7 @@ export default function ProfilePage() {
                 ></div>
               </div>
               <p className="text-xs text-gray-500 dark:text-gray-400">
-                Earn 1 point for every ₹100 spent
+                Earn 1 point for every LKR 100 spent
               </p>
             </div>
           </div>

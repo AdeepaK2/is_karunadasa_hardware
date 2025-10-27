@@ -36,17 +36,534 @@ export default function OrdersPage() {
 
   // If no personal orders found, show demo orders for demonstration
   if (customerOrders.length === 0) {
-    // Try to find orders for any existing customer as demo data
-    const demoCustomerNames = ['Saman Perera', 'Nimalka Fernando', 'Kasun Silva', 'Ravi Jayawardena', 'Demo Customer'];
-    for (const demoName of demoCustomerNames) {
-      const demoOrders = sales
-        .filter(sale => sale.customerName === demoName)
-        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-      if (demoOrders.length > 0) {
-        customerOrders = demoOrders.slice(0, 5); // Show up to 5 demo orders
-        break;
-      }
-    }
+    // Create demo orders directly for demonstration
+    const demoOrders = [
+      {
+        id: "demo-1",
+        invoiceNumber: "INV-2025-9001",
+        customerId: "demo-customer",
+        customerName: "Demo Customer",
+        items: [
+          {
+            product: {
+              id: "1",
+              name: "Hammer",
+              sku: "HW-001",
+              category: "Hand Tools",
+              brand: "Stanley",
+              purchasePrice: 150,
+              sellingPrice: 250,
+              quantity: 45,
+              reorderLevel: 10,
+              supplier: 'Tools Wholesale',
+              barcode: '1234567890123',
+              description: 'Professional claw hammer',
+              imageUrl: '/products/8.png',
+              createdAt: new Date('2024-01-15'),
+              updatedAt: new Date('2024-01-15'),
+            },
+            quantity: 2,
+            discount: 50,
+          },
+          {
+            product: {
+              id: "2",
+              name: "Screwdriver Set",
+              sku: "HW-002", 
+              category: "Hand Tools",
+              brand: "Bosch",
+              purchasePrice: 300,
+              sellingPrice: 450,
+              quantity: 30,
+              reorderLevel: 15,
+              supplier: 'Tools Wholesale',
+              barcode: '1234567890124',
+              description: 'Complete screwdriver set',
+              imageUrl: '/products/7.png',
+              createdAt: new Date('2024-01-15'),
+              updatedAt: new Date('2024-01-15'),
+            },
+            quantity: 1,
+            discount: 0,
+          },
+        ],
+        subtotal: 950,
+        discount: 50,
+        tax: 135,
+        total: 1035,
+        paymentMode: "cash" as const,
+        cashierId: "3",
+        cashierName: "Dilini Cashier",
+        date: new Date("2025-10-25T14:30:00"),
+        status: "completed" as const,
+      },
+      {
+        id: "demo-2", 
+        invoiceNumber: "INV-2025-9002",
+        customerId: "demo-customer",
+        customerName: "Demo Customer",
+        items: [
+          {
+            product: {
+              id: "5",
+              name: "LED Bulb 9W",
+              sku: "EL-001",
+              category: "Electrical",
+              brand: "Philips",
+              purchasePrice: 80,
+              sellingPrice: 120,
+              quantity: 200,
+              reorderLevel: 50,
+              supplier: 'Electrical Depot',
+              barcode: '1234567890127',
+              description: 'Energy efficient LED bulb',
+              imageUrl: '/products/4.png',
+              createdAt: new Date('2024-01-15'),
+              updatedAt: new Date('2024-01-15'),
+            },
+            quantity: 6,
+            discount: 0,
+          },
+        ],
+        subtotal: 720,
+        discount: 0,
+        tax: 108,
+        total: 828,
+        paymentMode: "card" as const,
+        cashierId: "4", 
+        cashierName: "Rohan Cashier",
+        date: new Date("2025-10-22T11:15:00"),
+        status: "completed" as const,
+      },
+      {
+        id: "demo-3",
+        invoiceNumber: "INV-2025-9003", 
+        customerId: "demo-customer",
+        customerName: "Demo Customer",
+        items: [
+          {
+            product: {
+              id: "3",
+              name: "Electric Drill",
+              sku: "PW-001",
+              category: "Power Tools", 
+              brand: "DeWalt",
+              purchasePrice: 3500,
+              sellingPrice: 5200,
+              quantity: 8,
+              reorderLevel: 5,
+              supplier: 'Power Tools Inc',
+              barcode: '1234567890125',
+              description: 'Cordless electric drill',
+              imageUrl: '/products/6.png',
+              createdAt: new Date('2024-01-15'),
+              updatedAt: new Date('2024-01-15'),
+            },
+            quantity: 1,
+            discount: 500,
+          },
+        ],
+        subtotal: 5200,
+        discount: 500,
+        tax: 705,
+        total: 5405,
+        paymentMode: "upi" as const,
+        cashierId: "3",
+        cashierName: "Dilini Cashier", 
+        date: new Date("2025-10-18T09:45:00"),
+        status: "completed" as const,
+      },
+      {
+        id: "demo-4",
+        invoiceNumber: "INV-2025-9004",
+        customerId: "demo-customer", 
+        customerName: "Demo Customer",
+        items: [
+          {
+            product: {
+              id: "4",
+              name: 'Paint Brush 2"',
+              sku: "PT-001",
+              category: "Painting",
+              brand: "Asian Paints",
+              purchasePrice: 50,
+              sellingPrice: 85,
+              quantity: 120,
+              reorderLevel: 30,
+              supplier: 'Paint Supplies Co',
+              barcode: '1234567890126',
+              description: 'Professional paint brush',
+              imageUrl: '/products/5.png',
+              createdAt: new Date('2024-01-15'),
+              updatedAt: new Date('2024-01-15'),
+            },
+            quantity: 4,
+            discount: 20,
+          },
+          {
+            product: {
+              id: "7",
+              name: "Measuring Tape 5M",
+              sku: "HW-003",
+              category: "Hand Tools",
+              brand: "Stanley", 
+              purchasePrice: 100,
+              sellingPrice: 160,
+              quantity: 55,
+              reorderLevel: 20,
+              supplier: 'Tools Wholesale',
+              barcode: '1234567890129',
+              description: 'Professional measuring tape',
+              imageUrl: '/products/2.png',
+              createdAt: new Date('2024-01-15'),
+              updatedAt: new Date('2024-01-15'),
+            },
+            quantity: 2,
+            discount: 0,
+          },
+        ],
+        subtotal: 660,
+        discount: 20,
+        tax: 96,
+        total: 736,
+        paymentMode: "cash" as const,
+        cashierId: "5",
+        cashierName: "Sanduni Perera",
+        date: new Date("2025-10-15T16:20:00"),
+        status: "completed" as const,
+      },
+      {
+        id: "demo-5",
+        invoiceNumber: "INV-2025-9005",
+        customerId: "demo-customer",
+        customerName: "Demo Customer", 
+        items: [
+          {
+            product: {
+              id: "8",
+              name: "Safety Goggles",
+              sku: "SF-001",
+              category: "Safety",
+              brand: "3M",
+              purchasePrice: 150,
+              sellingPrice: 250,
+              quantity: 40,
+              reorderLevel: 15,
+              supplier: 'Safety Equipment Co',
+              barcode: '1234567890130',
+              description: 'Anti-fog safety goggles',
+              imageUrl: '/products/1.png',
+              createdAt: new Date('2024-01-15'),
+              updatedAt: new Date('2024-01-15'),
+            },
+            quantity: 2,
+            discount: 0,
+          },
+        ],
+        subtotal: 500,
+        discount: 0,
+        tax: 75,
+        total: 575,
+        paymentMode: "card" as const,
+        cashierId: "2",
+        cashierName: "Chaminda Manager",
+        date: new Date("2025-10-12T13:40:00"),
+        status: "completed" as const,
+      },
+      {
+        id: "demo-6",
+        invoiceNumber: "INV-2025-9006",
+        customerId: "demo-customer",
+        customerName: "Demo Customer",
+        items: [
+          {
+            product: {
+              id: "6",
+              name: 'PVC Pipe 1"',
+              sku: "PL-001",
+              category: "Plumbing",
+              brand: "Supreme",
+              purchasePrice: 120,
+              sellingPrice: 180,
+              quantity: 6,
+              reorderLevel: 10,
+              supplier: 'Plumbing Supplies',
+              barcode: '1234567890128',
+              description: 'High quality PVC pipe',
+              imageUrl: '/products/3.png',
+              createdAt: new Date('2024-01-15'),
+              updatedAt: new Date('2024-01-15'),
+            },
+            quantity: 3,
+            discount: 50,
+          },
+        ],
+        subtotal: 540,
+        discount: 50,
+        tax: 73,
+        total: 563,
+        paymentMode: "upi" as const,
+        cashierId: "4",
+        cashierName: "Rohan Cashier",
+        date: new Date("2025-10-08T10:20:00"),
+        status: "completed" as const,
+      },
+      {
+        id: "demo-7",
+        invoiceNumber: "INV-2025-9007",
+        customerId: "demo-customer",
+        customerName: "Demo Customer",
+        items: [
+          {
+            product: {
+              id: "5",
+              name: "LED Bulb 9W",
+              sku: "EL-001",
+              category: "Electrical",
+              brand: "Philips",
+              purchasePrice: 80,
+              sellingPrice: 120,
+              quantity: 200,
+              reorderLevel: 50,
+              supplier: 'Electrical Depot',
+              barcode: '1234567890127',
+              description: 'Energy efficient LED bulb',
+              imageUrl: '/products/4.png',
+              createdAt: new Date('2024-01-15'),
+              updatedAt: new Date('2024-01-15'),
+            },
+            quantity: 8,
+            discount: 0,
+          },
+        ],
+        subtotal: 960,
+        discount: 0,
+        tax: 144,
+        total: 1104,
+        paymentMode: "credit" as const,
+        cashierId: "3",
+        cashierName: "Dilini Cashier",
+        date: new Date("2025-10-05T15:10:00"),
+        status: "completed" as const,
+      },
+      {
+        id: "demo-8",
+        invoiceNumber: "INV-2025-9008",
+        customerId: "demo-customer",
+        customerName: "Demo Customer",
+        items: [
+          {
+            product: {
+              id: "1",
+              name: "Hammer",
+              sku: "HW-001",
+              category: "Hand Tools",
+              brand: "Stanley",
+              purchasePrice: 150,
+              sellingPrice: 250,
+              quantity: 45,
+              reorderLevel: 10,
+              supplier: 'Tools Wholesale',
+              barcode: '1234567890123',
+              description: 'Professional claw hammer',
+              imageUrl: '/products/8.png',
+              createdAt: new Date('2024-01-15'),
+              updatedAt: new Date('2024-01-15'),
+            },
+            quantity: 1,
+            discount: 0,
+          },
+          {
+            product: {
+              id: "4",
+              name: 'Paint Brush 2"',
+              sku: "PT-001",
+              category: "Painting",
+              brand: "Asian Paints",
+              purchasePrice: 50,
+              sellingPrice: 85,
+              quantity: 120,
+              reorderLevel: 30,
+              supplier: 'Paint Supplies Co',
+              barcode: '1234567890126',
+              description: 'Professional paint brush',
+              imageUrl: '/products/5.png',
+              createdAt: new Date('2024-01-15'),
+              updatedAt: new Date('2024-01-15'),
+            },
+            quantity: 3,
+            discount: 25,
+          },
+        ],
+        subtotal: 505,
+        discount: 25,
+        tax: 72,
+        total: 552,
+        paymentMode: "cash" as const,
+        cashierId: "5",
+        cashierName: "Sanduni Perera", 
+        date: new Date("2025-09-28T12:30:00"),
+        status: "completed" as const,
+      },
+      {
+        id: "demo-9",
+        invoiceNumber: "INV-2025-9009",
+        customerId: "demo-customer",
+        customerName: "Demo Customer",
+        items: [
+          {
+            product: {
+              id: "2",
+              name: "Screwdriver Set",
+              sku: "HW-002",
+              category: "Hand Tools", 
+              brand: "Bosch",
+              purchasePrice: 300,
+              sellingPrice: 450,
+              quantity: 30,
+              reorderLevel: 15,
+              supplier: 'Tools Wholesale',
+              barcode: '1234567890124',
+              description: 'Complete screwdriver set',
+              imageUrl: '/products/7.png',
+              createdAt: new Date('2024-01-15'),
+              updatedAt: new Date('2024-01-15'),
+            },
+            quantity: 1,
+            discount: 0,
+          },
+          {
+            product: {
+              id: "5",
+              name: "LED Bulb 9W",
+              sku: "EL-001",
+              category: "Electrical",
+              brand: "Philips",
+              purchasePrice: 80,
+              sellingPrice: 120,
+              quantity: 200,
+              reorderLevel: 50,
+              supplier: 'Electrical Depot',
+              barcode: '1234567890127',
+              description: 'Energy efficient LED bulb',
+              imageUrl: '/products/4.png',
+              createdAt: new Date('2024-01-15'),
+              updatedAt: new Date('2024-01-15'),
+            },
+            quantity: 4,
+            discount: 50,
+          },
+        ],
+        subtotal: 930,
+        discount: 50,
+        tax: 132,
+        total: 1012,
+        paymentMode: "card" as const,
+        cashierId: "4",
+        cashierName: "Rohan Cashier",
+        date: new Date("2025-09-22T14:45:00"),
+        status: "completed" as const,
+      },
+      {
+        id: "demo-10",
+        invoiceNumber: "INV-2025-9010",
+        customerId: "demo-customer",
+        customerName: "Demo Customer",
+        items: [
+          {
+            product: {
+              id: "7",
+              name: "Measuring Tape 5M",
+              sku: "HW-003",
+              category: "Hand Tools",
+              brand: "Stanley",
+              purchasePrice: 100,
+              sellingPrice: 160,
+              quantity: 55,
+              reorderLevel: 20,
+              supplier: 'Tools Wholesale',
+              barcode: '1234567890129',
+              description: 'Professional measuring tape',
+              imageUrl: '/products/2.png',
+              createdAt: new Date('2024-01-15'),
+              updatedAt: new Date('2024-01-15'),
+            },
+            quantity: 1,
+            discount: 0,
+          },
+        ],
+        subtotal: 160,
+        discount: 0,
+        tax: 24,
+        total: 184,
+        paymentMode: "upi" as const,
+        cashierId: "2",
+        cashierName: "Chaminda Manager",
+        date: new Date("2025-09-15T11:20:00"),
+        status: "completed" as const,
+      },
+      {
+        id: "demo-11",
+        invoiceNumber: "INV-2025-9011",
+        customerId: "demo-customer",
+        customerName: "Demo Customer",
+        items: [
+          {
+            product: {
+              id: "2",
+              name: "Screwdriver Set",
+              sku: "HW-002",
+              category: "Hand Tools",
+              brand: "Bosch",
+              purchasePrice: 300,
+              sellingPrice: 450,
+              quantity: 30,
+              reorderLevel: 15,
+              supplier: 'Tools Wholesale',
+              barcode: '1234567890124',
+              description: 'Complete screwdriver set',
+              imageUrl: '/products/7.png',
+              createdAt: new Date('2024-01-15'),
+              updatedAt: new Date('2024-01-15'),
+            },
+            quantity: 1,
+            discount: 0,
+          },
+          {
+            product: {
+              id: "5",
+              name: "LED Bulb 9W",
+              sku: "EL-001",
+              category: "Electrical",
+              brand: "Philips",
+              purchasePrice: 80,
+              sellingPrice: 120,
+              quantity: 200,
+              reorderLevel: 50,
+              supplier: 'Electrical Depot',
+              barcode: '1234567890127',
+              description: 'Energy efficient LED bulb',
+              imageUrl: '/products/4.png',
+              createdAt: new Date('2024-01-15'),
+              updatedAt: new Date('2024-01-15'),
+            },
+            quantity: 3,
+            discount: 0,
+          },
+        ],
+        subtotal: 810,
+        discount: 0,
+        tax: 121,
+        total: 931,
+        paymentMode: "cash" as const,
+        cashierId: "3",
+        cashierName: "Dilini Cashier",
+        date: new Date("2025-10-26T18:30:00"),
+        status: "pending" as const,
+      },
+    ];
+    
+    customerOrders = demoOrders.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
   }
 
   // Filter orders based on search and status
@@ -211,10 +728,10 @@ export default function OrdersPage() {
                     </div>
                     <div className="text-right">
                       <div className="font-medium text-gray-900 dark:text-white">
-                        ₹{item.product.sellingPrice.toLocaleString()} × {item.quantity}
+                        LKR {item.product.sellingPrice.toLocaleString()} × {item.quantity}
                       </div>
                       <div className="text-sm text-gray-600 dark:text-gray-400">
-                        -₹{item.discount.toLocaleString()} discount
+                        -LKR {item.discount.toLocaleString()} discount
                       </div>
                     </div>
                   </div>
@@ -227,19 +744,19 @@ export default function OrdersPage() {
                   <div>
                     <span className="text-sm text-gray-600 dark:text-gray-400">Subtotal</span>
                     <div className="font-semibold text-gray-900 dark:text-white">
-                      ₹{order.subtotal.toLocaleString()}
+                      LKR {order.subtotal.toLocaleString()}
                     </div>
                   </div>
                   <div>
                     <span className="text-sm text-gray-600 dark:text-gray-400">Tax</span>
                     <div className="font-semibold text-gray-900 dark:text-white">
-                      ₹{order.tax.toLocaleString()}
+                      LKR {order.tax.toLocaleString()}
                     </div>
                   </div>
                   <div>
                     <span className="text-sm text-gray-600 dark:text-gray-400">Total</span>
                     <div className="font-bold text-lg text-orange-600 dark:text-orange-400">
-                      ₹{order.total.toLocaleString()}
+                      LKR {order.total.toLocaleString()}
                     </div>
                   </div>
                 </div>
@@ -280,13 +797,13 @@ export default function OrdersPage() {
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                ₹{customerOrders.reduce((sum, order) => sum + order.total, 0).toLocaleString()}
+                LKR {customerOrders.reduce((sum, order) => sum + order.total, 0).toLocaleString()}
               </div>
               <div className="text-sm text-gray-600 dark:text-gray-400">Total Spent</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
-                ₹{Math.round(customerOrders.reduce((sum, order) => sum + order.total, 0) / customerOrders.length).toLocaleString()}
+                LKR {Math.round(customerOrders.reduce((sum, order) => sum + order.total, 0) / customerOrders.length).toLocaleString()}
               </div>
               <div className="text-sm text-gray-600 dark:text-gray-400">Avg Order Value</div>
             </div>
