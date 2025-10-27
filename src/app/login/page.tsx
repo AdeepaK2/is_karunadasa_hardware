@@ -9,6 +9,7 @@ import { getPermissionsForRole, getDefaultRoute } from '@/lib/permissions';
 export default function LoginPage() {
   const [role, setRole] = useState<'admin' | 'manager' | 'cashier' | 'customer'>('customer');
   const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
   const { login, users, customers } = useApp();
   const router = useRouter();
 
@@ -103,6 +104,23 @@ export default function LoginPage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Enter your name"
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+              />
+            </div>
+          </div>
+
+          {/* Password Input (optional, not checked) */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Password (Optional)
+            </label>
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter password (not required)"
                 className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               />
             </div>
