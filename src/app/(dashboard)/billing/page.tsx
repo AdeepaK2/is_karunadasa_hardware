@@ -17,6 +17,11 @@ import {
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { format } from "date-fns";
+import {
+  calculateLoyaltyPoints,
+  amountToNextPoint,
+} from "@/lib/loyaltyProgram";
+import { checkCreditLimit, getRemainingCredit } from "@/lib/creditLimit";
 
 export default function Page() {
   const {
@@ -95,6 +100,17 @@ export default function Page() {
   // Get unique categories
   const categories = ["All", ...new Set(products.map((p) => p.category))];
 
+  // Helper function to get available stock (current stock - quantity in cart)
+  const getAvailableStock = (productId: string) => {
+    const product = products.find((p) => p.id === productId);
+    if (!product) return 0;
+
+    const cartItem = cart.find((item) => item.product.id === productId);
+    const quantityInCart = cartItem ? cartItem.quantity : 0;
+
+    return product.quantity - quantityInCart;
+  };
+
   // Filter products
   const filteredProducts = products.filter((product) => {
     const matchesSearch =
@@ -117,6 +133,10 @@ export default function Page() {
   const taxAmount = (taxableAmount * taxRate) / 100;
   const total = taxableAmount + taxAmount;
 
+  // Calculate loyalty points to be earned (1 point per Rs.100 spent)
+  const loyaltyPointsToEarn = calculateLoyaltyPoints(total);
+  const amountForNextPoint = amountToNextPoint(total);
+
   const handleCheckout = () => {
     if (cart.length === 0) {
       alert("Cart is empty!");
@@ -126,6 +146,29 @@ export default function Page() {
     if (!currentUser) {
       alert("Please login first!");
       return;
+    }
+
+    // Check credit limit if payment mode is credit
+    if (paymentMode === "credit" && selectedCustomer) {
+      const creditCheck = checkCreditLimit(
+        selectedCustomer.outstandingBalance,
+        total
+      );
+
+      if (!creditCheck.canProceed) {
+        alert(creditCheck.message);
+        return;
+      }
+
+      // Show warning if approaching limit
+      if (creditCheck.message) {
+        const proceed = confirm(
+          `${creditCheck.message}\n\nDo you want to proceed with this transaction?`
+        );
+        if (!proceed) {
+          return;
+        }
+      }
     }
 
     const sale = {
@@ -144,13 +187,22 @@ export default function Page() {
 
     addSale(sale);
     generateReceipt(sale);
+
+    // Show success message with loyalty points info
+    if (selectedCustomer && loyaltyPointsToEarn > 0) {
+      alert(
+        `Sale completed successfully!\n\n${selectedCustomer.name} earned ${loyaltyPointsToEarn} loyalty points!`
+      );
+    } else {
+      alert("Sale completed successfully!");
+    }
+
     clearCart();
     setSelectedCustomer(null);
     setGlobalDiscount(0);
     setExpandedDiscounts(new Set());
     setDiscountTypes(new Map());
     setDiscountInputs(new Map());
-    alert("Sale completed successfully!");
   };
 
   const toggleDiscountSection = (productId: string) => {
@@ -345,10 +397,40 @@ export default function Page() {
     doc.setFont("helvetica", "bold");
     doc.text(`Total: LKR ${total.toFixed(2)}`, 14, finalY + 18);
 
+    // Loyalty Points Info
+    if (selectedCustomer && loyaltyPointsToEarn > 0) {
+      doc.setFontSize(10);
+      doc.setFont("helvetica", "normal");
+      doc.text(
+        "---------------------------------------------------",
+        105,
+        finalY + 24,
+        {
+          align: "center",
+        }
+      );
+      doc.setFont("helvetica", "bold");
+      doc.text(
+        `Loyalty Points Earned: ${loyaltyPointsToEarn} points`,
+        14,
+        finalY + 30
+      );
+      doc.setFont("helvetica", "normal");
+      const updatedPoints =
+        selectedCustomer.loyaltyPoints + loyaltyPointsToEarn;
+      doc.text(
+        `Total Loyalty Points: ${updatedPoints} points`,
+        14,
+        finalY + 35
+      );
+    }
+
     // Footer
     doc.setFontSize(8);
     doc.setFont("helvetica", "normal");
-    doc.text("Thank you for your business!", 105, finalY + 30, {
+    const footerY =
+      selectedCustomer && loyaltyPointsToEarn > 0 ? finalY + 45 : finalY + 30;
+    doc.text("Thank you for your business!", 105, footerY, {
       align: "center",
     });
 
@@ -407,49 +489,77 @@ export default function Page() {
               </div>
             </div>
 
-            {filteredProducts.map((product) => (
-              <button
-                key={product.id}
-                onClick={() => addToCart(product, 1)}
-                className="w-full flex items-center justify-between bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-3 hover:shadow transition-shadow text-left"
-              >
-                <div className="w-full flex items-center gap-4">
-                  <div className="text-xs text-gray-500 dark:text-gray-400 w-20 shrink-0 whitespace-nowrap">
-                    {product.sku}
-                  </div>
+            {filteredProducts.map((product) => {
+              const availableStock = getAvailableStock(product.id);
+              const inCart = cart.find(
+                (item) => item.product.id === product.id
+              );
 
-                  <div className="flex-1 min-w-0">
-                    <p
-                      className="font-semibold text-gray-900 dark:text-white text-sm truncate"
-                      title={
-                        product.brand
+              return (
+                <button
+                  key={product.id}
+                  onClick={() => addToCart(product, 1)}
+                  disabled={availableStock === 0}
+                  className="w-full flex items-center justify-between bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-3 hover:shadow transition-shadow text-left disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <div className="w-full flex items-center gap-4">
+                    <div className="text-xs text-gray-500 dark:text-gray-400 w-20 shrink-0 whitespace-nowrap">
+                      {product.sku}
+                    </div>
+
+                    <div className="flex-1 min-w-0">
+                      <p
+                        className="font-semibold text-gray-900 dark:text-white text-sm truncate"
+                        title={
+                          product.brand
+                            ? `${product.brand} ${product.name}`
+                            : product.name
+                        }
+                      >
+                        {product.brand
                           ? `${product.brand} ${product.name}`
-                          : product.name
-                      }
-                    >
-                      {product.brand
-                        ? `${product.brand} ${product.name}`
-                        : product.name}
-                    </p>
-                  </div>
+                          : product.name}
+                      </p>
+                      {inCart && (
+                        <p className="text-xs text-blue-600 dark:text-blue-400 mt-0.5">
+                          {inCart.quantity} in cart
+                        </p>
+                      )}
+                    </div>
 
-                  {/* Type / Category column (separate) */}
-                  <div className="text-sm text-gray-500 dark:text-gray-400 w-32 shrink-0 whitespace-nowrap">
-                    {product.category}
-                  </div>
+                    {/* Type / Category column (separate) */}
+                    <div className="text-sm text-gray-500 dark:text-gray-400 w-32 shrink-0 whitespace-nowrap">
+                      {product.category}
+                    </div>
 
-                  <div className="text-sm text-gray-500 dark:text-gray-400 w-20 text-center shrink-0 whitespace-nowrap">
-                    {product.quantity}
-                  </div>
+                    <div className="text-sm w-20 text-center shrink-0 whitespace-nowrap">
+                      <span
+                        className={`font-medium ${
+                          availableStock === 0
+                            ? "text-red-600 dark:text-red-400"
+                            : availableStock <= product.reorderLevel
+                            ? "text-orange-600 dark:text-orange-400"
+                            : "text-gray-600 dark:text-gray-400"
+                        }`}
+                      >
+                        {availableStock}
+                      </span>
+                      {inCart && (
+                        <span className="text-xs text-gray-400 dark:text-gray-500">
+                          /{product.quantity}
+                        </span>
+                      )}
+                    </div>
 
-                  <div className="text-right w-28 shrink-0 whitespace-nowrap">
-                    <p className="text-sm font-semibold text-blue-600 dark:text-blue-400">
-                      LKR {product.sellingPrice}
-                    </p>
+                    <div className="text-right w-28 shrink-0 whitespace-nowrap">
+                      <p className="text-sm font-semibold text-blue-600 dark:text-blue-400">
+                        LKR {product.sellingPrice}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </button>
-            ))}
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -466,7 +576,18 @@ export default function Page() {
                 className="flex items-center gap-2 px-3 py-1.5 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg text-sm hover:bg-blue-100 dark:hover:bg-blue-900/50"
               >
                 <User className="w-4 h-4" />
-                {selectedCustomer ? selectedCustomer.name : "Select Customer"}
+                <div className="text-left">
+                  <div>
+                    {selectedCustomer
+                      ? selectedCustomer.name
+                      : "Select Customer"}
+                  </div>
+                  {selectedCustomer && (
+                    <div className="text-xs text-yellow-600 dark:text-yellow-400">
+                      {selectedCustomer.loyaltyPoints} points
+                    </div>
+                  )}
+                </div>
               </button>
             </div>
           </div>
@@ -493,6 +614,14 @@ export default function Page() {
                   discountTypes.get(item.product.id) || "percent";
                 const discountInput = discountInputs.get(item.product.id) || "";
 
+                // Get current product stock from products array
+                const currentProduct = products.find(
+                  (p) => p.id === item.product.id
+                );
+                const maxAvailable = currentProduct
+                  ? currentProduct.quantity
+                  : item.product.quantity;
+
                 return (
                   <div
                     key={item.product.id}
@@ -508,6 +637,9 @@ export default function Page() {
                         >
                           {item.product.name}
                         </h4>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                          Available: {maxAvailable}
+                        </p>
                       </div>
 
                       {/* Quantity Controls */}
@@ -527,8 +659,13 @@ export default function Page() {
                           onClick={() =>
                             updateCartItem(item.product.id, item.quantity + 1)
                           }
-                          disabled={item.quantity >= item.product.quantity}
+                          disabled={item.quantity >= maxAvailable}
                           className="w-7 h-7 bg-white dark:bg-gray-600 rounded border border-gray-300 dark:border-gray-500 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                          title={
+                            item.quantity >= maxAvailable
+                              ? "Max stock reached"
+                              : ""
+                          }
                         >
                           <Plus className="w-3 h-3" />
                         </button>
@@ -690,6 +827,60 @@ export default function Page() {
                 <option value="credit">Credit</option>
               </select>
 
+              {/* Credit Limit Warning */}
+              {paymentMode === "credit" && selectedCustomer && (
+                <div
+                  className={`px-3 py-2 rounded-lg text-sm ${
+                    selectedCustomer.outstandingBalance + total > 100000
+                      ? "bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400"
+                      : selectedCustomer.outstandingBalance + total > 90000
+                      ? "bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-400"
+                      : "bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400"
+                  }`}
+                >
+                  <div className="flex justify-between items-center mb-1">
+                    <span className="font-medium">Current Balance:</span>
+                    <span className="font-bold">
+                      LKR {selectedCustomer.outstandingBalance.toLocaleString()}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center mb-1">
+                    <span className="font-medium">New Purchase:</span>
+                    <span className="font-bold">LKR {total.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between items-center pt-1 border-t border-current/20">
+                    <span className="font-medium">New Balance:</span>
+                    <span className="font-bold">
+                      LKR{" "}
+                      {(
+                        selectedCustomer.outstandingBalance + total
+                      ).toLocaleString()}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center mt-1 text-xs">
+                    <span>Credit Remaining:</span>
+                    <span className="font-semibold">
+                      LKR{" "}
+                      {Math.max(
+                        0,
+                        100000 - (selectedCustomer.outstandingBalance + total)
+                      ).toLocaleString()}
+                    </span>
+                  </div>
+                  {selectedCustomer.outstandingBalance + total > 100000 && (
+                    <div className="mt-2 text-xs font-bold">
+                      ⚠️ EXCEEDS CREDIT LIMIT OF Rs.100,000!
+                    </div>
+                  )}
+                  {selectedCustomer.outstandingBalance + total > 90000 &&
+                    selectedCustomer.outstandingBalance + total <= 100000 && (
+                      <div className="mt-2 text-xs font-bold">
+                        ⚠️ Approaching Credit Limit
+                      </div>
+                    )}
+                </div>
+              )}
+
               {/* Totals */}
               <div className="space-y-1 text-sm">
                 <div className="flex justify-between text-gray-600 dark:text-gray-400">
@@ -710,6 +901,22 @@ export default function Page() {
                   <span>Total:</span>
                   <span>LKR {total.toFixed(2)}</span>
                 </div>
+                {selectedCustomer && loyaltyPointsToEarn > 0 && (
+                  <div className="flex justify-between items-center text-sm bg-yellow-50 dark:bg-yellow-900/20 px-3 py-2 rounded-lg mt-2">
+                    <span className="text-yellow-700 dark:text-yellow-400 font-medium">
+                      Loyalty Points to Earn:
+                    </span>
+                    <span className="text-yellow-700 dark:text-yellow-400 font-bold">
+                      +{loyaltyPointsToEarn} points
+                    </span>
+                  </div>
+                )}
+                {selectedCustomer && loyaltyPointsToEarn === 0 && total > 0 && (
+                  <div className="text-xs text-gray-500 dark:text-gray-400 text-center mt-2 italic">
+                    Spend LKR {amountForNextPoint.toFixed(2)} more to earn 1
+                    point
+                  </div>
+                )}
               </div>
 
               {/* Action Buttons */}

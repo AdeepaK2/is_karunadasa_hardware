@@ -1,8 +1,23 @@
-'use client';
+"use client";
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { Product, Customer, Employee, Sale, Supplier, Expense, User, CartItem } from '@/types';
-import { storage } from '@/lib/storage';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
+import {
+  Product,
+  Customer,
+  Employee,
+  Sale,
+  Supplier,
+  Expense,
+  User,
+  CartItem,
+} from "@/types";
+import { storage } from "@/lib/storage";
 import {
   mockProducts,
   mockCustomers,
@@ -11,8 +26,9 @@ import {
   mockSuppliers,
   mockExpenses,
   mockUsers,
-} from '@/lib/mockData';
-import { getDefaultRoute } from '@/lib/permissions';
+} from "@/lib/mockData";
+import { getDefaultRoute } from "@/lib/permissions";
+import { calculateLoyaltyPoints } from "@/lib/loyaltyProgram";
 
 interface AppContextType {
   // Data
@@ -25,34 +41,36 @@ interface AppContextType {
   users: User[];
   currentUser: User | null;
   cart: CartItem[];
-  theme: 'light' | 'dark';
+  theme: "light" | "dark";
 
   // Products
-  addProduct: (product: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>) => void;
+  addProduct: (
+    product: Omit<Product, "id" | "createdAt" | "updatedAt">
+  ) => void;
   updateProduct: (id: string, product: Partial<Product>) => void;
   deleteProduct: (id: string) => void;
 
   // Customers
-  addCustomer: (customer: Omit<Customer, 'id' | 'createdAt'>) => void;
+  addCustomer: (customer: Omit<Customer, "id" | "createdAt">) => void;
   updateCustomer: (id: string, customer: Partial<Customer>) => void;
   deleteCustomer: (id: string) => void;
 
   // Employees
-  addEmployee: (employee: Omit<Employee, 'id'>) => void;
+  addEmployee: (employee: Omit<Employee, "id">) => void;
   updateEmployee: (id: string, employee: Partial<Employee>) => void;
   deleteEmployee: (id: string) => void;
 
   // Sales
-  addSale: (sale: Omit<Sale, 'id' | 'invoiceNumber' | 'date'>) => void;
+  addSale: (sale: Omit<Sale, "id" | "invoiceNumber" | "date">) => void;
   updateSale: (id: string, sale: Partial<Sale>) => void;
 
   // Suppliers
-  addSupplier: (supplier: Omit<Supplier, 'id' | 'createdAt'>) => void;
+  addSupplier: (supplier: Omit<Supplier, "id" | "createdAt">) => void;
   updateSupplier: (id: string, supplier: Partial<Supplier>) => void;
   deleteSupplier: (id: string) => void;
 
   // Expenses
-  addExpense: (expense: Omit<Expense, 'id'>) => void;
+  addExpense: (expense: Omit<Expense, "id">) => void;
   updateExpense: (id: string, expense: Partial<Expense>) => void;
   deleteExpense: (id: string) => void;
 
@@ -86,7 +104,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [users, setUsers] = useState<User[]>([]);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [cart, setCart] = useState<CartItem[]>([]);
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const [theme, setTheme] = useState<"light" | "dark">("light");
   const [isInitialized, setIsInitialized] = useState(false);
 
   // Initialize data from localStorage or use mock data
@@ -101,38 +119,48 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     const storedTheme = storage.getTheme();
 
     setProducts(Array.isArray(storedProducts) ? storedProducts : mockProducts);
-    setCustomers(Array.isArray(storedCustomers) ? storedCustomers : mockCustomers);
-    setEmployees(Array.isArray(storedEmployees) ? storedEmployees : mockEmployees);
+    setCustomers(
+      Array.isArray(storedCustomers) ? storedCustomers : mockCustomers
+    );
+    setEmployees(
+      Array.isArray(storedEmployees) ? storedEmployees : mockEmployees
+    );
     setSales(Array.isArray(storedSales) ? storedSales : mockSales);
-    setSuppliers(Array.isArray(storedSuppliers) ? storedSuppliers : mockSuppliers);
+    setSuppliers(
+      Array.isArray(storedSuppliers) ? storedSuppliers : mockSuppliers
+    );
     setExpenses(Array.isArray(storedExpenses) ? storedExpenses : mockExpenses);
     setUsers(Array.isArray(storedUsers) ? storedUsers : mockUsers);
-    setTheme((storedTheme === 'light' || storedTheme === 'dark') ? storedTheme : 'light');
+    setTheme(
+      storedTheme === "light" || storedTheme === "dark" ? storedTheme : "light"
+    );
     setIsInitialized(true);
   };
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       initializeData();
       const storedUser = storage.getCurrentUser();
-      if (storedUser && typeof storedUser === 'object' && 'id' in storedUser) {
+      if (storedUser && typeof storedUser === "object" && "id" in storedUser) {
         // Ensure the user has permissions
         const userWithPermissions = storedUser as User;
         if (!userWithPermissions.permissions) {
           // If permissions are missing, add them based on role
-          const { getPermissionsForRole } = require('@/lib/permissions');
-          userWithPermissions.permissions = getPermissionsForRole(userWithPermissions.role);
+          const { getPermissionsForRole } = require("@/lib/permissions");
+          userWithPermissions.permissions = getPermissionsForRole(
+            userWithPermissions.role
+          );
         }
         setCurrentUser(userWithPermissions);
       }
-      
+
       // Apply stored theme immediately on mount
       const storedTheme = storage.getTheme();
-      if (storedTheme === 'light' || storedTheme === 'dark') {
-        document.documentElement.classList.remove('light', 'dark');
+      if (storedTheme === "light" || storedTheme === "dark") {
+        document.documentElement.classList.remove("light", "dark");
         document.documentElement.classList.add(storedTheme);
       } else {
-        document.documentElement.classList.add('light');
+        document.documentElement.classList.add("light");
       }
     }
   }, []);
@@ -181,17 +209,19 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   }, [users, isInitialized]);
 
   useEffect(() => {
-    if (isInitialized && typeof window !== 'undefined') {
+    if (isInitialized && typeof window !== "undefined") {
       storage.setTheme(theme);
       // Remove both classes first
-      document.documentElement.classList.remove('light', 'dark');
+      document.documentElement.classList.remove("light", "dark");
       // Add the current theme
       document.documentElement.classList.add(theme);
     }
   }, [theme, isInitialized]);
 
   // Product functions
-  const addProduct = (product: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>) => {
+  const addProduct = (
+    product: Omit<Product, "id" | "createdAt" | "updatedAt">
+  ) => {
     const newProduct: Product = {
       ...product,
       id: Date.now().toString(),
@@ -203,7 +233,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
   const updateProduct = (id: string, updatedProduct: Partial<Product>) => {
     setProducts(
-      products.map((p) => (p.id === id ? { ...p, ...updatedProduct, updatedAt: new Date() } : p))
+      products.map((p) =>
+        p.id === id ? { ...p, ...updatedProduct, updatedAt: new Date() } : p
+      )
     );
   };
 
@@ -212,7 +244,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   };
 
   // Customer functions
-  const addCustomer = (customer: Omit<Customer, 'id' | 'createdAt'>) => {
+  const addCustomer = (customer: Omit<Customer, "id" | "createdAt">) => {
     const newCustomer: Customer = {
       ...customer,
       id: Date.now().toString(),
@@ -222,7 +254,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const updateCustomer = (id: string, updatedCustomer: Partial<Customer>) => {
-    setCustomers(customers.map((c) => (c.id === id ? { ...c, ...updatedCustomer } : c)));
+    setCustomers(
+      customers.map((c) => (c.id === id ? { ...c, ...updatedCustomer } : c))
+    );
   };
 
   const deleteCustomer = (id: string) => {
@@ -230,7 +264,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   };
 
   // Employee functions
-  const addEmployee = (employee: Omit<Employee, 'id'>) => {
+  const addEmployee = (employee: Omit<Employee, "id">) => {
     const newEmployee: Employee = {
       ...employee,
       id: Date.now().toString(),
@@ -239,7 +273,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const updateEmployee = (id: string, updatedEmployee: Partial<Employee>) => {
-    setEmployees(employees.map((e) => (e.id === id ? { ...e, ...updatedEmployee } : e)));
+    setEmployees(
+      employees.map((e) => (e.id === id ? { ...e, ...updatedEmployee } : e))
+    );
   };
 
   const deleteEmployee = (id: string) => {
@@ -247,8 +283,10 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   };
 
   // Sale functions
-  const addSale = (sale: Omit<Sale, 'id' | 'invoiceNumber' | 'date'>) => {
-    const invoiceNumber = `INV-${new Date().getFullYear()}-${String(sales.length + 1).padStart(4, '0')}`;
+  const addSale = (sale: Omit<Sale, "id" | "invoiceNumber" | "date">) => {
+    const invoiceNumber = `INV-${new Date().getFullYear()}-${String(
+      sales.length + 1
+    ).padStart(4, "0")}`;
     const newSale: Sale = {
       ...sale,
       id: Date.now().toString(),
@@ -263,6 +301,37 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       });
     });
 
+    // Calculate and award loyalty points (1 point per Rs.100 spent)
+    if (sale.customerId) {
+      const pointsEarned = calculateLoyaltyPoints(sale.total);
+      const customer = customers.find((c) => c.id === sale.customerId);
+
+      if (customer && pointsEarned > 0) {
+        const updates: Partial<Customer> = {
+          loyaltyPoints: customer.loyaltyPoints + pointsEarned,
+          lastPurchase: new Date(),
+        };
+
+        // If payment mode is credit, add to outstanding balance
+        if (sale.paymentMode === "credit") {
+          updates.outstandingBalance = customer.outstandingBalance + sale.total;
+        }
+
+        updateCustomer(sale.customerId, updates);
+      } else if (customer) {
+        const updates: Partial<Customer> = {
+          lastPurchase: new Date(),
+        };
+
+        // If payment mode is credit, add to outstanding balance
+        if (sale.paymentMode === "credit") {
+          updates.outstandingBalance = customer.outstandingBalance + sale.total;
+        }
+
+        updateCustomer(sale.customerId, updates);
+      }
+    }
+
     setSales([...sales, newSale]);
   };
 
@@ -271,7 +340,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   };
 
   // Supplier functions
-  const addSupplier = (supplier: Omit<Supplier, 'id' | 'createdAt'>) => {
+  const addSupplier = (supplier: Omit<Supplier, "id" | "createdAt">) => {
     const newSupplier: Supplier = {
       ...supplier,
       id: Date.now().toString(),
@@ -281,7 +350,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const updateSupplier = (id: string, updatedSupplier: Partial<Supplier>) => {
-    setSuppliers(suppliers.map((s) => (s.id === id ? { ...s, ...updatedSupplier } : s)));
+    setSuppliers(
+      suppliers.map((s) => (s.id === id ? { ...s, ...updatedSupplier } : s))
+    );
   };
 
   const deleteSupplier = (id: string) => {
@@ -289,7 +360,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   };
 
   // Expense functions
-  const addExpense = (expense: Omit<Expense, 'id'>) => {
+  const addExpense = (expense: Omit<Expense, "id">) => {
     const newExpense: Expense = {
       ...expense,
       id: Date.now().toString(),
@@ -298,7 +369,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const updateExpense = (id: string, updatedExpense: Partial<Expense>) => {
-    setExpenses(expenses.map((e) => (e.id === id ? { ...e, ...updatedExpense } : e)));
+    setExpenses(
+      expenses.map((e) => (e.id === id ? { ...e, ...updatedExpense } : e))
+    );
   };
 
   const deleteExpense = (id: string) => {
@@ -311,7 +384,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     if (existingItem) {
       setCart(
         cart.map((item) =>
-          item.product.id === product.id ? { ...item, quantity: item.quantity + quantity } : item
+          item.product.id === product.id
+            ? { ...item, quantity: item.quantity + quantity }
+            : item
         )
       );
     } else {
@@ -324,7 +399,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       removeFromCart(productId);
     } else {
       setCart(
-        cart.map((item) => (item.product.id === productId ? { ...item, quantity } : item))
+        cart.map((item) =>
+          item.product.id === productId ? { ...item, quantity } : item
+        )
       );
     }
   };
@@ -339,7 +416,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
   const applyDiscount = (productId: string, discount: number) => {
     setCart(
-      cart.map((item) => (item.product.id === productId ? { ...item, discount } : item))
+      cart.map((item) =>
+        item.product.id === productId ? { ...item, discount } : item
+      )
     );
   };
 
@@ -351,13 +430,13 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = () => {
     setCurrentUser(null);
-    storage.remove('pos_current_user');
+    storage.remove("pos_current_user");
     setCart([]);
   };
 
   // Theme function
   const toggleTheme = () => {
-    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
   };
 
   return (
@@ -409,7 +488,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 export const useApp = () => {
   const context = useContext(AppContext);
   if (context === undefined) {
-    throw new Error('useApp must be used within an AppProvider');
+    throw new Error("useApp must be used within an AppProvider");
   }
   return context;
 };

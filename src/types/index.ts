@@ -30,6 +30,16 @@ export interface User {
   permissions: UserPermissions;
 }
 
+export interface Batch {
+  id: string;
+  batchNumber: string;
+  quantity: number;
+  expiryDate?: Date;
+  manufactureDate?: Date;
+  notes?: string;
+  createdAt: Date;
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -43,6 +53,8 @@ export interface Product {
   supplier: string;
   description?: string;
   barcode?: string;
+  trackBatches?: boolean; // Enable batch tracking for this product
+  batches?: Batch[]; // Array of batches if tracking is enabled
   createdAt: Date;
   updatedAt: Date;
 }
