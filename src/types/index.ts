@@ -43,6 +43,7 @@ export interface Product {
   supplier: string;
   description?: string;
   barcode?: string;
+  imageUrl?: string;
   createdAt: Date;
   updatedAt: Date;
 }

@@ -90,7 +90,9 @@ export const getAccessibleRoutes = (role: UserRole) => {
   const permissions = rolePermissions[role];
   const routes = [];
 
-  if (permissions.canViewDashboard) routes.push('/dashboard');
+  if (permissions.canViewDashboard) {
+    routes.push(role === 'customer' ? '/customer-dashboard' : '/dashboard');
+  }
   if (permissions.canManageBilling) routes.push('/billing');
   if (permissions.canViewInventory) routes.push('/inventory');
   if (permissions.canManageCustomers) routes.push('/customers');
