@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 
 export default function CartPage() {
-  const { cart, removeFromCart, updateCartQuantity, currentUser, addSale } = useApp();
+  const { cart, removeFromCart, updateCartItem, currentUser, addSale } = useApp();
   const router = useRouter();
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [checkoutSuccess, setCheckoutSuccess] = useState(false);
@@ -31,7 +31,7 @@ export default function CartPage() {
     if (newQuantity <= 0) {
       removeFromCart(productId);
     } else {
-      updateCartQuantity(productId, newQuantity);
+      updateCartItem(productId, newQuantity);
     }
   };
 
@@ -44,23 +44,17 @@ export default function CartPage() {
     try {
       // Create sale record
       const saleData = {
-        id: Date.now().toString(),
-        invoiceNumber: `INV-${Date.now()}`,
-        customerName: currentUser?.name || 'Walk-in Customer',
-        customerPhone: currentUser?.phone || '',
         customerId: currentUser?.id,
-        items: cart.map(item => ({
-          product: item.product,
-          quantity: item.quantity,
-          price: item.product.sellingPrice,
-          total: item.product.sellingPrice * item.quantity,
-        })),
+        customerName: currentUser?.name || 'Walk-in Customer',
+        items: cart,
         subtotal: subtotal,
+        discount: 0, // No discount for customer purchases
         tax: tax,
         total: total,
-        date: new Date(),
+        paymentMode: 'cash' as const,
+        cashierId: 'system', // System-generated for customer purchases
+        cashierName: 'Online Purchase',
         status: 'completed' as const,
-        paymentMethod: 'cash' as const,
       };
 
       addSale(saleData);
