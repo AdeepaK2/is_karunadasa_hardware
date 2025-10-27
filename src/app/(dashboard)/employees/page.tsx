@@ -191,7 +191,7 @@ export default function EmployeesPage() {
     setEditingEmployee(employee);
     setFormData({
       name: employee.name,
-      role: employee.role,
+      role: employee.role as "admin" | "manager" | "cashier",
       phone: employee.phone,
       email: employee.email || "",
       salary: employee.salary,

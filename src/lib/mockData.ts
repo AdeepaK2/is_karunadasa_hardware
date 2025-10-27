@@ -59,10 +59,12 @@ export const mockProducts: Product[] = [
     sellingPrice: 250,
     quantity: 45,
     reorderLevel: 10,
-    supplier: "Tools Wholesale",
-    barcode: "1234567890123",
-    createdAt: new Date("2024-01-15"),
-    updatedAt: new Date("2024-01-15"),
+    supplier: 'Tools Wholesale',
+    barcode: '1234567890123',
+    description: 'Professional claw hammer with fiberglass handle',
+    imageUrl: '/products/8.png',
+    createdAt: new Date('2024-01-15'),
+    updatedAt: new Date('2024-01-15'),
   },
   {
     id: "2",
@@ -74,10 +76,12 @@ export const mockProducts: Product[] = [
     sellingPrice: 450,
     quantity: 30,
     reorderLevel: 15,
-    supplier: "Tools Wholesale",
-    barcode: "1234567890124",
-    createdAt: new Date("2024-01-15"),
-    updatedAt: new Date("2024-01-15"),
+    supplier: 'Tools Wholesale',
+    barcode: '1234567890124',
+    description: 'Complete screwdriver set with various sizes and types',
+    imageUrl: '/products/7.png',
+    createdAt: new Date('2024-01-15'),
+    updatedAt: new Date('2024-01-15'),
   },
   {
     id: "3",
@@ -89,10 +93,12 @@ export const mockProducts: Product[] = [
     sellingPrice: 5200,
     quantity: 8,
     reorderLevel: 5,
-    supplier: "Power Tools Inc",
-    barcode: "1234567890125",
-    createdAt: new Date("2024-01-15"),
-    updatedAt: new Date("2024-01-15"),
+    supplier: 'Power Tools Inc',
+    barcode: '1234567890125',
+    description: 'Cordless electric drill with variable speed control',
+    imageUrl: '/products/6.png',
+    createdAt: new Date('2024-01-15'),
+    updatedAt: new Date('2024-01-15'),
   },
   {
     id: "4",
@@ -104,10 +110,12 @@ export const mockProducts: Product[] = [
     sellingPrice: 85,
     quantity: 120,
     reorderLevel: 30,
-    supplier: "Paint Supplies Co",
-    barcode: "1234567890126",
-    createdAt: new Date("2024-01-15"),
-    updatedAt: new Date("2024-01-15"),
+    supplier: 'Paint Supplies Co',
+    barcode: '1234567890126',
+    description: 'Professional paint brush for all types of paint',
+    imageUrl: '/products/5.png',
+    createdAt: new Date('2024-01-15'),
+    updatedAt: new Date('2024-01-15'),
   },
   {
     id: "5",
@@ -119,10 +127,12 @@ export const mockProducts: Product[] = [
     sellingPrice: 120,
     quantity: 200,
     reorderLevel: 50,
-    supplier: "Electrical Depot",
-    barcode: "1234567890127",
-    createdAt: new Date("2024-01-15"),
-    updatedAt: new Date("2024-01-15"),
+    supplier: 'Electrical Depot',
+    barcode: '1234567890127',
+    description: 'Energy efficient LED bulb with cool white light',
+    imageUrl: '/products/4.png',
+    createdAt: new Date('2024-01-15'),
+    updatedAt: new Date('2024-01-15'),
   },
   {
     id: "6",
@@ -134,10 +144,12 @@ export const mockProducts: Product[] = [
     sellingPrice: 180,
     quantity: 6,
     reorderLevel: 10,
-    supplier: "Plumbing Supplies",
-    barcode: "1234567890128",
-    createdAt: new Date("2024-01-15"),
-    updatedAt: new Date("2024-01-15"),
+    supplier: 'Plumbing Supplies',
+    barcode: '1234567890128',
+    description: 'High quality PVC pipe for plumbing applications',
+    imageUrl: '/products/3.png',
+    createdAt: new Date('2024-01-15'),
+    updatedAt: new Date('2024-01-15'),
   },
   {
     id: "7",
@@ -149,10 +161,12 @@ export const mockProducts: Product[] = [
     sellingPrice: 160,
     quantity: 55,
     reorderLevel: 20,
-    supplier: "Tools Wholesale",
-    barcode: "1234567890129",
-    createdAt: new Date("2024-01-15"),
-    updatedAt: new Date("2024-01-15"),
+    supplier: 'Tools Wholesale',
+    barcode: '1234567890129',
+    description: 'Professional measuring tape with lock mechanism',
+    imageUrl: '/products/2.png',
+    createdAt: new Date('2024-01-15'),
+    updatedAt: new Date('2024-01-15'),
   },
   {
     id: "8",
@@ -164,103 +178,12 @@ export const mockProducts: Product[] = [
     sellingPrice: 250,
     quantity: 40,
     reorderLevel: 15,
-    supplier: "Safety Equipment Co",
-    barcode: "1234567890130",
-    createdAt: new Date("2024-01-15"),
-    updatedAt: new Date("2024-01-15"),
-  },
-  {
-    id: "9",
-    name: "Portland Cement 50kg",
-    sku: "CM-001",
-    category: "Building Materials",
-    brand: "Tokyo Cement",
-    purchasePrice: 1800,
-    sellingPrice: 2500,
-    quantity: 285,
-    reorderLevel: 50,
-    supplier: "Tokyo Cement Lanka",
-    barcode: "1234567890131",
-    description:
-      "High-quality Portland cement suitable for all construction purposes",
-    trackBatches: true,
-    batches: [
-      {
-        id: "b1",
-        batchNumber: "TCL-2024-OCT-001",
-        quantity: 100,
-        manufactureDate: new Date("2024-10-01"),
-        expiryDate: new Date("2025-04-01"), // 6 months from manufacture
-        notes: "Fresh stock - Store in dry place",
-        createdAt: new Date("2024-10-05"),
-      },
-      {
-        id: "b2",
-        batchNumber: "TCL-2024-SEP-045",
-        quantity: 85,
-        manufactureDate: new Date("2024-09-15"),
-        expiryDate: new Date("2025-03-15"), // 6 months from manufacture
-        notes: "Good condition",
-        createdAt: new Date("2024-09-20"),
-      },
-      {
-        id: "b3",
-        batchNumber: "TCL-2024-AUG-098",
-        quantity: 50,
-        manufactureDate: new Date("2024-08-10"),
-        expiryDate: new Date("2025-02-10"), // 6 months from manufacture - expiring soon
-        notes: "Sell first - Expiring in 3 months",
-        createdAt: new Date("2024-08-15"),
-      },
-      {
-        id: "b4",
-        batchNumber: "TCL-2024-NOV-012",
-        quantity: 50,
-        manufactureDate: new Date("2024-11-01"),
-        expiryDate: new Date("2025-05-01"), // 6 months from manufacture
-        notes: "Latest batch",
-        createdAt: new Date("2024-11-05"),
-      },
-    ],
-    createdAt: new Date("2024-08-01"),
-    updatedAt: new Date("2024-11-05"),
-  },
-  {
-    id: "10",
-    name: "Waterproofing Chemical 20L",
-    sku: "CH-001",
-    category: "Chemicals",
-    brand: "Sika",
-    purchasePrice: 8500,
-    sellingPrice: 12000,
-    quantity: 48,
-    reorderLevel: 10,
-    supplier: "Sika Lanka",
-    barcode: "1234567890132",
-    description: "Premium waterproofing solution for concrete and masonry",
-    trackBatches: true,
-    batches: [
-      {
-        id: "b5",
-        batchNumber: "SIKA-WP-2024-09",
-        quantity: 30,
-        manufactureDate: new Date("2024-09-01"),
-        expiryDate: new Date("2025-03-01"), // 6 months expiry
-        notes: "Store away from direct sunlight",
-        createdAt: new Date("2024-09-10"),
-      },
-      {
-        id: "b6",
-        batchNumber: "SIKA-WP-2024-10",
-        quantity: 18,
-        manufactureDate: new Date("2024-10-15"),
-        expiryDate: new Date("2025-04-15"), // 6 months expiry
-        notes: "Keep container tightly closed",
-        createdAt: new Date("2024-10-20"),
-      },
-    ],
-    createdAt: new Date("2024-09-01"),
-    updatedAt: new Date("2024-10-20"),
+    supplier: 'Safety Equipment Co',
+    barcode: '1234567890130',
+    description: 'Anti-fog safety goggles for eye protection',
+    imageUrl: '/products/1.png',
+    createdAt: new Date('2024-01-15'),
+    updatedAt: new Date('2024-01-15'),
   },
 ];
 
@@ -588,7 +511,560 @@ function generateSalesData(): Sale[] {
 }
 
 // Mock Sales
-export const mockSales: Sale[] = generateSalesData();
+export const mockSales: Sale[] = [
+  ...generateSalesData(),
+  // Additional dummy orders for recent dates
+  {
+    id: "99991",
+    invoiceNumber: "INV-2025-99991",
+    customerId: "1",
+    customerName: "Saman Perera",
+    items: [
+      {
+        product: mockProducts[0], // Hammer
+        quantity: 2,
+        discount: 50,
+      },
+      {
+        product: mockProducts[1], // Screwdriver Set
+        quantity: 1,
+        discount: 0,
+      },
+    ],
+    subtotal: (mockProducts[0].sellingPrice * 2) + mockProducts[1].sellingPrice,
+    discount: 50,
+    tax: Math.floor(((mockProducts[0].sellingPrice * 2) + mockProducts[1].sellingPrice - 50) * 0.15),
+    total: (mockProducts[0].sellingPrice * 2) + mockProducts[1].sellingPrice - 50 + Math.floor(((mockProducts[0].sellingPrice * 2) + mockProducts[1].sellingPrice - 50) * 0.15),
+    paymentMode: "cash",
+    cashierId: "3",
+    cashierName: "Dilini Cashier",
+    date: new Date("2025-10-25T14:30:00"),
+    status: "completed",
+  },
+  {
+    id: "99992",
+    invoiceNumber: "INV-2025-99992",
+    customerId: "2",
+    customerName: "Nimalka Fernando",
+    items: [
+      {
+        product: mockProducts[3], // Paint Brush
+        quantity: 5,
+        discount: 100,
+      },
+      {
+        product: mockProducts[4], // LED Bulb
+        quantity: 10,
+        discount: 0,
+      },
+    ],
+    subtotal: (mockProducts[3].sellingPrice * 5) + (mockProducts[4].sellingPrice * 10),
+    discount: 100,
+    tax: Math.floor(((mockProducts[3].sellingPrice * 5) + (mockProducts[4].sellingPrice * 10) - 100) * 0.15),
+    total: (mockProducts[3].sellingPrice * 5) + (mockProducts[4].sellingPrice * 10) - 100 + Math.floor(((mockProducts[3].sellingPrice * 5) + (mockProducts[4].sellingPrice * 10) - 100) * 0.15),
+    paymentMode: "card",
+    cashierId: "4",
+    cashierName: "Rohan Cashier",
+    date: new Date("2025-10-26T11:15:00"),
+    status: "completed",
+  },
+  {
+    id: "99993",
+    invoiceNumber: "INV-2025-99993",
+    customerId: "3",
+    customerName: "Kasun Silva",
+    items: [
+      {
+        product: mockProducts[2], // Electric Drill
+        quantity: 1,
+        discount: 500,
+      },
+    ],
+    subtotal: mockProducts[2].sellingPrice,
+    discount: 500,
+    tax: Math.floor((mockProducts[2].sellingPrice - 500) * 0.15),
+    total: mockProducts[2].sellingPrice - 500 + Math.floor((mockProducts[2].sellingPrice - 500) * 0.15),
+    paymentMode: "upi",
+    cashierId: "3",
+    cashierName: "Dilini Cashier",
+    date: new Date("2025-10-27T09:45:00"),
+    status: "completed",
+  },
+  {
+    id: "99994",
+    invoiceNumber: "INV-2025-99994",
+    customerId: "4",
+    customerName: "Ravi Jayawardena",
+    items: [
+      {
+        product: mockProducts[6], // Measuring Tape
+        quantity: 3,
+        discount: 30,
+      },
+      {
+        product: mockProducts[7], // Safety Goggles
+        quantity: 2,
+        discount: 0,
+      },
+      {
+        product: mockProducts[5], // PVC Pipe
+        quantity: 1,
+        discount: 0,
+      },
+    ],
+    subtotal: (mockProducts[6].sellingPrice * 3) + (mockProducts[7].sellingPrice * 2) + mockProducts[5].sellingPrice,
+    discount: 30,
+    tax: Math.floor(((mockProducts[6].sellingPrice * 3) + (mockProducts[7].sellingPrice * 2) + mockProducts[5].sellingPrice - 30) * 0.15),
+    total: (mockProducts[6].sellingPrice * 3) + (mockProducts[7].sellingPrice * 2) + mockProducts[5].sellingPrice - 30 + Math.floor(((mockProducts[6].sellingPrice * 3) + (mockProducts[7].sellingPrice * 2) + mockProducts[5].sellingPrice - 30) * 0.15),
+    paymentMode: "credit",
+    cashierId: "2",
+    cashierName: "Chaminda Manager",
+    date: new Date("2025-10-24T16:20:00"),
+    status: "completed",
+  },
+  {
+    id: "99995",
+    invoiceNumber: "INV-2025-99995",
+    customerId: "1",
+    customerName: "Saman Perera",
+    items: [
+      {
+        product: mockProducts[1], // Screwdriver Set
+        quantity: 1,
+        discount: 0,
+      },
+      {
+        product: mockProducts[4], // LED Bulb
+        quantity: 5,
+        discount: 50,
+      },
+    ],
+    subtotal: mockProducts[1].sellingPrice + (mockProducts[4].sellingPrice * 5),
+    discount: 50,
+    tax: Math.floor((mockProducts[1].sellingPrice + (mockProducts[4].sellingPrice * 5) - 50) * 0.15),
+    total: mockProducts[1].sellingPrice + (mockProducts[4].sellingPrice * 5) - 50 + Math.floor((mockProducts[1].sellingPrice + (mockProducts[4].sellingPrice * 5) - 50) * 0.15),
+    paymentMode: "cash",
+    cashierId: "5",
+    cashierName: "Sanduni Perera",
+    date: new Date("2025-10-23T13:10:00"),
+    status: "completed",
+  },
+  {
+    id: "99996",
+    invoiceNumber: "INV-2025-99996",
+    customerId: "2",
+    customerName: "Nimalka Fernando",
+    items: [
+      {
+        product: mockProducts[0], // Hammer
+        quantity: 1,
+        discount: 0,
+      },
+      {
+        product: mockProducts[3], // Paint Brush
+        quantity: 3,
+        discount: 20,
+      },
+    ],
+    subtotal: mockProducts[0].sellingPrice + (mockProducts[3].sellingPrice * 3),
+    discount: 20,
+    tax: Math.floor((mockProducts[0].sellingPrice + (mockProducts[3].sellingPrice * 3) - 20) * 0.15),
+    total: mockProducts[0].sellingPrice + (mockProducts[3].sellingPrice * 3) - 20 + Math.floor((mockProducts[0].sellingPrice + (mockProducts[3].sellingPrice * 3) - 20) * 0.15),
+    paymentMode: "card",
+    cashierId: "3",
+    cashierName: "Dilini Cashier",
+    date: new Date("2025-10-22T10:30:00"),
+    status: "completed",
+  },
+  // Demo customer orders
+  {
+    id: "99997",
+    invoiceNumber: "INV-2025-99997",
+    customerId: "demo-customer",
+    customerName: "Demo Customer",
+    items: [
+      {
+        product: mockProducts[0], // Hammer
+        quantity: 1,
+        discount: 0,
+      },
+      {
+        product: mockProducts[3], // Paint Brush
+        quantity: 2,
+        discount: 25,
+      },
+    ],
+    subtotal: mockProducts[0].sellingPrice + (mockProducts[3].sellingPrice * 2),
+    discount: 25,
+    tax: Math.floor((mockProducts[0].sellingPrice + (mockProducts[3].sellingPrice * 2) - 25) * 0.15),
+    total: mockProducts[0].sellingPrice + (mockProducts[3].sellingPrice * 2) - 25 + Math.floor((mockProducts[0].sellingPrice + (mockProducts[3].sellingPrice * 2) - 25) * 0.15),
+    paymentMode: "cash",
+    cashierId: "3",
+    cashierName: "Dilini Cashier",
+    date: new Date("2025-10-20T15:45:00"),
+    status: "completed",
+  },
+  {
+    id: "99998",
+    invoiceNumber: "INV-2025-99998",
+    customerId: "demo-customer",
+    customerName: "Demo Customer",
+    items: [
+      {
+        product: mockProducts[4], // LED Bulb
+        quantity: 4,
+        discount: 0,
+      },
+      {
+        product: mockProducts[6], // Measuring Tape
+        quantity: 1,
+        discount: 0,
+      },
+    ],
+    subtotal: (mockProducts[4].sellingPrice * 4) + mockProducts[6].sellingPrice,
+    discount: 0,
+    tax: Math.floor(((mockProducts[4].sellingPrice * 4) + mockProducts[6].sellingPrice) * 0.15),
+    total: (mockProducts[4].sellingPrice * 4) + mockProducts[6].sellingPrice + Math.floor(((mockProducts[4].sellingPrice * 4) + mockProducts[6].sellingPrice) * 0.15),
+    paymentMode: "card",
+    cashierId: "4",
+    cashierName: "Rohan Cashier",
+    date: new Date("2025-10-18T12:30:00"),
+    status: "completed",
+  },
+  {
+    id: "99999",
+    invoiceNumber: "INV-2025-99999",
+    customerId: "demo-customer",
+    customerName: "Demo Customer",
+    items: [
+      {
+        product: mockProducts[7], // Safety Goggles
+        quantity: 1,
+        discount: 0,
+      },
+    ],
+    subtotal: mockProducts[7].sellingPrice,
+    discount: 0,
+    tax: Math.floor(mockProducts[7].sellingPrice * 0.15),
+    total: mockProducts[7].sellingPrice + Math.floor(mockProducts[7].sellingPrice * 0.15),
+    paymentMode: "upi",
+    cashierId: "5",
+    cashierName: "Sanduni Perera",
+    date: new Date("2025-10-15T10:15:00"),
+    status: "completed",
+  },
+  // More historical orders with varied dates
+  {
+    id: "99900",
+    invoiceNumber: "INV-2025-99900",
+    customerId: "demo-customer",
+    customerName: "Demo Customer",
+    items: [
+      {
+        product: mockProducts[2], // Electric Drill
+        quantity: 1,
+        discount: 200,
+      },
+      {
+        product: mockProducts[7], // Safety Goggles
+        quantity: 2,
+        discount: 0,
+      },
+    ],
+    subtotal: mockProducts[2].sellingPrice + (mockProducts[7].sellingPrice * 2),
+    discount: 200,
+    tax: Math.floor((mockProducts[2].sellingPrice + (mockProducts[7].sellingPrice * 2) - 200) * 0.15),
+    total: mockProducts[2].sellingPrice + (mockProducts[7].sellingPrice * 2) - 200 + Math.floor((mockProducts[2].sellingPrice + (mockProducts[7].sellingPrice * 2) - 200) * 0.15),
+    paymentMode: "card",
+    cashierId: "3",
+    cashierName: "Dilini Cashier",
+    date: new Date("2025-10-12T14:20:00"),
+    status: "completed",
+  },
+  {
+    id: "99901",
+    invoiceNumber: "INV-2025-99901",
+    customerId: "demo-customer",
+    customerName: "Demo Customer",
+    items: [
+      {
+        product: mockProducts[5], // PVC Pipe
+        quantity: 3,
+        discount: 0,
+      },
+      {
+        product: mockProducts[3], // Paint Brush
+        quantity: 1,
+        discount: 10,
+      },
+    ],
+    subtotal: (mockProducts[5].sellingPrice * 3) + mockProducts[3].sellingPrice,
+    discount: 10,
+    tax: Math.floor(((mockProducts[5].sellingPrice * 3) + mockProducts[3].sellingPrice - 10) * 0.15),
+    total: (mockProducts[5].sellingPrice * 3) + mockProducts[3].sellingPrice - 10 + Math.floor(((mockProducts[5].sellingPrice * 3) + mockProducts[3].sellingPrice - 10) * 0.15),
+    paymentMode: "cash",
+    cashierId: "4",
+    cashierName: "Rohan Cashier",
+    date: new Date("2025-10-08T16:45:00"),
+    status: "completed",
+  },
+  {
+    id: "99902",
+    invoiceNumber: "INV-2025-99902",
+    customerId: "demo-customer",
+    customerName: "Demo Customer",
+    items: [
+      {
+        product: mockProducts[1], // Screwdriver Set
+        quantity: 2,
+        discount: 50,
+      },
+    ],
+    subtotal: mockProducts[1].sellingPrice * 2,
+    discount: 50,
+    tax: Math.floor((mockProducts[1].sellingPrice * 2 - 50) * 0.15),
+    total: mockProducts[1].sellingPrice * 2 - 50 + Math.floor((mockProducts[1].sellingPrice * 2 - 50) * 0.15),
+    paymentMode: "upi",
+    cashierId: "5",
+    cashierName: "Sanduni Perera",
+    date: new Date("2025-10-05T11:30:00"),
+    status: "completed",
+  },
+  {
+    id: "99903",
+    invoiceNumber: "INV-2025-99903",
+    customerId: "demo-customer",
+    customerName: "Demo Customer",
+    items: [
+      {
+        product: mockProducts[4], // LED Bulb
+        quantity: 8,
+        discount: 0,
+      },
+      {
+        product: mockProducts[0], // Hammer
+        quantity: 1,
+        discount: 25,
+      },
+    ],
+    subtotal: (mockProducts[4].sellingPrice * 8) + mockProducts[0].sellingPrice,
+    discount: 25,
+    tax: Math.floor(((mockProducts[4].sellingPrice * 8) + mockProducts[0].sellingPrice - 25) * 0.15),
+    total: (mockProducts[4].sellingPrice * 8) + mockProducts[0].sellingPrice - 25 + Math.floor(((mockProducts[4].sellingPrice * 8) + mockProducts[0].sellingPrice - 25) * 0.15),
+    paymentMode: "card",
+    cashierId: "2",
+    cashierName: "Chaminda Manager",
+    date: new Date("2025-10-02T13:15:00"),
+    status: "completed",
+  },
+  {
+    id: "99904",
+    invoiceNumber: "INV-2025-99904",
+    customerId: "demo-customer",
+    customerName: "Demo Customer",
+    items: [
+      {
+        product: mockProducts[6], // Measuring Tape
+        quantity: 2,
+        discount: 0,
+      },
+      {
+        product: mockProducts[3], // Paint Brush
+        quantity: 4,
+        discount: 40,
+      },
+    ],
+    subtotal: (mockProducts[6].sellingPrice * 2) + (mockProducts[3].sellingPrice * 4),
+    discount: 40,
+    tax: Math.floor(((mockProducts[6].sellingPrice * 2) + (mockProducts[3].sellingPrice * 4) - 40) * 0.15),
+    total: (mockProducts[6].sellingPrice * 2) + (mockProducts[3].sellingPrice * 4) - 40 + Math.floor(((mockProducts[6].sellingPrice * 2) + (mockProducts[3].sellingPrice * 4) - 40) * 0.15),
+    paymentMode: "cash",
+    cashierId: "3",
+    cashierName: "Dilini Cashier",
+    date: new Date("2025-09-28T09:20:00"),
+    status: "completed",
+  },
+  {
+    id: "99905",
+    invoiceNumber: "INV-2025-99905",
+    customerId: "demo-customer",
+    customerName: "Demo Customer",
+    items: [
+      {
+        product: mockProducts[7], // Safety Goggles
+        quantity: 3,
+        discount: 75,
+      },
+    ],
+    subtotal: mockProducts[7].sellingPrice * 3,
+    discount: 75,
+    tax: Math.floor((mockProducts[7].sellingPrice * 3 - 75) * 0.15),
+    total: mockProducts[7].sellingPrice * 3 - 75 + Math.floor((mockProducts[7].sellingPrice * 3 - 75) * 0.15),
+    paymentMode: "credit",
+    cashierId: "4",
+    cashierName: "Rohan Cashier",
+    date: new Date("2025-09-22T15:40:00"),
+    status: "completed",
+  },
+  {
+    id: "99906",
+    invoiceNumber: "INV-2025-99906",
+    customerId: "demo-customer",
+    customerName: "Demo Customer",
+    items: [
+      {
+        product: mockProducts[0], // Hammer
+        quantity: 1,
+        discount: 0,
+      },
+      {
+        product: mockProducts[1], // Screwdriver Set
+        quantity: 1,
+        discount: 0,
+      },
+      {
+        product: mockProducts[6], // Measuring Tape
+        quantity: 1,
+        discount: 0,
+      },
+    ],
+    subtotal: mockProducts[0].sellingPrice + mockProducts[1].sellingPrice + mockProducts[6].sellingPrice,
+    discount: 0,
+    tax: Math.floor((mockProducts[0].sellingPrice + mockProducts[1].sellingPrice + mockProducts[6].sellingPrice) * 0.15),
+    total: mockProducts[0].sellingPrice + mockProducts[1].sellingPrice + mockProducts[6].sellingPrice + Math.floor((mockProducts[0].sellingPrice + mockProducts[1].sellingPrice + mockProducts[6].sellingPrice) * 0.15),
+    paymentMode: "card",
+    cashierId: "5",
+    cashierName: "Sanduni Perera",
+    date: new Date("2025-09-15T10:50:00"),
+    status: "completed",
+  },
+  {
+    id: "99907",
+    invoiceNumber: "INV-2025-99907",
+    customerId: "demo-customer",
+    customerName: "Demo Customer",
+    items: [
+      {
+        product: mockProducts[2], // Electric Drill
+        quantity: 1,
+        discount: 300,
+      },
+    ],
+    subtotal: mockProducts[2].sellingPrice,
+    discount: 300,
+    tax: Math.floor((mockProducts[2].sellingPrice - 300) * 0.15),
+    total: mockProducts[2].sellingPrice - 300 + Math.floor((mockProducts[2].sellingPrice - 300) * 0.15),
+    paymentMode: "upi",
+    cashierId: "2",
+    cashierName: "Chaminda Manager",
+    date: new Date("2025-09-08T12:25:00"),
+    status: "completed",
+  },
+  {
+    id: "99908",
+    invoiceNumber: "INV-2025-99908",
+    customerId: "demo-customer",
+    customerName: "Demo Customer",
+    items: [
+      {
+        product: mockProducts[4], // LED Bulb
+        quantity: 6,
+        discount: 0,
+      },
+      {
+        product: mockProducts[5], // PVC Pipe
+        quantity: 2,
+        discount: 30,
+      },
+    ],
+    subtotal: (mockProducts[4].sellingPrice * 6) + (mockProducts[5].sellingPrice * 2),
+    discount: 30,
+    tax: Math.floor(((mockProducts[4].sellingPrice * 6) + (mockProducts[5].sellingPrice * 2) - 30) * 0.15),
+    total: (mockProducts[4].sellingPrice * 6) + (mockProducts[5].sellingPrice * 2) - 30 + Math.floor(((mockProducts[4].sellingPrice * 6) + (mockProducts[5].sellingPrice * 2) - 30) * 0.15),
+    paymentMode: "cash",
+    cashierId: "3",
+    cashierName: "Dilini Cashier",
+    date: new Date("2025-08-25T14:10:00"),
+    status: "completed",
+  },
+  {
+    id: "99909",
+    invoiceNumber: "INV-2025-99909",
+    customerId: "demo-customer",
+    customerName: "Demo Customer",
+    items: [
+      {
+        product: mockProducts[3], // Paint Brush
+        quantity: 6,
+        discount: 50,
+      },
+    ],
+    subtotal: mockProducts[3].sellingPrice * 6,
+    discount: 50,
+    tax: Math.floor((mockProducts[3].sellingPrice * 6 - 50) * 0.15),
+    total: mockProducts[3].sellingPrice * 6 - 50 + Math.floor((mockProducts[3].sellingPrice * 6 - 50) * 0.15),
+    paymentMode: "card",
+    cashierId: "4",
+    cashierName: "Rohan Cashier",
+    date: new Date("2025-08-18T16:35:00"),
+    status: "completed",
+  },
+  {
+    id: "99910",
+    invoiceNumber: "INV-2025-99910",
+    customerId: "demo-customer",
+    customerName: "Demo Customer",
+    items: [
+      {
+        product: mockProducts[7], // Safety Goggles
+        quantity: 1,
+        discount: 0,
+      },
+      {
+        product: mockProducts[0], // Hammer
+        quantity: 2,
+        discount: 100,
+      },
+    ],
+    subtotal: mockProducts[7].sellingPrice + (mockProducts[0].sellingPrice * 2),
+    discount: 100,
+    tax: Math.floor((mockProducts[7].sellingPrice + (mockProducts[0].sellingPrice * 2) - 100) * 0.15),
+    total: mockProducts[7].sellingPrice + (mockProducts[0].sellingPrice * 2) - 100 + Math.floor((mockProducts[7].sellingPrice + (mockProducts[0].sellingPrice * 2) - 100) * 0.15),
+    paymentMode: "upi",
+    cashierId: "5",
+    cashierName: "Sanduni Perera",
+    date: new Date("2025-08-12T11:00:00"),
+    status: "completed",
+  },
+  // Add one pending order
+  {
+    id: "99911",
+    invoiceNumber: "INV-2025-99911",
+    customerId: "demo-customer",
+    customerName: "Demo Customer",
+    items: [
+      {
+        product: mockProducts[1], // Screwdriver Set
+        quantity: 1,
+        discount: 0,
+      },
+      {
+        product: mockProducts[4], // LED Bulb
+        quantity: 3,
+        discount: 0,
+      },
+    ],
+    subtotal: mockProducts[1].sellingPrice + (mockProducts[4].sellingPrice * 3),
+    discount: 0,
+    tax: Math.floor((mockProducts[1].sellingPrice + (mockProducts[4].sellingPrice * 3)) * 0.15),
+    total: mockProducts[1].sellingPrice + (mockProducts[4].sellingPrice * 3) + Math.floor((mockProducts[1].sellingPrice + (mockProducts[4].sellingPrice * 3)) * 0.15),
+    paymentMode: "cash",
+    cashierId: "3",
+    cashierName: "Dilini Cashier",
+    date: new Date("2025-10-26T18:30:00"),
+    status: "pending",
+  },
+];
 
 // Mock Suppliers
 export const mockSuppliers: Supplier[] = [

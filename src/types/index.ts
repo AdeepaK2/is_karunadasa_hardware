@@ -1,6 +1,6 @@
-// Core Types for POS System
 
-export type UserRole = "admin" | "manager" | "cashier";
+export type UserRole = 'admin' | 'manager' | 'cashier' | 'customer';
+
 
 export interface UserPermissions {
   canViewDashboard: boolean;
@@ -53,8 +53,11 @@ export interface Product {
   supplier: string;
   description?: string;
   barcode?: string;
-  trackBatches?: boolean; // Enable batch tracking for this product
-  batches?: Batch[]; // Array of batches if tracking is enabled
+  imageUrl?: string;
+  // Whether this product tracks batches (batch-level inventory)
+  trackBatches?: boolean;
+  // Optional list of batches associated with the product
+  batches?: Batch[];
   createdAt: Date;
   updatedAt: Date;
 }
