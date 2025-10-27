@@ -65,11 +65,11 @@ export function getCreditLimitWarning(currentBalance: number): string | null {
   const percentage = (currentBalance / MAX_CREDIT_LIMIT) * 100;
 
   if (percentage >= 100) {
-    return "⚠️ Credit limit reached!";
+    return "Credit limit reached!";
   } else if (percentage >= 90) {
-    return "⚠️ Approaching credit limit!";
+    return "Approaching credit limit!";
   } else if (percentage >= 75) {
-    return "⚠️ High credit balance";
+    return "High credit balance";
   }
 
   return null;

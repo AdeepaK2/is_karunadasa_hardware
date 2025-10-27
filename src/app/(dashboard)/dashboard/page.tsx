@@ -769,7 +769,7 @@ export default function DashboardPage() {
                         {employeePerformance[0].name}
                       </h4>
                       <span className="px-3 py-1 bg-yellow-500 text-white text-xs font-semibold rounded-full shadow-sm">
-                        🏆 Top Performer
+                        Top Performer
                       </span>
                     </div>
                     <p className="text-sm text-gray-600 dark:text-gray-400 capitalize mt-1">
@@ -828,9 +828,6 @@ export default function DashboardPage() {
                     >
                       <td className="py-3 px-4">
                         <div className="flex items-center gap-2">
-                          {index === 0 && <span className="text-xl">🥇</span>}
-                          {index === 1 && <span className="text-xl">🥈</span>}
-                          {index === 2 && <span className="text-xl">🥉</span>}
                           <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
                             #{index + 1}
                           </span>

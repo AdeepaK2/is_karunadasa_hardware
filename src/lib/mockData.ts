@@ -374,509 +374,199 @@ export const mockEmployees: Employee[] = [
   },
 ];
 
+// Generate sales data with seasonal patterns for 2024-2025
+function generateSalesData(): Sale[] {
+  const sales: Sale[] = [];
+  let invoiceCounter = 1;
+  const startDate = new Date("2024-01-01");
+  const endDate = new Date("2025-10-27");
+
+  // Seasonal multipliers (higher in certain months)
+  const seasonalPattern = {
+    1: 0.7, // January - Low (New Year recovery)
+    2: 0.8, // February - Low
+    3: 0.9, // March - Building up
+    4: 1.2, // April - High (New Year / Spring renovations)
+    5: 1.1, // May - Medium-high
+    6: 0.9, // June - Medium
+    7: 0.8, // July - Low (Monsoon)
+    8: 1.0, // August - Medium
+    9: 1.1, // September - Medium-high
+    10: 1.3, // October - High (Festival season)
+    11: 1.4, // November - Peak (Holiday preparations)
+    12: 1.5, // December - Peak (Holiday season)
+  };
+
+  const customers = [
+    "Saman Perera",
+    "Nimalka Fernando",
+    "Kasun Silva",
+    "Ravi Jayawardena",
+  ];
+  const customerIds = ["1", "2", "3", "4"];
+  const cashiers = [
+    { id: "2", name: "Chaminda Manager" },
+    { id: "3", name: "Dilini Cashier" },
+    { id: "4", name: "Rohan Cashier" },
+  ];
+  const paymentModes: ("cash" | "card" | "upi" | "credit")[] = [
+    "cash",
+    "card",
+    "upi",
+    "credit",
+  ];
+
+  let currentDate = new Date(startDate);
+
+  while (currentDate <= endDate) {
+    const month = currentDate.getMonth() + 1;
+    const multiplier = seasonalPattern[month as keyof typeof seasonalPattern];
+
+    // Base sales per day varies by month (2-8 sales per day based on season)
+    const baseSalesPerDay = Math.floor(3 * multiplier);
+    const salesThisDay = baseSalesPerDay + Math.floor(Math.random() * 3);
+
+    // Generate sales for this day
+    for (let i = 0; i < salesThisDay; i++) {
+      const customerIndex = Math.floor(Math.random() * customers.length);
+      const cashier = cashiers[Math.floor(Math.random() * cashiers.length)];
+      const paymentMode =
+        paymentModes[Math.floor(Math.random() * paymentModes.length)];
+
+      // Random number of items (1-3)
+      const itemCount = Math.floor(Math.random() * 3) + 1;
+      const items = [];
+      let subtotal = 0;
+      let totalDiscount = 0;
+
+      for (let j = 0; j < itemCount; j++) {
+        const productIndex = Math.floor(Math.random() * mockProducts.length);
+        const product = mockProducts[productIndex];
+
+        // Special boost for Paint Brush (ID "4") in April (3x multiplier)
+        const isPaintBrush = product.id === "4";
+        const isApril = month === 4;
+        const paintBoost = isPaintBrush && isApril ? 3.0 : 1.0;
+
+        // Quantity varies by season (more in peak seasons)
+        const baseQty = Math.floor(Math.random() * 10) + 1;
+        const quantity = Math.floor(baseQty * multiplier * paintBoost);
+
+        const discount = Math.floor(
+          Math.random() * (product.sellingPrice * quantity * 0.1)
+        );
+
+        items.push({
+          product,
+          quantity,
+          discount,
+        });
+
+        subtotal += product.sellingPrice * quantity;
+        totalDiscount += discount;
+      }
+
+      const tax = Math.floor((subtotal - totalDiscount) * 0.15);
+      const total = subtotal - totalDiscount + tax;
+
+      // Random time during business hours (8 AM - 6 PM)
+      const hour = 8 + Math.floor(Math.random() * 10);
+      const minute = Math.floor(Math.random() * 60);
+      const saleDate = new Date(currentDate);
+      saleDate.setHours(hour, minute, 0, 0);
+
+      sales.push({
+        id: invoiceCounter.toString(),
+        invoiceNumber: `INV-${currentDate.getFullYear()}-${String(
+          invoiceCounter
+        ).padStart(4, "0")}`,
+        customerId: customerIds[customerIndex],
+        customerName: customers[customerIndex],
+        items,
+        subtotal,
+        discount: totalDiscount,
+        tax,
+        total,
+        paymentMode,
+        cashierId: cashier.id,
+        cashierName: cashier.name,
+        date: saleDate,
+        status: "completed",
+      });
+
+      invoiceCounter++;
+    }
+
+    // Special: Add extra Paint Brush sales in April (3x more frequency)
+    const isApril = month === 4;
+    if (isApril) {
+      const extraPaintBrushSales = Math.floor(Math.random() * 3) + 2; // 2-4 extra sales per day
+
+      for (let k = 0; k < extraPaintBrushSales; k++) {
+        const customerIndex = Math.floor(Math.random() * customers.length);
+        const cashier = cashiers[Math.floor(Math.random() * cashiers.length)];
+        const paymentMode =
+          paymentModes[Math.floor(Math.random() * paymentModes.length)];
+
+        const paintBrushProduct = mockProducts.find((p) => p.id === "4");
+        if (!paintBrushProduct) continue;
+
+        // Higher quantities for paint brush in April
+        const quantity = Math.floor(Math.random() * 20) + 10; // 10-30 units
+        const discount = Math.floor(
+          Math.random() * (paintBrushProduct.sellingPrice * quantity * 0.1)
+        );
+
+        const items = [
+          {
+            product: paintBrushProduct,
+            quantity,
+            discount,
+          },
+        ];
+
+        const subtotal = paintBrushProduct.sellingPrice * quantity;
+        const totalDiscount = discount;
+        const tax = Math.floor((subtotal - totalDiscount) * 0.15);
+        const total = subtotal - totalDiscount + tax;
+
+        const hour = 8 + Math.floor(Math.random() * 10);
+        const minute = Math.floor(Math.random() * 60);
+        const saleDate = new Date(currentDate);
+        saleDate.setHours(hour, minute, 0, 0);
+
+        sales.push({
+          id: invoiceCounter.toString(),
+          invoiceNumber: `INV-${currentDate.getFullYear()}-${String(
+            invoiceCounter
+          ).padStart(4, "0")}`,
+          customerId: customerIds[customerIndex],
+          customerName: customers[customerIndex],
+          items,
+          subtotal,
+          discount: totalDiscount,
+          tax,
+          total,
+          paymentMode,
+          cashierId: cashier.id,
+          cashierName: cashier.name,
+          date: saleDate,
+          status: "completed",
+        });
+
+        invoiceCounter++;
+      }
+    }
+
+    // Move to next day
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+
+  return sales;
+}
+
 // Mock Sales
-export const mockSales: Sale[] = [
-  {
-    id: "1",
-    invoiceNumber: "INV-2024-0001",
-    customerId: "1",
-    customerName: "Saman Perera",
-    items: [
-      {
-        product: mockProducts[0],
-        quantity: 2,
-        discount: 0,
-      },
-      {
-        product: mockProducts[1],
-        quantity: 1,
-        discount: 50,
-      },
-    ],
-    subtotal: 950,
-    discount: 50,
-    tax: 135,
-    total: 1035,
-    paymentMode: "card",
-    cashierId: "3",
-    cashierName: "Dilini Cashier",
-    date: new Date("2024-10-26T08:30:00Z"), // Today morning
-    status: "completed",
-  },
-  {
-    id: "2",
-    invoiceNumber: "INV-2024-0002",
-    customerId: "2",
-    customerName: "Nimalka Fernando",
-    items: [
-      {
-        product: mockProducts[2],
-        quantity: 1,
-        discount: 200,
-      },
-    ],
-    subtotal: 5200,
-    discount: 200,
-    tax: 750,
-    total: 5750,
-    paymentMode: "upi",
-    cashierId: "3",
-    cashierName: "Dilini Cashier",
-    date: new Date("2024-10-26T09:15:00Z"), // Today morning
-    status: "completed",
-  },
-  {
-    id: "3",
-    invoiceNumber: "INV-2024-0003",
-    customerId: "4",
-    customerName: "Ravi Jayawardena",
-    items: [
-      {
-        product: mockProducts[2],
-        quantity: 5,
-        discount: 1000,
-      },
-      {
-        product: mockProducts[0],
-        quantity: 10,
-        discount: 0,
-      },
-    ],
-    subtotal: 28500,
-    discount: 1000,
-    tax: 4125,
-    total: 31625,
-    paymentMode: "credit",
-    cashierId: "2",
-    cashierName: "Chaminda Manager",
-    date: new Date("2024-10-26T10:00:00Z"), // Today morning
-    status: "completed",
-  },
-  {
-    id: "4",
-    invoiceNumber: "INV-2024-0004",
-    customerId: "4",
-    customerName: "Ravi Jayawardena",
-    items: [
-      {
-        product: mockProducts[3],
-        quantity: 50,
-        discount: 200,
-      },
-      {
-        product: mockProducts[4],
-        quantity: 100,
-        discount: 500,
-      },
-    ],
-    subtotal: 16250,
-    discount: 700,
-    tax: 2332,
-    total: 17882,
-    paymentMode: "credit",
-    cashierId: "3",
-    cashierName: "Dilini Cashier",
-    date: new Date("2024-10-26T11:20:00Z"), // Today
-    status: "completed",
-  },
-  {
-    id: "5",
-    invoiceNumber: "INV-2024-0005",
-    customerId: "4",
-    customerName: "Ravi Jayawardena",
-    items: [
-      {
-        product: mockProducts[6],
-        quantity: 25,
-        discount: 0,
-      },
-      {
-        product: mockProducts[7],
-        quantity: 20,
-        discount: 250,
-      },
-    ],
-    subtotal: 9000,
-    discount: 250,
-    tax: 1312,
-    total: 10062,
-    paymentMode: "credit",
-    cashierId: "4",
-    cashierName: "Rohan Cashier",
-    date: new Date("2024-10-26T13:45:00Z"), // Today afternoon
-    status: "completed",
-  },
-  {
-    id: "6",
-    invoiceNumber: "INV-2024-0006",
-    customerId: "4",
-    customerName: "Ravi Jayawardena",
-    items: [
-      {
-        product: mockProducts[2],
-        quantity: 3,
-        discount: 500,
-      },
-      {
-        product: mockProducts[1],
-        quantity: 15,
-        discount: 350,
-      },
-    ],
-    subtotal: 22350,
-    discount: 850,
-    tax: 3225,
-    total: 24725,
-    paymentMode: "credit",
-    cashierId: "2",
-    cashierName: "Chaminda Manager",
-    date: new Date("2024-10-25T14:30:00Z"), // Yesterday
-    status: "completed",
-  },
-  {
-    id: "7",
-    invoiceNumber: "INV-2024-0007",
-    customerId: "4",
-    customerName: "Ravi Jayawardena",
-    items: [
-      {
-        product: mockProducts[5],
-        quantity: 30,
-        discount: 200,
-      },
-      {
-        product: mockProducts[4],
-        quantity: 80,
-        discount: 300,
-      },
-    ],
-    subtotal: 15000,
-    discount: 500,
-    tax: 2175,
-    total: 16675,
-    paymentMode: "credit",
-    cashierId: "3",
-    cashierName: "Dilini Cashier",
-    date: new Date("2024-10-25T10:15:00Z"), // Yesterday
-    status: "completed",
-  },
-  {
-    id: "8",
-    invoiceNumber: "INV-2024-0008",
-    customerId: "1",
-    customerName: "Saman Perera",
-    items: [
-      {
-        product: mockProducts[4],
-        quantity: 25,
-        discount: 100,
-      },
-    ],
-    subtotal: 3000,
-    discount: 100,
-    tax: 435,
-    total: 3335,
-    paymentMode: "cash",
-    cashierId: "3",
-    cashierName: "Dilini Cashier",
-    date: new Date("2024-10-24T09:00:00Z"), // 2 days ago
-    status: "completed",
-  },
-  {
-    id: "9",
-    invoiceNumber: "INV-2024-0009",
-    customerId: "2",
-    customerName: "Nimalka Fernando",
-    items: [
-      {
-        product: mockProducts[0],
-        quantity: 5,
-        discount: 0,
-      },
-      {
-        product: mockProducts[6],
-        quantity: 10,
-        discount: 150,
-      },
-    ],
-    subtotal: 2850,
-    discount: 150,
-    tax: 405,
-    total: 3105,
-    paymentMode: "card",
-    cashierId: "4",
-    cashierName: "Rohan Cashier",
-    date: new Date("2024-10-24T11:30:00Z"), // 2 days ago
-    status: "completed",
-  },
-  {
-    id: "10",
-    invoiceNumber: "INV-2024-0010",
-    customerId: "3",
-    customerName: "Kasun Silva",
-    items: [
-      {
-        product: mockProducts[8],
-        quantity: 10,
-        discount: 500,
-      },
-    ],
-    subtotal: 25000,
-    discount: 500,
-    tax: 3675,
-    total: 28175,
-    paymentMode: "card",
-    cashierId: "3",
-    cashierName: "Dilini Cashier",
-    date: new Date("2024-10-23T14:20:00Z"), // 3 days ago
-    status: "completed",
-  },
-  {
-    id: "11",
-    invoiceNumber: "INV-2024-0011",
-    customerId: "1",
-    customerName: "Saman Perera",
-    items: [
-      {
-        product: mockProducts[7],
-        quantity: 5,
-        discount: 0,
-      },
-      {
-        product: mockProducts[3],
-        quantity: 10,
-        discount: 85,
-      },
-    ],
-    subtotal: 2100,
-    discount: 85,
-    tax: 302,
-    total: 2317,
-    paymentMode: "cash",
-    cashierId: "4",
-    cashierName: "Rohan Cashier",
-    date: new Date("2024-10-23T16:45:00Z"), // 3 days ago
-    status: "completed",
-  },
-  {
-    id: "12",
-    invoiceNumber: "INV-2024-0012",
-    customerId: "2",
-    customerName: "Nimalka Fernando",
-    items: [
-      {
-        product: mockProducts[1],
-        quantity: 3,
-        discount: 100,
-      },
-      {
-        product: mockProducts[5],
-        quantity: 20,
-        discount: 300,
-      },
-    ],
-    subtotal: 4950,
-    discount: 400,
-    tax: 682,
-    total: 5232,
-    paymentMode: "upi",
-    cashierId: "2",
-    cashierName: "Chaminda Manager",
-    date: new Date("2024-10-22T10:10:00Z"), // 4 days ago
-    status: "completed",
-  },
-  {
-    id: "13",
-    invoiceNumber: "INV-2024-0013",
-    customerId: "3",
-    customerName: "Kasun Silva",
-    items: [
-      {
-        product: mockProducts[9],
-        quantity: 5,
-        discount: 1000,
-      },
-    ],
-    subtotal: 60000,
-    discount: 1000,
-    tax: 8850,
-    total: 67850,
-    paymentMode: "card",
-    cashierId: "3",
-    cashierName: "Dilini Cashier",
-    date: new Date("2024-10-22T15:00:00Z"), // 4 days ago
-    status: "completed",
-  },
-  {
-    id: "14",
-    invoiceNumber: "INV-2024-0014",
-    customerId: "4",
-    customerName: "Ravi Jayawardena",
-    items: [
-      {
-        product: mockProducts[2],
-        quantity: 2,
-        discount: 400,
-      },
-    ],
-    subtotal: 10400,
-    discount: 400,
-    tax: 1500,
-    total: 11500,
-    paymentMode: "credit",
-    cashierId: "4",
-    cashierName: "Rohan Cashier",
-    date: new Date("2024-10-21T09:30:00Z"), // 5 days ago
-    status: "completed",
-  },
-  {
-    id: "15",
-    invoiceNumber: "INV-2024-0015",
-    customerId: "1",
-    customerName: "Saman Perera",
-    items: [
-      {
-        product: mockProducts[4],
-        quantity: 50,
-        discount: 200,
-      },
-      {
-        product: mockProducts[6],
-        quantity: 15,
-        discount: 100,
-      },
-    ],
-    subtotal: 8400,
-    discount: 300,
-    tax: 1215,
-    total: 9315,
-    paymentMode: "card",
-    cashierId: "3",
-    cashierName: "Dilini Cashier",
-    date: new Date("2024-10-21T11:00:00Z"), // 5 days ago
-    status: "completed",
-  },
-  {
-    id: "16",
-    invoiceNumber: "INV-2024-0016",
-    customerId: "2",
-    customerName: "Nimalka Fernando",
-    items: [
-      {
-        product: mockProducts[0],
-        quantity: 8,
-        discount: 0,
-      },
-    ],
-    subtotal: 2000,
-    discount: 0,
-    tax: 300,
-    total: 2300,
-    paymentMode: "cash",
-    cashierId: "2",
-    cashierName: "Chaminda Manager",
-    date: new Date("2024-10-20T13:20:00Z"), // 6 days ago
-    status: "completed",
-  },
-  {
-    id: "17",
-    invoiceNumber: "INV-2024-0017",
-    customerId: "3",
-    customerName: "Kasun Silva",
-    items: [
-      {
-        product: mockProducts[8],
-        quantity: 15,
-        discount: 1500,
-      },
-      {
-        product: mockProducts[9],
-        quantity: 2,
-        discount: 500,
-      },
-    ],
-    subtotal: 61500,
-    discount: 2000,
-    tax: 8925,
-    total: 68425,
-    paymentMode: "card",
-    cashierId: "3",
-    cashierName: "Dilini Cashier",
-    date: new Date("2024-10-20T15:45:00Z"), // 6 days ago
-    status: "completed",
-  },
-  {
-    id: "18",
-    invoiceNumber: "INV-2024-0018",
-    customerId: "1",
-    customerName: "Saman Perera",
-    items: [
-      {
-        product: mockProducts[7],
-        quantity: 10,
-        discount: 150,
-      },
-    ],
-    subtotal: 2500,
-    discount: 150,
-    tax: 352,
-    total: 2702,
-    paymentMode: "upi",
-    cashierId: "4",
-    cashierName: "Rohan Cashier",
-    date: new Date("2024-10-19T10:00:00Z"), // 7 days ago
-    status: "completed",
-  },
-  {
-    id: "19",
-    invoiceNumber: "INV-2024-0019",
-    customerId: "4",
-    customerName: "Ravi Jayawardena",
-    items: [
-      {
-        product: mockProducts[1],
-        quantity: 20,
-        discount: 900,
-      },
-      {
-        product: mockProducts[3],
-        quantity: 30,
-        discount: 255,
-      },
-    ],
-    subtotal: 11550,
-    discount: 1155,
-    tax: 1559,
-    total: 11954,
-    paymentMode: "credit",
-    cashierId: "2",
-    cashierName: "Chaminda Manager",
-    date: new Date("2024-10-19T14:30:00Z"), // 7 days ago
-    status: "completed",
-  },
-  {
-    id: "20",
-    invoiceNumber: "INV-2024-0020",
-    customerId: "2",
-    customerName: "Nimalka Fernando",
-    items: [
-      {
-        product: mockProducts[5],
-        quantity: 40,
-        discount: 720,
-      },
-    ],
-    subtotal: 7200,
-    discount: 720,
-    tax: 972,
-    total: 7452,
-    paymentMode: "card",
-    cashierId: "3",
-    cashierName: "Dilini Cashier",
-    date: new Date("2024-10-18T09:15:00Z"), // 8 days ago
-    status: "completed",
-  },
-];
+export const mockSales: Sale[] = generateSalesData();
 
 // Mock Suppliers
 export const mockSuppliers: Supplier[] = [
@@ -1484,6 +1174,6 @@ export function initializeDummyAttendance() {
   // Save to localStorage
   localStorage.setItem(ATTENDANCE_STORAGE_KEY, JSON.stringify(attendanceData));
   console.log(
-    "✅ Dummy attendance data initialized for October 2025 (5 employees, ~100 records)"
+    "Dummy attendance data initialized for October 2025 (5 employees, ~100 records)"
   );
 }

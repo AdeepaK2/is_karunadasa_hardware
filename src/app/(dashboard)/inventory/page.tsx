@@ -3,6 +3,7 @@
 import React, { useState, useRef } from "react";
 import { useApp } from "@/contexts/AppContext";
 import PermissionGuard from "@/components/PermissionGuard";
+import ProductSalesAnalytics from "@/components/ProductSalesAnalytics";
 import {
   Plus,
   Search,
@@ -16,6 +17,7 @@ import {
   Calendar,
   FileSpreadsheet,
   Check,
+  TrendingUp,
 } from "lucide-react";
 import { Product, Batch } from "@/types";
 import Papa from "papaparse";
@@ -68,6 +70,12 @@ export default function InventoryPage() {
     manufactureDate: "",
     notes: "",
   });
+
+  // Sales Analytics State
+  const [showSalesAnalytics, setShowSalesAnalytics] = useState(false);
+  const [analyticsProduct, setAnalyticsProduct] = useState<Product | null>(
+    null
+  );
 
   // Bulk Update State
   const [showBulkUpdateModal, setShowBulkUpdateModal] = useState(false);
@@ -276,6 +284,11 @@ export default function InventoryPage() {
   const handleManageBatches = (product: Product) => {
     setSelectedProduct(product);
     setShowBatchModal(true);
+  };
+
+  const handleViewSalesAnalytics = (product: Product) => {
+    setAnalyticsProduct(product);
+    setShowSalesAnalytics(true);
   };
 
   const handleAddBatch = (e: React.FormEvent) => {
@@ -1002,6 +1015,13 @@ export default function InventoryPage() {
                     </td>
                     <td className="px-4 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
+                        <button
+                          onClick={() => handleViewSalesAnalytics(product)}
+                          className="p-2 text-purple-600 hover:bg-purple-50 dark:hover:bg-purple-900/30 rounded-lg"
+                          title="View Sales History"
+                        >
+                          <TrendingUp className="w-4 h-4" />
+                        </button>
                         <PermissionGuard permission="canEditInventory">
                           <button
                             onClick={() => handleEdit(product)}
@@ -2100,6 +2120,17 @@ export default function InventoryPage() {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Sales Analytics Modal */}
+      {showSalesAnalytics && analyticsProduct && (
+        <ProductSalesAnalytics
+          product={analyticsProduct}
+          onClose={() => {
+            setShowSalesAnalytics(false);
+            setAnalyticsProduct(null);
+          }}
+        />
       )}
 
       {/* Toast Notification */}

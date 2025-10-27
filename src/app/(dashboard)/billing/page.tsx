@@ -869,13 +869,13 @@ export default function Page() {
                   </div>
                   {selectedCustomer.outstandingBalance + total > 100000 && (
                     <div className="mt-2 text-xs font-bold">
-                      ⚠️ EXCEEDS CREDIT LIMIT OF Rs.100,000!
+                      EXCEEDS CREDIT LIMIT OF Rs.100,000!
                     </div>
                   )}
                   {selectedCustomer.outstandingBalance + total > 90000 &&
                     selectedCustomer.outstandingBalance + total <= 100000 && (
                       <div className="mt-2 text-xs font-bold">
-                        ⚠️ Approaching Credit Limit
+                        Approaching Credit Limit
                       </div>
                     )}
                 </div>

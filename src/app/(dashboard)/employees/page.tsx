@@ -279,7 +279,7 @@ export default function EmployeesPage() {
         <Info className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
         <div className="flex-1">
           <p className="text-sm font-medium text-blue-900 dark:text-blue-300">
-            📊 Sample Attendance Data Available
+            Sample Attendance Data Available
           </p>
           <p className="text-xs text-blue-700 dark:text-blue-400 mt-1">
             Dummy attendance data for 5 employees in October 2025 (~100 records)

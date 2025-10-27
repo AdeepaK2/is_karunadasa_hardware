@@ -250,7 +250,6 @@ export default function CustomersPage() {
             }`}
           >
             {customersOverLimit}
-            {customersOverLimit > 0 && " ⚠️"}
           </p>
         </div>
       </div>
@@ -390,7 +389,6 @@ export default function CustomersPage() {
                       <CreditCard className="w-4 h-4" />
                       <span>
                         Due: LKR {customer.outstandingBalance.toLocaleString()}
-                        {customer.outstandingBalance > 100000 && " ⚠️"}
                       </span>
                     </div>
                   )}
