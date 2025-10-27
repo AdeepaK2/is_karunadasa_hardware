@@ -7,26 +7,66 @@ import { User, Lock, LogIn } from 'lucide-react';
 import { getPermissionsForRole, getDefaultRoute } from '@/lib/permissions';
 
 export default function LoginPage() {
-  const [role, setRole] = useState<'admin' | 'manager' | 'cashier'>('cashier');
+  const [role, setRole] = useState<'admin' | 'manager' | 'cashier' | 'customer'>('customer');
   const [name, setName] = useState('');
-  const { login, users } = useApp();
+  const [password, setPassword] = useState('');
+  const { login, users, customers } = useApp();
   const router = useRouter();
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Find existing user or create one with proper permissions
-    let user = users.find(u => u.role === role);
-    
-    if (!user) {
-      user = {
-        id: Date.now().toString(),
-        name: name || `${role.charAt(0).toUpperCase()}${role.slice(1)} User`,
-        email: `${role}@hardwarestore.com`,
-        role: role,
-        createdAt: new Date(),
-        permissions: getPermissionsForRole(role),
-      };
+
+    let user;
+
+    if (role === 'customer') {
+      // Find existing customer
+      const customer = customers.find(c => c.email === name || c.phone === name);
+      if (customer) {
+        user = {
+          id: customer.id,
+          name: customer.name,
+          email: customer.email || '',
+          role: 'customer' as const,
+          phone: customer.phone,
+          createdAt: customer.createdAt,
+          permissions: getPermissionsForRole('customer'),
+        };
+      } else {
+        // Create demo customer if not found
+        const demoCustomer = {
+          id: Date.now().toString(),
+          name: name || 'Demo Customer',
+          phone: '011 288 7654',
+          email: `${name || 'demo'}@customer.com`,
+          address: 'Athurugiriya',
+          outstandingBalance: 0,
+          loyaltyPoints: 50,
+          createdAt: new Date(),
+        };
+        user = {
+          id: demoCustomer.id,
+          name: demoCustomer.name,
+          email: demoCustomer.email,
+          role: 'customer' as const,
+          phone: demoCustomer.phone,
+          createdAt: demoCustomer.createdAt,
+          permissions: getPermissionsForRole('customer'),
+        };
+      }
+    } else {
+      // Find existing staff user or create one
+      user = users.find(u => u.role === role);
+
+      if (!user) {
+        user = {
+          id: Date.now().toString(),
+          name: name || `${role.charAt(0).toUpperCase()}${role.slice(1)} User`,
+          email: `${role}@hardwarestore.com`,
+          role: role,
+          createdAt: new Date(),
+          permissions: getPermissionsForRole(role),
+        };
+      }
     }
 
     login(user);
@@ -69,6 +109,23 @@ export default function LoginPage() {
             </div>
           </div>
 
+          {/* Password Input (optional, not checked) */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Password (Optional)
+            </label>
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter password (not required)"
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+              />
+            </div>
+          </div>
+
           {/* Role Selection */}
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -81,6 +138,7 @@ export default function LoginPage() {
                 onChange={(e) => setRole(e.target.value as any)}
                 className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white appearance-none"
               >
+                <option value="customer">Customer</option>
                 <option value="cashier">Cashier</option>
                 <option value="manager">Manager</option>
                 <option value="admin">Admin</option>
@@ -110,13 +168,20 @@ export default function LoginPage() {
           <p className="text-xs text-gray-500 dark:text-gray-400 text-center mb-3">
             Quick Access
           </p>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-2 gap-2">
             <button
               type="button"
-              onClick={() => { setRole('admin'); setName('Admin User'); }}
+              onClick={() => { setRole('customer'); setName('Demo Customer'); }}
               className="text-xs py-2 px-3 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
             >
-              Admin
+              Customer
+            </button>
+            <button
+              type="button"
+              onClick={() => { setRole('cashier'); setName('Cashier User'); }}
+              className="text-xs py-2 px-3 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
+            >
+              Cashier
             </button>
             <button
               type="button"
@@ -127,10 +192,10 @@ export default function LoginPage() {
             </button>
             <button
               type="button"
-              onClick={() => { setRole('cashier'); setName('Cashier User'); }}
+              onClick={() => { setRole('admin'); setName('Admin User'); }}
               className="text-xs py-2 px-3 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
             >
-              Cashier
+              Admin
             </button>
           </div>
         </div>

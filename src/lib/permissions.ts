@@ -53,6 +53,23 @@ export const rolePermissions: Record<UserRole, UserPermissions> = {
     canDeleteTransactions: false,
     canEditPrices: false,
   },
+  customer: {
+    canViewDashboard: true,
+    canManageBilling: false,
+    canViewInventory: true,
+    canEditInventory: false,
+    canDeleteInventory: false,
+    canManageCustomers: false,
+    canManageEmployees: false,
+    canManageSuppliers: false,
+    canViewReports: false,
+    canManageExpenses: false,
+    canAccessSettings: false,
+    canViewSales: false,
+    canGiveDiscounts: false,
+    canDeleteTransactions: false,
+    canEditPrices: false,
+  },
 };
 
 // Get permissions for a role
@@ -73,7 +90,9 @@ export const getAccessibleRoutes = (role: UserRole) => {
   const permissions = rolePermissions[role];
   const routes = [];
 
-  if (permissions.canViewDashboard) routes.push('/dashboard');
+  if (permissions.canViewDashboard) {
+    routes.push(role === 'customer' ? '/customer-dashboard' : '/dashboard');
+  }
   if (permissions.canManageBilling) routes.push('/billing');
   if (permissions.canViewInventory) routes.push('/inventory');
   if (permissions.canManageCustomers) routes.push('/customers');
@@ -95,6 +114,8 @@ export const getDefaultRoute = (role: UserRole): string => {
       return '/dashboard';
     case 'cashier':
       return '/billing';
+    case 'customer':
+      return '/customer-dashboard';
     default:
       return '/billing';
   }
