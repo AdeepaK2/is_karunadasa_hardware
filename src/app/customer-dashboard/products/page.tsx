@@ -154,8 +154,12 @@ export default function ProductsPage() {
               className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-md transition-shadow"
             >
               {/* Product Image */}
-              <div className="aspect-square bg-gray-100 dark:bg-gray-700 flex items-center justify-center p-8">
-                <Package className="w-16 h-16 text-gray-400" />
+              <div className="aspect-square bg-gray-100 dark:bg-gray-700 flex items-center justify-center p-4 relative overflow-hidden">
+                <img
+                  src={product.imageUrl}
+                  alt={product.name}
+                  className="w-full h-full object-cover rounded-lg"
+                />
               </div>
 
               {/* Product Info */}
