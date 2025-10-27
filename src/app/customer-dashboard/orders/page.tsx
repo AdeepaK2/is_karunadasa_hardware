@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { useApp } from '@/contexts/AppContext';
 import {
   Package,
@@ -10,6 +11,7 @@ import {
   Download,
   Search,
   Filter,
+  ShoppingBag,
 } from 'lucide-react';
 import { format } from 'date-fns';
 
@@ -24,13 +26,28 @@ export default function OrdersPage() {
   );
 
   // Get customer's orders
-  const customerOrders = sales
+  let customerOrders = sales
     .filter(sale =>
       sale.customerName?.toLowerCase() === currentUser?.name?.toLowerCase() ||
       sale.customerId === currentUser?.id ||
       sale.customerId === customerData?.id
     )
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+  // If no personal orders found, show demo orders for demonstration
+  if (customerOrders.length === 0) {
+    // Try to find orders for any existing customer as demo data
+    const demoCustomerNames = ['Saman Perera', 'Nimalka Fernando', 'Kasun Silva', 'Ravi Jayawardena', 'Demo Customer'];
+    for (const demoName of demoCustomerNames) {
+      const demoOrders = sales
+        .filter(sale => sale.customerName === demoName)
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      if (demoOrders.length > 0) {
+        customerOrders = demoOrders.slice(0, 5); // Show up to 5 demo orders
+        break;
+      }
+    }
+  }
 
   // Filter orders based on search and status
   const filteredOrders = customerOrders.filter(order => {
@@ -124,11 +141,18 @@ export default function OrdersPage() {
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
               No orders found
             </h3>
-            <p className="text-gray-600 dark:text-gray-400">
+            <p className="text-gray-600 dark:text-gray-400 mb-4">
               {searchTerm || statusFilter !== 'all'
                 ? 'Try adjusting your search or filter criteria.'
-                : 'You haven\'t placed any orders yet.'}
+                : 'You haven\'t placed any orders yet. Start shopping to see your order history here!'}
             </p>
+            <Link
+              href="/customer-dashboard/products"
+              className="inline-flex items-center gap-2 bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded-lg transition-colors"
+            >
+              <ShoppingBag className="w-5 h-5" />
+              Browse Products
+            </Link>
           </div>
         ) : (
           filteredOrders.map((order) => (

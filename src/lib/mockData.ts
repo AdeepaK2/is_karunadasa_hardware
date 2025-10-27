@@ -511,7 +511,560 @@ function generateSalesData(): Sale[] {
 }
 
 // Mock Sales
-export const mockSales: Sale[] = generateSalesData();
+export const mockSales: Sale[] = [
+  ...generateSalesData(),
+  // Additional dummy orders for recent dates
+  {
+    id: "99991",
+    invoiceNumber: "INV-2025-99991",
+    customerId: "1",
+    customerName: "Saman Perera",
+    items: [
+      {
+        product: mockProducts[0], // Hammer
+        quantity: 2,
+        discount: 50,
+      },
+      {
+        product: mockProducts[1], // Screwdriver Set
+        quantity: 1,
+        discount: 0,
+      },
+    ],
+    subtotal: (mockProducts[0].sellingPrice * 2) + mockProducts[1].sellingPrice,
+    discount: 50,
+    tax: Math.floor(((mockProducts[0].sellingPrice * 2) + mockProducts[1].sellingPrice - 50) * 0.15),
+    total: (mockProducts[0].sellingPrice * 2) + mockProducts[1].sellingPrice - 50 + Math.floor(((mockProducts[0].sellingPrice * 2) + mockProducts[1].sellingPrice - 50) * 0.15),
+    paymentMode: "cash",
+    cashierId: "3",
+    cashierName: "Dilini Cashier",
+    date: new Date("2025-10-25T14:30:00"),
+    status: "completed",
+  },
+  {
+    id: "99992",
+    invoiceNumber: "INV-2025-99992",
+    customerId: "2",
+    customerName: "Nimalka Fernando",
+    items: [
+      {
+        product: mockProducts[3], // Paint Brush
+        quantity: 5,
+        discount: 100,
+      },
+      {
+        product: mockProducts[4], // LED Bulb
+        quantity: 10,
+        discount: 0,
+      },
+    ],
+    subtotal: (mockProducts[3].sellingPrice * 5) + (mockProducts[4].sellingPrice * 10),
+    discount: 100,
+    tax: Math.floor(((mockProducts[3].sellingPrice * 5) + (mockProducts[4].sellingPrice * 10) - 100) * 0.15),
+    total: (mockProducts[3].sellingPrice * 5) + (mockProducts[4].sellingPrice * 10) - 100 + Math.floor(((mockProducts[3].sellingPrice * 5) + (mockProducts[4].sellingPrice * 10) - 100) * 0.15),
+    paymentMode: "card",
+    cashierId: "4",
+    cashierName: "Rohan Cashier",
+    date: new Date("2025-10-26T11:15:00"),
+    status: "completed",
+  },
+  {
+    id: "99993",
+    invoiceNumber: "INV-2025-99993",
+    customerId: "3",
+    customerName: "Kasun Silva",
+    items: [
+      {
+        product: mockProducts[2], // Electric Drill
+        quantity: 1,
+        discount: 500,
+      },
+    ],
+    subtotal: mockProducts[2].sellingPrice,
+    discount: 500,
+    tax: Math.floor((mockProducts[2].sellingPrice - 500) * 0.15),
+    total: mockProducts[2].sellingPrice - 500 + Math.floor((mockProducts[2].sellingPrice - 500) * 0.15),
+    paymentMode: "upi",
+    cashierId: "3",
+    cashierName: "Dilini Cashier",
+    date: new Date("2025-10-27T09:45:00"),
+    status: "completed",
+  },
+  {
+    id: "99994",
+    invoiceNumber: "INV-2025-99994",
+    customerId: "4",
+    customerName: "Ravi Jayawardena",
+    items: [
+      {
+        product: mockProducts[6], // Measuring Tape
+        quantity: 3,
+        discount: 30,
+      },
+      {
+        product: mockProducts[7], // Safety Goggles
+        quantity: 2,
+        discount: 0,
+      },
+      {
+        product: mockProducts[5], // PVC Pipe
+        quantity: 1,
+        discount: 0,
+      },
+    ],
+    subtotal: (mockProducts[6].sellingPrice * 3) + (mockProducts[7].sellingPrice * 2) + mockProducts[5].sellingPrice,
+    discount: 30,
+    tax: Math.floor(((mockProducts[6].sellingPrice * 3) + (mockProducts[7].sellingPrice * 2) + mockProducts[5].sellingPrice - 30) * 0.15),
+    total: (mockProducts[6].sellingPrice * 3) + (mockProducts[7].sellingPrice * 2) + mockProducts[5].sellingPrice - 30 + Math.floor(((mockProducts[6].sellingPrice * 3) + (mockProducts[7].sellingPrice * 2) + mockProducts[5].sellingPrice - 30) * 0.15),
+    paymentMode: "credit",
+    cashierId: "2",
+    cashierName: "Chaminda Manager",
+    date: new Date("2025-10-24T16:20:00"),
+    status: "completed",
+  },
+  {
+    id: "99995",
+    invoiceNumber: "INV-2025-99995",
+    customerId: "1",
+    customerName: "Saman Perera",
+    items: [
+      {
+        product: mockProducts[1], // Screwdriver Set
+        quantity: 1,
+        discount: 0,
+      },
+      {
+        product: mockProducts[4], // LED Bulb
+        quantity: 5,
+        discount: 50,
+      },
+    ],
+    subtotal: mockProducts[1].sellingPrice + (mockProducts[4].sellingPrice * 5),
+    discount: 50,
+    tax: Math.floor((mockProducts[1].sellingPrice + (mockProducts[4].sellingPrice * 5) - 50) * 0.15),
+    total: mockProducts[1].sellingPrice + (mockProducts[4].sellingPrice * 5) - 50 + Math.floor((mockProducts[1].sellingPrice + (mockProducts[4].sellingPrice * 5) - 50) * 0.15),
+    paymentMode: "cash",
+    cashierId: "5",
+    cashierName: "Sanduni Perera",
+    date: new Date("2025-10-23T13:10:00"),
+    status: "completed",
+  },
+  {
+    id: "99996",
+    invoiceNumber: "INV-2025-99996",
+    customerId: "2",
+    customerName: "Nimalka Fernando",
+    items: [
+      {
+        product: mockProducts[0], // Hammer
+        quantity: 1,
+        discount: 0,
+      },
+      {
+        product: mockProducts[3], // Paint Brush
+        quantity: 3,
+        discount: 20,
+      },
+    ],
+    subtotal: mockProducts[0].sellingPrice + (mockProducts[3].sellingPrice * 3),
+    discount: 20,
+    tax: Math.floor((mockProducts[0].sellingPrice + (mockProducts[3].sellingPrice * 3) - 20) * 0.15),
+    total: mockProducts[0].sellingPrice + (mockProducts[3].sellingPrice * 3) - 20 + Math.floor((mockProducts[0].sellingPrice + (mockProducts[3].sellingPrice * 3) - 20) * 0.15),
+    paymentMode: "card",
+    cashierId: "3",
+    cashierName: "Dilini Cashier",
+    date: new Date("2025-10-22T10:30:00"),
+    status: "completed",
+  },
+  // Demo customer orders
+  {
+    id: "99997",
+    invoiceNumber: "INV-2025-99997",
+    customerId: "demo-customer",
+    customerName: "Demo Customer",
+    items: [
+      {
+        product: mockProducts[0], // Hammer
+        quantity: 1,
+        discount: 0,
+      },
+      {
+        product: mockProducts[3], // Paint Brush
+        quantity: 2,
+        discount: 25,
+      },
+    ],
+    subtotal: mockProducts[0].sellingPrice + (mockProducts[3].sellingPrice * 2),
+    discount: 25,
+    tax: Math.floor((mockProducts[0].sellingPrice + (mockProducts[3].sellingPrice * 2) - 25) * 0.15),
+    total: mockProducts[0].sellingPrice + (mockProducts[3].sellingPrice * 2) - 25 + Math.floor((mockProducts[0].sellingPrice + (mockProducts[3].sellingPrice * 2) - 25) * 0.15),
+    paymentMode: "cash",
+    cashierId: "3",
+    cashierName: "Dilini Cashier",
+    date: new Date("2025-10-20T15:45:00"),
+    status: "completed",
+  },
+  {
+    id: "99998",
+    invoiceNumber: "INV-2025-99998",
+    customerId: "demo-customer",
+    customerName: "Demo Customer",
+    items: [
+      {
+        product: mockProducts[4], // LED Bulb
+        quantity: 4,
+        discount: 0,
+      },
+      {
+        product: mockProducts[6], // Measuring Tape
+        quantity: 1,
+        discount: 0,
+      },
+    ],
+    subtotal: (mockProducts[4].sellingPrice * 4) + mockProducts[6].sellingPrice,
+    discount: 0,
+    tax: Math.floor(((mockProducts[4].sellingPrice * 4) + mockProducts[6].sellingPrice) * 0.15),
+    total: (mockProducts[4].sellingPrice * 4) + mockProducts[6].sellingPrice + Math.floor(((mockProducts[4].sellingPrice * 4) + mockProducts[6].sellingPrice) * 0.15),
+    paymentMode: "card",
+    cashierId: "4",
+    cashierName: "Rohan Cashier",
+    date: new Date("2025-10-18T12:30:00"),
+    status: "completed",
+  },
+  {
+    id: "99999",
+    invoiceNumber: "INV-2025-99999",
+    customerId: "demo-customer",
+    customerName: "Demo Customer",
+    items: [
+      {
+        product: mockProducts[7], // Safety Goggles
+        quantity: 1,
+        discount: 0,
+      },
+    ],
+    subtotal: mockProducts[7].sellingPrice,
+    discount: 0,
+    tax: Math.floor(mockProducts[7].sellingPrice * 0.15),
+    total: mockProducts[7].sellingPrice + Math.floor(mockProducts[7].sellingPrice * 0.15),
+    paymentMode: "upi",
+    cashierId: "5",
+    cashierName: "Sanduni Perera",
+    date: new Date("2025-10-15T10:15:00"),
+    status: "completed",
+  },
+  // More historical orders with varied dates
+  {
+    id: "99900",
+    invoiceNumber: "INV-2025-99900",
+    customerId: "demo-customer",
+    customerName: "Demo Customer",
+    items: [
+      {
+        product: mockProducts[2], // Electric Drill
+        quantity: 1,
+        discount: 200,
+      },
+      {
+        product: mockProducts[7], // Safety Goggles
+        quantity: 2,
+        discount: 0,
+      },
+    ],
+    subtotal: mockProducts[2].sellingPrice + (mockProducts[7].sellingPrice * 2),
+    discount: 200,
+    tax: Math.floor((mockProducts[2].sellingPrice + (mockProducts[7].sellingPrice * 2) - 200) * 0.15),
+    total: mockProducts[2].sellingPrice + (mockProducts[7].sellingPrice * 2) - 200 + Math.floor((mockProducts[2].sellingPrice + (mockProducts[7].sellingPrice * 2) - 200) * 0.15),
+    paymentMode: "card",
+    cashierId: "3",
+    cashierName: "Dilini Cashier",
+    date: new Date("2025-10-12T14:20:00"),
+    status: "completed",
+  },
+  {
+    id: "99901",
+    invoiceNumber: "INV-2025-99901",
+    customerId: "demo-customer",
+    customerName: "Demo Customer",
+    items: [
+      {
+        product: mockProducts[5], // PVC Pipe
+        quantity: 3,
+        discount: 0,
+      },
+      {
+        product: mockProducts[3], // Paint Brush
+        quantity: 1,
+        discount: 10,
+      },
+    ],
+    subtotal: (mockProducts[5].sellingPrice * 3) + mockProducts[3].sellingPrice,
+    discount: 10,
+    tax: Math.floor(((mockProducts[5].sellingPrice * 3) + mockProducts[3].sellingPrice - 10) * 0.15),
+    total: (mockProducts[5].sellingPrice * 3) + mockProducts[3].sellingPrice - 10 + Math.floor(((mockProducts[5].sellingPrice * 3) + mockProducts[3].sellingPrice - 10) * 0.15),
+    paymentMode: "cash",
+    cashierId: "4",
+    cashierName: "Rohan Cashier",
+    date: new Date("2025-10-08T16:45:00"),
+    status: "completed",
+  },
+  {
+    id: "99902",
+    invoiceNumber: "INV-2025-99902",
+    customerId: "demo-customer",
+    customerName: "Demo Customer",
+    items: [
+      {
+        product: mockProducts[1], // Screwdriver Set
+        quantity: 2,
+        discount: 50,
+      },
+    ],
+    subtotal: mockProducts[1].sellingPrice * 2,
+    discount: 50,
+    tax: Math.floor((mockProducts[1].sellingPrice * 2 - 50) * 0.15),
+    total: mockProducts[1].sellingPrice * 2 - 50 + Math.floor((mockProducts[1].sellingPrice * 2 - 50) * 0.15),
+    paymentMode: "upi",
+    cashierId: "5",
+    cashierName: "Sanduni Perera",
+    date: new Date("2025-10-05T11:30:00"),
+    status: "completed",
+  },
+  {
+    id: "99903",
+    invoiceNumber: "INV-2025-99903",
+    customerId: "demo-customer",
+    customerName: "Demo Customer",
+    items: [
+      {
+        product: mockProducts[4], // LED Bulb
+        quantity: 8,
+        discount: 0,
+      },
+      {
+        product: mockProducts[0], // Hammer
+        quantity: 1,
+        discount: 25,
+      },
+    ],
+    subtotal: (mockProducts[4].sellingPrice * 8) + mockProducts[0].sellingPrice,
+    discount: 25,
+    tax: Math.floor(((mockProducts[4].sellingPrice * 8) + mockProducts[0].sellingPrice - 25) * 0.15),
+    total: (mockProducts[4].sellingPrice * 8) + mockProducts[0].sellingPrice - 25 + Math.floor(((mockProducts[4].sellingPrice * 8) + mockProducts[0].sellingPrice - 25) * 0.15),
+    paymentMode: "card",
+    cashierId: "2",
+    cashierName: "Chaminda Manager",
+    date: new Date("2025-10-02T13:15:00"),
+    status: "completed",
+  },
+  {
+    id: "99904",
+    invoiceNumber: "INV-2025-99904",
+    customerId: "demo-customer",
+    customerName: "Demo Customer",
+    items: [
+      {
+        product: mockProducts[6], // Measuring Tape
+        quantity: 2,
+        discount: 0,
+      },
+      {
+        product: mockProducts[3], // Paint Brush
+        quantity: 4,
+        discount: 40,
+      },
+    ],
+    subtotal: (mockProducts[6].sellingPrice * 2) + (mockProducts[3].sellingPrice * 4),
+    discount: 40,
+    tax: Math.floor(((mockProducts[6].sellingPrice * 2) + (mockProducts[3].sellingPrice * 4) - 40) * 0.15),
+    total: (mockProducts[6].sellingPrice * 2) + (mockProducts[3].sellingPrice * 4) - 40 + Math.floor(((mockProducts[6].sellingPrice * 2) + (mockProducts[3].sellingPrice * 4) - 40) * 0.15),
+    paymentMode: "cash",
+    cashierId: "3",
+    cashierName: "Dilini Cashier",
+    date: new Date("2025-09-28T09:20:00"),
+    status: "completed",
+  },
+  {
+    id: "99905",
+    invoiceNumber: "INV-2025-99905",
+    customerId: "demo-customer",
+    customerName: "Demo Customer",
+    items: [
+      {
+        product: mockProducts[7], // Safety Goggles
+        quantity: 3,
+        discount: 75,
+      },
+    ],
+    subtotal: mockProducts[7].sellingPrice * 3,
+    discount: 75,
+    tax: Math.floor((mockProducts[7].sellingPrice * 3 - 75) * 0.15),
+    total: mockProducts[7].sellingPrice * 3 - 75 + Math.floor((mockProducts[7].sellingPrice * 3 - 75) * 0.15),
+    paymentMode: "credit",
+    cashierId: "4",
+    cashierName: "Rohan Cashier",
+    date: new Date("2025-09-22T15:40:00"),
+    status: "completed",
+  },
+  {
+    id: "99906",
+    invoiceNumber: "INV-2025-99906",
+    customerId: "demo-customer",
+    customerName: "Demo Customer",
+    items: [
+      {
+        product: mockProducts[0], // Hammer
+        quantity: 1,
+        discount: 0,
+      },
+      {
+        product: mockProducts[1], // Screwdriver Set
+        quantity: 1,
+        discount: 0,
+      },
+      {
+        product: mockProducts[6], // Measuring Tape
+        quantity: 1,
+        discount: 0,
+      },
+    ],
+    subtotal: mockProducts[0].sellingPrice + mockProducts[1].sellingPrice + mockProducts[6].sellingPrice,
+    discount: 0,
+    tax: Math.floor((mockProducts[0].sellingPrice + mockProducts[1].sellingPrice + mockProducts[6].sellingPrice) * 0.15),
+    total: mockProducts[0].sellingPrice + mockProducts[1].sellingPrice + mockProducts[6].sellingPrice + Math.floor((mockProducts[0].sellingPrice + mockProducts[1].sellingPrice + mockProducts[6].sellingPrice) * 0.15),
+    paymentMode: "card",
+    cashierId: "5",
+    cashierName: "Sanduni Perera",
+    date: new Date("2025-09-15T10:50:00"),
+    status: "completed",
+  },
+  {
+    id: "99907",
+    invoiceNumber: "INV-2025-99907",
+    customerId: "demo-customer",
+    customerName: "Demo Customer",
+    items: [
+      {
+        product: mockProducts[2], // Electric Drill
+        quantity: 1,
+        discount: 300,
+      },
+    ],
+    subtotal: mockProducts[2].sellingPrice,
+    discount: 300,
+    tax: Math.floor((mockProducts[2].sellingPrice - 300) * 0.15),
+    total: mockProducts[2].sellingPrice - 300 + Math.floor((mockProducts[2].sellingPrice - 300) * 0.15),
+    paymentMode: "upi",
+    cashierId: "2",
+    cashierName: "Chaminda Manager",
+    date: new Date("2025-09-08T12:25:00"),
+    status: "completed",
+  },
+  {
+    id: "99908",
+    invoiceNumber: "INV-2025-99908",
+    customerId: "demo-customer",
+    customerName: "Demo Customer",
+    items: [
+      {
+        product: mockProducts[4], // LED Bulb
+        quantity: 6,
+        discount: 0,
+      },
+      {
+        product: mockProducts[5], // PVC Pipe
+        quantity: 2,
+        discount: 30,
+      },
+    ],
+    subtotal: (mockProducts[4].sellingPrice * 6) + (mockProducts[5].sellingPrice * 2),
+    discount: 30,
+    tax: Math.floor(((mockProducts[4].sellingPrice * 6) + (mockProducts[5].sellingPrice * 2) - 30) * 0.15),
+    total: (mockProducts[4].sellingPrice * 6) + (mockProducts[5].sellingPrice * 2) - 30 + Math.floor(((mockProducts[4].sellingPrice * 6) + (mockProducts[5].sellingPrice * 2) - 30) * 0.15),
+    paymentMode: "cash",
+    cashierId: "3",
+    cashierName: "Dilini Cashier",
+    date: new Date("2025-08-25T14:10:00"),
+    status: "completed",
+  },
+  {
+    id: "99909",
+    invoiceNumber: "INV-2025-99909",
+    customerId: "demo-customer",
+    customerName: "Demo Customer",
+    items: [
+      {
+        product: mockProducts[3], // Paint Brush
+        quantity: 6,
+        discount: 50,
+      },
+    ],
+    subtotal: mockProducts[3].sellingPrice * 6,
+    discount: 50,
+    tax: Math.floor((mockProducts[3].sellingPrice * 6 - 50) * 0.15),
+    total: mockProducts[3].sellingPrice * 6 - 50 + Math.floor((mockProducts[3].sellingPrice * 6 - 50) * 0.15),
+    paymentMode: "card",
+    cashierId: "4",
+    cashierName: "Rohan Cashier",
+    date: new Date("2025-08-18T16:35:00"),
+    status: "completed",
+  },
+  {
+    id: "99910",
+    invoiceNumber: "INV-2025-99910",
+    customerId: "demo-customer",
+    customerName: "Demo Customer",
+    items: [
+      {
+        product: mockProducts[7], // Safety Goggles
+        quantity: 1,
+        discount: 0,
+      },
+      {
+        product: mockProducts[0], // Hammer
+        quantity: 2,
+        discount: 100,
+      },
+    ],
+    subtotal: mockProducts[7].sellingPrice + (mockProducts[0].sellingPrice * 2),
+    discount: 100,
+    tax: Math.floor((mockProducts[7].sellingPrice + (mockProducts[0].sellingPrice * 2) - 100) * 0.15),
+    total: mockProducts[7].sellingPrice + (mockProducts[0].sellingPrice * 2) - 100 + Math.floor((mockProducts[7].sellingPrice + (mockProducts[0].sellingPrice * 2) - 100) * 0.15),
+    paymentMode: "upi",
+    cashierId: "5",
+    cashierName: "Sanduni Perera",
+    date: new Date("2025-08-12T11:00:00"),
+    status: "completed",
+  },
+  // Add one pending order
+  {
+    id: "99911",
+    invoiceNumber: "INV-2025-99911",
+    customerId: "demo-customer",
+    customerName: "Demo Customer",
+    items: [
+      {
+        product: mockProducts[1], // Screwdriver Set
+        quantity: 1,
+        discount: 0,
+      },
+      {
+        product: mockProducts[4], // LED Bulb
+        quantity: 3,
+        discount: 0,
+      },
+    ],
+    subtotal: mockProducts[1].sellingPrice + (mockProducts[4].sellingPrice * 3),
+    discount: 0,
+    tax: Math.floor((mockProducts[1].sellingPrice + (mockProducts[4].sellingPrice * 3)) * 0.15),
+    total: mockProducts[1].sellingPrice + (mockProducts[4].sellingPrice * 3) + Math.floor((mockProducts[1].sellingPrice + (mockProducts[4].sellingPrice * 3)) * 0.15),
+    paymentMode: "cash",
+    cashierId: "3",
+    cashierName: "Dilini Cashier",
+    date: new Date("2025-10-26T18:30:00"),
+    status: "pending",
+  },
+];
 
 // Mock Suppliers
 export const mockSuppliers: Supplier[] = [

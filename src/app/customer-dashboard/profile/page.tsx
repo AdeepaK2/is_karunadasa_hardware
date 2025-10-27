@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { useApp } from '@/contexts/AppContext';
 import {
   User,
@@ -259,10 +260,13 @@ export default function ProfilePage() {
               Quick Actions
             </h3>
             <div className="space-y-3">
-              <button className="w-full text-left p-3 bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg transition-colors">
+              <Link
+                href="/customer-dashboard/orders"
+                className="block w-full text-left p-3 bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg transition-colors"
+              >
                 <div className="font-medium text-gray-900 dark:text-white">Order History</div>
                 <div className="text-sm text-gray-600 dark:text-gray-400">View past orders</div>
-              </button>
+              </Link>
               <button className="w-full text-left p-3 bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg transition-colors">
                 <div className="font-medium text-gray-900 dark:text-white">Wishlist</div>
                 <div className="text-sm text-gray-600 dark:text-gray-400">Saved items</div>
