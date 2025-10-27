@@ -1,27 +1,23 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useApp } from '@/contexts/AppContext';
+import Navbar from '@/components/landing/Navbar';
+import Hero from '@/components/landing/Hero';
+import Features from '@/components/landing/Features';
+import Services from '@/components/landing/Services';
+import About from '@/components/landing/About';
+import Contact from '@/components/landing/Contact';
+import Footer from '@/components/landing/Footer';
 
 export default function Home() {
-  const router = useRouter();
-  const { currentUser } = useApp();
-
-  useEffect(() => {
-    if (currentUser) {
-      router.push('/dashboard');
-    } else {
-      router.push('/login');
-    }
-  }, [currentUser, router]);
-
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
-      <div className="text-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-        <p className="mt-4 text-gray-600 dark:text-gray-400">Loading...</p>
-      </div>
+    <div className="min-h-screen">
+      <Navbar />
+      <Hero />
+      <Features />
+      <Services />
+      <About />
+      <Contact />
+      <Footer />
     </div>
   );
 }
