@@ -171,28 +171,28 @@ export default function LoginPage() {
           <div className="grid grid-cols-2 gap-2">
             <button
               type="button"
-              onClick={() => { setRole('customer'); setName('Demo Customer'); }}
+              onClick={() => { setRole('customer'); setName('Demo Customer'); setPassword('demo123'); }}
               className="text-xs py-2 px-3 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
             >
               Customer
             </button>
             <button
               type="button"
-              onClick={() => { setRole('cashier'); setName('Cashier User'); }}
+              onClick={() => { setRole('cashier'); setName('Cashier User'); setPassword('cashier123'); }}
               className="text-xs py-2 px-3 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
             >
               Cashier
             </button>
             <button
               type="button"
-              onClick={() => { setRole('manager'); setName('Manager User'); }}
+              onClick={() => { setRole('manager'); setName('Manager User'); setPassword('manager123'); }}
               className="text-xs py-2 px-3 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
             >
               Manager
             </button>
             <button
               type="button"
-              onClick={() => { setRole('admin'); setName('Admin User'); }}
+              onClick={() => { setRole('admin'); setName('Admin User'); setPassword('admin123'); }}
               className="text-xs py-2 px-3 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
             >
               Admin
