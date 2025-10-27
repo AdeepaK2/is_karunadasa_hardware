@@ -1,6 +1,6 @@
 // Core Types for POS System
 
-export type UserRole = 'admin' | 'manager' | 'cashier';
+export type UserRole = "admin" | "manager" | "cashier";
 
 export interface UserPermissions {
   canViewDashboard: boolean;
@@ -30,6 +30,16 @@ export interface User {
   permissions: UserPermissions;
 }
 
+export interface Batch {
+  id: string;
+  batchNumber: string;
+  quantity: number;
+  expiryDate?: Date;
+  manufactureDate?: Date;
+  notes?: string;
+  createdAt: Date;
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -43,6 +53,8 @@ export interface Product {
   supplier: string;
   description?: string;
   barcode?: string;
+  trackBatches?: boolean; // Enable batch tracking for this product
+  batches?: Batch[]; // Array of batches if tracking is enabled
   createdAt: Date;
   updatedAt: Date;
 }
@@ -59,6 +71,7 @@ export interface Customer {
   phone: string;
   email?: string;
   address?: string;
+  nic?: string;
   outstandingBalance: number;
   loyaltyPoints: number;
   createdAt: Date;
@@ -74,10 +87,10 @@ export interface Employee {
   salary: number;
   joiningDate: Date;
   isActive: boolean;
-  attendanceStatus: 'present' | 'absent' | 'leave';
+  attendanceStatus: "present" | "absent" | "leave";
 }
 
-export type PaymentMode = 'cash' | 'card' | 'upi' | 'credit';
+export type PaymentMode = "cash" | "card" | "upi" | "credit";
 
 export interface Sale {
   id: string;
@@ -93,13 +106,13 @@ export interface Sale {
   cashierId: string;
   cashierName: string;
   date: Date;
-  status: 'completed' | 'pending' | 'cancelled';
+  status: "completed" | "pending" | "cancelled";
 }
 
 export interface StockMovement {
   id: string;
   productId: string;
-  type: 'purchase' | 'sale' | 'return' | 'adjustment';
+  type: "purchase" | "sale" | "return" | "adjustment";
   quantity: number;
   date: Date;
   reference?: string;
@@ -124,11 +137,27 @@ export interface Supplier {
   createdAt: Date;
 }
 
+export type PaymentMethod = "Cash" | "Card" | "Bank Transfer" | "UPI";
+export type ExpenseCategory =
+  | "Rent"
+  | "Utilities"
+  | "Salaries"
+  | "Maintenance"
+  | "Marketing"
+  | "Supplies"
+  | "Transportation"
+  | "Insurance"
+  | "Taxes"
+  | "Miscellaneous";
+
 export interface Expense {
   id: string;
-  category: string;
-  amount: number;
-  description: string;
   date: Date;
+  category: ExpenseCategory;
+  vendor: string;
+  description: string;
+  paymentMethod: PaymentMethod;
+  amount: number;
   paidBy: string;
+  createdAt: Date;
 }
