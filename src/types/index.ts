@@ -137,11 +137,27 @@ export interface Supplier {
   createdAt: Date;
 }
 
+export type PaymentMethod = "Cash" | "Card" | "Bank Transfer" | "UPI";
+export type ExpenseCategory =
+  | "Rent"
+  | "Utilities"
+  | "Salaries"
+  | "Maintenance"
+  | "Marketing"
+  | "Supplies"
+  | "Transportation"
+  | "Insurance"
+  | "Taxes"
+  | "Miscellaneous";
+
 export interface Expense {
   id: string;
-  category: string;
-  amount: number;
-  description: string;
   date: Date;
+  category: ExpenseCategory;
+  vendor: string;
+  description: string;
+  paymentMethod: PaymentMethod;
+  amount: number;
   paidBy: string;
+  createdAt: Date;
 }
