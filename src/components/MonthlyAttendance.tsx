@@ -254,8 +254,16 @@ export default function MonthlyAttendance({
       rows.push([employeeId, employeeName, dateStr, dayName, status]);
     });
 
-    const csv = rows.map((row) => row.join(",")).join("\n");
-    const blob = new Blob([csv], { type: "text/csv" });
+    // Create CSV with proper quoting and UTF-8 BOM for Excel compatibility
+    const csvContent = rows
+      .map((row) => row.map((cell) => `"${cell}"`).join(","))
+      .join("\n");
+
+    // Add UTF-8 BOM for Excel
+    const BOM = "\uFEFF";
+    const csv = BOM + csvContent;
+
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
