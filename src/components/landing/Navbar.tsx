@@ -38,6 +38,12 @@ export default function Navbar() {
               Contact
             </a>
             <Link
+              href="/register"
+              className="px-5 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded transition-colors mr-2"
+            >
+              Register
+            </Link>
+            <Link
               href="/login"
               className="px-5 py-2 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded transition-colors"
             >
@@ -90,6 +96,12 @@ export default function Navbar() {
               >
                 Contact
               </a>
+              <Link
+                href="/register"
+                className="px-5 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded text-center transition-colors"
+              >
+                Register
+              </Link>
               <Link
                 href="/login"
                 className="px-5 py-2 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded text-center transition-colors"

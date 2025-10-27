@@ -37,6 +37,13 @@ export default function Hero() {
               <ArrowRight className="w-4 h-4" />
             </a>
             <a
+              href="/register"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-white hover:bg-gray-50 text-gray-900 font-semibold rounded transition-colors shadow-2xl border-2 border-gray-300"
+              style={{textShadow: '1px 1px 2px rgba(0,0,0,0.3)', boxShadow: '0 4px 15px rgba(0,0,0,0.2)'}}
+            >
+              Join as Customer
+            </a>
+            <a
               href="tel:0112887654"
               className="inline-flex items-center gap-2 px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white font-semibold rounded transition-colors shadow-2xl border-2 border-gray-600"
               style={{textShadow: '1px 1px 2px rgba(0,0,0,0.8)', boxShadow: '0 4px 15px rgba(0,0,0,0.4)'}}

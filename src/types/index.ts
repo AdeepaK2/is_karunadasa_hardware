@@ -1,6 +1,6 @@
 // Core Types for POS System
 
-export type UserRole = 'admin' | 'manager' | 'cashier';
+export type UserRole = 'admin' | 'manager' | 'cashier' | 'customer';
 
 export interface UserPermissions {
   canViewDashboard: boolean;
