@@ -10,12 +10,14 @@ import {
   User,
   LogOut,
   Store,
+  Package,
 } from 'lucide-react';
 
 const navigation = [
   { name: 'Dashboard', href: '/customer-dashboard', icon: Home },
   { name: 'Products', href: '/customer-dashboard/products', icon: ShoppingBag },
   { name: 'Cart', href: '/customer-dashboard/cart', icon: ShoppingCart },
+  { name: 'Orders', href: '/customer-dashboard/orders', icon: Package },
   { name: 'Profile', href: '/customer-dashboard/profile', icon: User },
 ];
 

@@ -14,6 +14,7 @@ import {
   Mail,
   CheckCircle,
 } from 'lucide-react';
+import Image from 'next/image';
 
 export default function CartPage() {
   const { cart, removeFromCart, updateCartItem, currentUser, addSale } = useApp();
@@ -132,12 +133,26 @@ export default function CartPage() {
               >
                 <div className="flex items-center gap-4">
                   {/* Product Image */}
-                  <div className="w-20 h-20 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
-                    <img
-                      src={item.product.imageUrl}
-                      alt={item.product.name}
-                      className="w-full h-full object-cover"
-                    />
+                  <div className="w-20 h-20 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden relative">
+                    {item.product.imageUrl ? (
+                      <Image
+                        src={item.product.imageUrl}
+                        alt={item.product.name}
+                        width={80}
+                        height={80}
+                        className="w-full h-full object-cover"
+                        onError={() => {
+                          console.log('Cart image failed to load:', item.product.imageUrl);
+                        }}
+                        onLoad={() => {
+                          console.log('Cart image loaded successfully:', item.product.imageUrl);
+                        }}
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-gray-200 rounded-lg">
+                        <span className="text-gray-500 text-xs">No Image</span>
+                      </div>
+                    )}
                   </div>
 
                   {/* Product Details */}
