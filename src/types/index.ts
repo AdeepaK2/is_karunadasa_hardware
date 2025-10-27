@@ -54,6 +54,10 @@ export interface Product {
   description?: string;
   barcode?: string;
   imageUrl?: string;
+  // Whether this product tracks batches (batch-level inventory)
+  trackBatches?: boolean;
+  // Optional list of batches associated with the product
+  batches?: Batch[];
   createdAt: Date;
   updatedAt: Date;
 }
