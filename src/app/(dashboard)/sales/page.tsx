@@ -16,7 +16,10 @@ export default function SalesPage() {
     const matchesSearch =
       sale.invoiceNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
       sale.customerName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      sale.cashierName.toLowerCase().includes(searchQuery.toLowerCase());
+      sale.cashierName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      sale.items.some((item) =>
+        item.product.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
 
     const matchesPayment =
       filterPaymentMode === "all" || sale.paymentMode === filterPaymentMode;
@@ -83,7 +86,7 @@ export default function SalesPage() {
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
             <input
               type="text"
-              placeholder="Search by invoice, customer, or cashier..."
+              placeholder="Search by invoice, customer, cashier, or product..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
