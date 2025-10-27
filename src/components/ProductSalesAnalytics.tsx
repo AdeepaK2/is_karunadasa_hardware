@@ -406,7 +406,7 @@ export default function ProductSalesAnalytics({
                       1
                     );
                     return [0, 1, 2, 3, 4].map((i) => {
-                      const value = Math.round(maxQty - (i * maxQty) / 4);
+                      const value = Math.ceil((maxQty * (4 - i)) / 4);
                       const y = 40 + (i * 200) / 4;
                       return (
                         <text

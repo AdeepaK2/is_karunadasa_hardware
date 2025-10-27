@@ -497,65 +497,87 @@ function generateSalesData(): Sale[] {
       invoiceCounter++;
     }
 
-    // Special: Add extra Paint Brush sales in April (3x more frequency)
-    const isApril = month === 4;
-    if (isApril) {
-      const extraPaintBrushSales = Math.floor(Math.random() * 3) + 2; // 2-4 extra sales per day
+    // Hardcoded Paint Brush sales for last 24 months (Nov 2023 - Oct 2025)
+    const dateStr = currentDate.toISOString().split("T")[0];
+    const paintBrushProduct = mockProducts.find((p) => p.id === "4");
 
-      for (let k = 0; k < extraPaintBrushSales; k++) {
-        const customerIndex = Math.floor(Math.random() * customers.length);
-        const cashier = cashiers[Math.floor(Math.random() * cashiers.length)];
-        const paymentMode =
-          paymentModes[Math.floor(Math.random() * paymentModes.length)];
+    // Hardcoded dates with specific quantities - covers full 24 months
+    const paintBrushSales: { [key: string]: number } = {
+      // 2023 (Nov-Dec)
+      "2023-11-15": 3,
+      "2023-12-15": 2,
 
-        const paintBrushProduct = mockProducts.find((p) => p.id === "4");
-        if (!paintBrushProduct) continue;
+      // 2024 - lower quantities except April
+      "2024-01-15": 3,
+      "2024-02-15": 2,
+      "2024-03-15": 3,
+      "2024-04-15": 15, // April 2024 spike
+      "2024-05-15": 2,
+      "2024-06-15": 3,
+      "2024-07-15": 2,
+      "2024-08-15": 3,
+      "2024-09-15": 2,
+      "2024-10-15": 3,
+      "2024-11-15": 2, // Nov 2024 - starts the visible 12-month range
+      "2024-12-15": 3,
 
-        // Higher quantities for paint brush in April
-        const quantity = Math.floor(Math.random() * 20) + 10; // 10-30 units
-        const discount = Math.floor(
-          Math.random() * (paintBrushProduct.sellingPrice * quantity * 0.1)
-        );
+      // 2025 - lower quantities except April
+      "2025-01-15": 2,
+      "2025-02-15": 3,
+      "2025-03-15": 2,
+      "2025-04-15": 20, // April 2025 spike
+      "2025-05-15": 3,
+      "2025-06-15": 2,
+      "2025-07-15": 3,
+      "2025-08-15": 2,
+      "2025-09-15": 3,
+      "2025-10-15": 2, // Oct 2025 - current month
+    };
 
-        const items = [
-          {
-            product: paintBrushProduct,
-            quantity,
-            discount,
-          },
-        ];
+    if (paintBrushSales[dateStr] && paintBrushProduct) {
+      const targetQuantity = paintBrushSales[dateStr];
+      const customerIndex = Math.floor(Math.random() * customers.length);
+      const cashier = cashiers[Math.floor(Math.random() * cashiers.length)];
+      const paymentMode =
+        paymentModes[Math.floor(Math.random() * paymentModes.length)];
 
-        const subtotal = paintBrushProduct.sellingPrice * quantity;
-        const totalDiscount = discount;
-        const tax = Math.floor((subtotal - totalDiscount) * 0.15);
-        const total = subtotal - totalDiscount + tax;
+      const discount = 0;
+      const items = [
+        {
+          product: paintBrushProduct,
+          quantity: targetQuantity,
+          discount,
+        },
+      ];
 
-        const hour = 8 + Math.floor(Math.random() * 10);
-        const minute = Math.floor(Math.random() * 60);
-        const saleDate = new Date(currentDate);
-        saleDate.setHours(hour, minute, 0, 0);
+      const subtotal = paintBrushProduct.sellingPrice * targetQuantity;
+      const totalDiscount = discount;
+      const tax = Math.floor((subtotal - totalDiscount) * 0.15);
+      const total = subtotal - totalDiscount + tax;
 
-        sales.push({
-          id: invoiceCounter.toString(),
-          invoiceNumber: `INV-${currentDate.getFullYear()}-${String(
-            invoiceCounter
-          ).padStart(4, "0")}`,
-          customerId: customerIds[customerIndex],
-          customerName: customers[customerIndex],
-          items,
-          subtotal,
-          discount: totalDiscount,
-          tax,
-          total,
-          paymentMode,
-          cashierId: cashier.id,
-          cashierName: cashier.name,
-          date: saleDate,
-          status: "completed",
-        });
+      const saleDate = new Date(currentDate);
+      saleDate.setHours(10, 30, 0, 0);
 
-        invoiceCounter++;
-      }
+      sales.push({
+        id: invoiceCounter.toString(),
+        invoiceNumber: `INV-${currentDate.getFullYear()}-${String(
+          invoiceCounter
+        ).padStart(4, "0")}`,
+        customerId: customerIds[customerIndex],
+        customerName: customers[customerIndex],
+        items,
+        subtotal,
+        discount: totalDiscount,
+        tax,
+        total,
+        paymentMode,
+        cashierId: cashier.id,
+        cashierName: cashier.name,
+        date: saleDate,
+        status: "completed",
+      });
+
+      invoiceCounter++;
     }
 
     // Move to next day
