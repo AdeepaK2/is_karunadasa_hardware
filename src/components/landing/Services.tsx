@@ -1,27 +1,27 @@
 'use client';
 
-import { Hammer, Truck, Phone, DollarSign } from 'lucide-react';
+import { Hammer, Truck, Phone, Award } from 'lucide-react';
 
 const services = [
   {
     icon: Hammer,
-    title: 'Tools & Hardware',
-    description: 'From hammers to power tools. We stock what you need to get the job done.',
+    title: 'Hardware & Tools',
+    description: 'Complete range of hand tools, power tools, plumbing, and electrical supplies.',
   },
   {
     icon: Truck,
-    title: 'Delivery Available',
-    description: 'Can\'t pick it up? We\'ll bring it to you. Just give us a call.',
+    title: 'Construction Materials',
+    description: 'Cement, sand, aggregates, bricks, timber, and roofing materials.',
   },
   {
     icon: Phone,
-    title: 'Need Help?',
-    description: 'Not sure what you need? Our staff actually knows their stuff. Come ask us.',
+    title: 'Expert Advice',
+    description: 'Not sure what you need? Our experienced staff will help you choose the right products.',
   },
   {
-    icon: DollarSign,
-    title: 'Fair Prices',
-    description: 'No games, no hidden fees. Just honest prices for good products.',
+    icon: Award,
+    title: 'Bulk Orders',
+    description: 'Special pricing for contractors and large projects. Contact us for quotes.',
   },
 ];
 
@@ -31,10 +31,10 @@ export default function Services() {
       <div className="max-w-6xl mx-auto">
         <div className="mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3">
-            Why Shop With Us?
+            What We Offer
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-300">
-            We keep it simple
+            Complete hardware solutions for all your needs
           </p>
         </div>
 
@@ -64,13 +64,13 @@ export default function Services() {
             Visit Our Store Today
           </h3>
           <p className="text-orange-100 mb-6">
-            Come see what we have. Bring your project questions.
+            8711/C Athurugiriya | Open Monday to Saturday
           </p>
           <a
-            href="tel:+94123456789"
+            href="tel:0112887654"
             className="inline-block px-6 py-3 bg-white text-orange-600 font-bold rounded hover:bg-gray-100 transition-colors"
           >
-            Call: +94 123 456 789
+            Call: 011 288 7654
           </a>
         </div>
       </div>

@@ -1,37 +1,37 @@
 'use client';
 
-import { ShoppingCart, Package, Users, TrendingUp, Wrench, Shield } from 'lucide-react';
+import { Wrench, Package, Truck, Shield, Clock, DollarSign } from 'lucide-react';
 
 const features = [
   {
-    icon: ShoppingCart,
-    title: 'Fast Checkout',
-    description: 'Quick billing with barcode scanning. Get customers in and out fast.',
+    icon: Wrench,
+    title: 'Quality Tools',
+    description: 'Hand tools, power tools, and everything in between from trusted brands.',
   },
   {
     icon: Package,
-    title: 'Track Your Stock',
-    description: 'Know what you have and what you need. Low stock alerts keep you prepared.',
+    title: 'Building Materials',
+    description: 'Cement, sand, bricks, timber, and all construction materials you need.',
   },
   {
-    icon: Users,
-    title: 'Know Your Customers',
-    description: 'Keep track of regulars, credit accounts, and purchase history.',
+    icon: Truck,
+    title: 'Delivery Service',
+    description: 'Can\'t carry it yourself? We deliver to your site or home.',
   },
   {
-    icon: TrendingUp,
-    title: 'Sales Reports',
-    description: 'See what\'s selling, what\'s not, and where your money is going.',
-  },
-  {
-    icon: Wrench,
-    title: 'Easy to Use',
-    description: 'No tech degree needed. Train your staff in minutes, not days.',
+    icon: Clock,
+    title: 'Open 6 Days',
+    description: 'Monday to Saturday, we\'re here when you need us.',
   },
   {
     icon: Shield,
-    title: 'Secure Access',
-    description: 'Different access levels for managers, cashiers, and staff.',
+    title: 'Genuine Products',
+    description: 'All our products are authentic with proper warranties.',
+  },
+  {
+    icon: DollarSign,
+    title: 'Competitive Prices',
+    description: 'Fair pricing with special rates for contractors and bulk orders.',
   },
 ];
 
@@ -41,10 +41,10 @@ export default function Features() {
       <div className="max-w-6xl mx-auto">
         <div className="mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3">
-            What You Get
+            Why Choose Us?
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-300">
-            Everything a hardware store needs in one system
+            Everything you need for your building and repair projects
           </p>
         </div>
 

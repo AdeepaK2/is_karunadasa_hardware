@@ -38,8 +38,7 @@ export default function Contact() {
                 <div>
                   <h3 className="font-bold text-gray-900 dark:text-white mb-1">Store Location</h3>
                   <p className="text-gray-600 dark:text-gray-400">
-                    123 Hardware Street<br />
-                    Building District, City 12345<br />
+                    8711/C Athurugiriya<br />
                     Sri Lanka
                   </p>
                 </div>
@@ -50,8 +49,7 @@ export default function Contact() {
                 <div>
                   <h3 className="font-bold text-gray-900 dark:text-white mb-1">Call Us</h3>
                   <p className="text-gray-600 dark:text-gray-400">
-                    +94 123 456 789<br />
-                    +94 987 654 321
+                    011 288 7654
                   </p>
                 </div>
               </div>
