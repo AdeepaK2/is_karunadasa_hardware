@@ -1,61 +1,57 @@
 'use client';
 
-import { Wrench, Truck, Headphones, Award } from 'lucide-react';
+import { Hammer, Truck, Phone, DollarSign } from 'lucide-react';
 
 const services = [
   {
-    icon: Wrench,
-    title: 'Quality Hardware',
-    description: 'Wide range of premium tools, fasteners, and building materials from trusted brands.',
+    icon: Hammer,
+    title: 'Tools & Hardware',
+    description: 'From hammers to power tools. We stock what you need to get the job done.',
   },
   {
     icon: Truck,
-    title: 'Fast Delivery',
-    description: 'Quick and reliable delivery service for all your hardware needs, right to your doorstep.',
+    title: 'Delivery Available',
+    description: 'Can\'t pick it up? We\'ll bring it to you. Just give us a call.',
   },
   {
-    icon: Headphones,
-    title: 'Expert Support',
-    description: 'Our knowledgeable staff is always ready to help you find the right products and solutions.',
+    icon: Phone,
+    title: 'Need Help?',
+    description: 'Not sure what you need? Our staff actually knows their stuff. Come ask us.',
   },
   {
-    icon: Award,
-    title: 'Best Prices',
-    description: 'Competitive pricing with regular discounts and special offers for loyal customers.',
+    icon: DollarSign,
+    title: 'Fair Prices',
+    description: 'No games, no hidden fees. Just honest prices for good products.',
   },
 ];
 
 export default function Services() {
   return (
-    <section id="services" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-800 dark:to-gray-900">
-      <div className="max-w-7xl mx-auto">
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-            Our Services
+    <section id="services" className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-100 dark:bg-gray-800">
+      <div className="max-w-6xl mx-auto">
+        <div className="mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3">
+            Why Shop With Us?
           </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            Comprehensive solutions for all your hardware and building material requirements
+          <p className="text-lg text-gray-600 dark:text-gray-300">
+            We keep it simple
           </p>
         </div>
 
-        {/* Services Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {services.map((service, index) => {
             const Icon = service.icon;
             
             return (
               <div
                 key={index}
-                className="text-center p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
+                className="bg-white dark:bg-gray-900 p-6 rounded-lg"
               >
-                <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
-                  <Icon className="w-10 h-10 text-white" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
+                <Icon className="w-12 h-12 text-orange-600 dark:text-orange-500 mb-4" />
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
                   {service.title}
                 </h3>
-                <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+                <p className="text-gray-600 dark:text-gray-400">
                   {service.description}
                 </p>
               </div>
@@ -63,23 +59,19 @@ export default function Services() {
           })}
         </div>
 
-        {/* CTA */}
-        <div className="mt-16 text-center">
-          <div className="inline-flex flex-col sm:flex-row gap-4 items-center">
-            <a
-              href="#contact"
-              className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium text-lg transition-colors shadow-lg hover:shadow-xl"
-            >
-              Contact Us Today
-            </a>
-            <span className="text-gray-600 dark:text-gray-400">or</span>
-            <a
-              href="tel:+1234567890"
-              className="px-8 py-4 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-gray-900 dark:text-white rounded-lg font-medium text-lg transition-colors border border-gray-200 dark:border-gray-600"
-            >
-              Call: +123 456 7890
-            </a>
-          </div>
+        <div className="mt-12 bg-orange-600 dark:bg-orange-700 rounded-lg p-8 text-center">
+          <h3 className="text-2xl font-bold text-white mb-3">
+            Visit Our Store Today
+          </h3>
+          <p className="text-orange-100 mb-6">
+            Come see what we have. Bring your project questions.
+          </p>
+          <a
+            href="tel:+94123456789"
+            className="inline-block px-6 py-3 bg-white text-orange-600 font-bold rounded hover:bg-gray-100 transition-colors"
+          >
+            Call: +94 123 456 789
+          </a>
         </div>
       </div>
     </section>
