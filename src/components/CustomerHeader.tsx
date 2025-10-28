@@ -2,11 +2,13 @@
 
 import { useState } from "react";
 import { useApp } from "@/contexts/AppContext";
+import { useNotifications } from "@/contexts/NotificationContext";
 import { Bell, Search, ShoppingCart, Moon, Sun } from "lucide-react";
 import CartDropdown from "./CartDropdown";
 
 export default function CustomerHeader() {
   const { cart, theme, toggleTheme } = useApp();
+  const { unreadCount, toggleNotificationSidebar } = useNotifications();
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   const cartItemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -33,7 +35,10 @@ export default function CustomerHeader() {
 
           {/* Cart */}
           <div className="relative">
-            <button className="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white relative transition-colors duration-300">
+            <button 
+              onClick={() => setIsCartOpen(!isCartOpen)}
+              className="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white relative transition-colors duration-300"
+            >
               <ShoppingCart className="w-5 h-5 transition-colors duration-300" />
               {cartItemCount > 0 && (
                 <span className="absolute -top-1 -right-1 bg-orange-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
@@ -71,6 +76,9 @@ export default function CustomerHeader() {
           </button>
         </div>
       </div>
+
+      {/* Cart Dropdown */}
+      <CartDropdown isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </header>
   );
 }
