@@ -42,6 +42,11 @@ interface BulkUpdateRow {
 export default function InventoryPage() {
   const { products, addProduct, updateProduct, deleteProduct, currentUser } =
     useApp();
+  
+  // Check if user is admin (full access) or manager (view and order only)
+  const isAdmin = currentUser?.role === 'admin';
+  const isManager = currentUser?.role === 'manager';
+  
   const [searchQuery, setSearchQuery] = useState("");
   const [filterCategory, setFilterCategory] = useState("All");
   const [sortBy, setSortBy] = useState("name");

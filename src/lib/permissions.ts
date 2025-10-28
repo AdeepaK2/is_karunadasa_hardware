@@ -4,13 +4,13 @@ import { UserRole, UserPermissions } from '@/types';
 export const rolePermissions: Record<UserRole, UserPermissions> = {
   admin: {
     canViewDashboard: true,
-    canManageBilling: true,
+    canManageBilling: false, // Admin doesn't need billing
     canViewInventory: true,
     canEditInventory: true,
     canDeleteInventory: true,
     canManageCustomers: true,
     canManageEmployees: true,
-    canManageSuppliers: true,
+    canManageSuppliers: true, // Admin can add/edit/delete suppliers
     canViewReports: true,
     canManageExpenses: true,
     canAccessSettings: true,
@@ -21,13 +21,13 @@ export const rolePermissions: Record<UserRole, UserPermissions> = {
   },
   manager: {
     canViewDashboard: true,
-    canManageBilling: true,
+    canManageBilling: false, // Manager doesn't need billing
     canViewInventory: true,
-    canEditInventory: true,
+    canEditInventory: false, // Manager can only view and order
     canDeleteInventory: false,
     canManageCustomers: true,
-    canManageEmployees: false,
-    canManageSuppliers: true,
+    canManageEmployees: false, // Cannot manage employees
+    canManageSuppliers: true, // Manager can view suppliers and place orders (UI restricts to view/order only)
     canViewReports: true,
     canManageExpenses: true,
     canAccessSettings: false,

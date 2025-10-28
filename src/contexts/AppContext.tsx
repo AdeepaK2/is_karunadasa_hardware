@@ -142,16 +142,15 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       initializeData();
       const storedUser = storage.getCurrentUser();
       if (storedUser && typeof storedUser === "object" && "id" in storedUser) {
-        // Ensure the user has permissions
+        // Always refresh permissions from the latest permissions file
         const userWithPermissions = storedUser as User;
-        if (!userWithPermissions.permissions) {
-          // If permissions are missing, add them based on role
-          const { getPermissionsForRole } = require("@/lib/permissions");
-          userWithPermissions.permissions = getPermissionsForRole(
-            userWithPermissions.role
-          );
-        }
+        const { getPermissionsForRole } = require("@/lib/permissions");
+        userWithPermissions.permissions = getPermissionsForRole(
+          userWithPermissions.role
+        );
         setCurrentUser(userWithPermissions);
+        // Update storage with fresh permissions
+        storage.setCurrentUser(userWithPermissions);
       }
 
       // Initialize theme: Check localStorage first, then OS preference
