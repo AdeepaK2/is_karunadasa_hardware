@@ -11,10 +11,11 @@ import {
   Mail,
   MapPin,
   Package,
+  ShoppingCart,
 } from "lucide-react";
 
 export default function SuppliersPage() {
-  const { suppliers, products, addSupplier, updateSupplier, deleteSupplier } =
+  const { suppliers, products, addSupplier, updateSupplier, deleteSupplier, currentUser } =
     useApp();
   const [showModal, setShowModal] = useState(false);
   const [editingSupplier, setEditingSupplier] = useState<any>(null);
@@ -25,6 +26,10 @@ export default function SuppliersPage() {
     address: "",
     products: [] as string[],
   });
+
+  // Check if user is admin (can edit/delete) or manager (view and order only)
+  const isAdmin = currentUser?.role === 'admin';
+  const isManager = currentUser?.role === 'manager';
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -87,16 +92,18 @@ export default function SuppliersPage() {
             Supplier Management
           </h1>
           <p className="text-gray-600 dark:text-gray-400 mt-1">
-            Manage your suppliers and vendor relationships
+            {isAdmin ? 'Manage your suppliers and vendor relationships' : 'View suppliers and place orders'}
           </p>
         </div>
-        <button
-          onClick={() => setShowModal(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-medium"
-        >
-          <Plus className="w-5 h-5" />
-          Add Supplier
-        </button>
+        {isAdmin && (
+          <button
+            onClick={() => setShowModal(true)}
+            className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-medium"
+          >
+            <Plus className="w-5 h-5" />
+            Add Supplier
+          </button>
+        )}
       </div>
 
       <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
@@ -162,18 +169,33 @@ export default function SuppliersPage() {
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
-                    <button
-                      onClick={() => handleEdit(supplier)}
-                      className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 mr-3"
-                    >
-                      <Edit className="w-4 h-4 inline" />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(supplier.id)}
-                      className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300"
-                    >
-                      <Trash2 className="w-4 h-4 inline" />
-                    </button>
+                    {isAdmin ? (
+                      <>
+                        <button
+                          onClick={() => handleEdit(supplier)}
+                          className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 mr-3"
+                          title="Edit Supplier"
+                        >
+                          <Edit className="w-4 h-4 inline" />
+                        </button>
+                        <button
+                          onClick={() => handleDelete(supplier.id)}
+                          className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300"
+                          title="Delete Supplier"
+                        >
+                          <Trash2 className="w-4 h-4 inline" />
+                        </button>
+                      </>
+                    ) : (
+                      <button
+                        onClick={() => alert(`Place order from ${supplier.name}`)}
+                        className="flex items-center gap-1 px-3 py-1 bg-green-600 hover:bg-green-700 text-white rounded text-xs font-medium transition-colors"
+                        title="Place Order"
+                      >
+                        <ShoppingCart className="w-3 h-3" />
+                        Order
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))}
@@ -221,7 +243,7 @@ export default function SuppliersPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 flex items-center gap-1">
+                  <label className="flex items-center gap-1 text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     <Phone className="w-4 h-4" />
                     Contact Number *
                   </label>
@@ -238,7 +260,7 @@ export default function SuppliersPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 flex items-center gap-1">
+                  <label className="flex items-center gap-1 text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     <Mail className="w-4 h-4" />
                     Email
                   </label>
@@ -255,7 +277,7 @@ export default function SuppliersPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 flex items-center gap-1">
+                <label className="flex items-center gap-1 text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   <MapPin className="w-4 h-4" />
                   Address
                 </label>
@@ -271,7 +293,7 @@ export default function SuppliersPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-1">
+                <label className="flex items-center gap-1 text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   <Package className="w-4 h-4" />
                   Products Supplied
                 </label>
