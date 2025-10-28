@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { useApp } from '@/contexts/AppContext';
-import { Search, Sun, Moon, LogOut, User } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import React from "react";
+import { useApp } from "@/contexts/AppContext";
+import { Search, Sun, Moon, LogOut, User } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
   const { currentUser, theme, toggleTheme, logout } = useApp();
@@ -11,11 +11,11 @@ export default function Header() {
 
   const handleLogout = () => {
     logout();
-    router.push('/login');
+    router.push("/login");
   };
 
   return (
-    <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
+    <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10 transition-colors duration-300">
       <div className="flex items-center justify-between px-6 py-4">
         {/* Search Bar */}
         <div className="flex-1 max-w-2xl">
@@ -24,7 +24,7 @@ export default function Header() {
             <input
               type="text"
               placeholder="Search products, customers, or invoices..."
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white transition-colors duration-300"
             />
           </div>
         </div>
@@ -32,17 +32,26 @@ export default function Header() {
         {/* Right Side Actions */}
         <div className="flex items-center gap-4 ml-6">
           {/* Theme Toggle */}
-          <button
-            onClick={toggleTheme}
-            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-            aria-label="Toggle theme"
-          >
-            {theme === 'light' ? (
-              <Moon className="w-5 h-5 text-gray-600 dark:text-gray-300" />
-            ) : (
-              <Sun className="w-5 h-5 text-gray-600 dark:text-gray-300" />
-            )}
-          </button>
+          <div className="relative group">
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 hover:scale-110 active:scale-95"
+              aria-label={`Switch to ${
+                theme === "light" ? "dark" : "light"
+              } mode`}
+            >
+              {theme === "light" ? (
+                <Moon className="w-5 h-5 text-gray-600 dark:text-gray-300 theme-icon" />
+              ) : (
+                <Sun className="w-5 h-5 text-gray-600 dark:text-gray-300 theme-icon" />
+              )}
+            </button>
+            {/* Tooltip */}
+            <div className="absolute right-0 top-full mt-2 px-3 py-1.5 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none z-50">
+              Switch to {theme === "light" ? "Dark" : "Light"} Mode
+              <div className="absolute -top-1 right-4 w-2 h-2 bg-gray-900 dark:bg-gray-700 transform rotate-45"></div>
+            </div>
+          </div>
 
           {/* User Info */}
           {currentUser && (

@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useApp } from '@/contexts/AppContext';
-import Sidebar from '@/components/Sidebar';
-import Header from '@/components/Header';
-import ThemeProvider from '@/components/ThemeProvider';
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useApp } from "@/contexts/AppContext";
+import Sidebar from "@/components/Sidebar";
+import Header from "@/components/Header";
+import ThemeProvider from "@/components/ThemeProvider";
 
 export default function DashboardLayout({
   children,
@@ -17,7 +17,7 @@ export default function DashboardLayout({
 
   useEffect(() => {
     if (!currentUser) {
-      router.push('/login');
+      router.push("/login");
     }
   }, [currentUser, router]);
 
@@ -34,11 +34,11 @@ export default function DashboardLayout({
 
   return (
     <ThemeProvider>
-      <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="flex h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
         <Sidebar />
         <div className="flex-1 flex flex-col overflow-hidden">
           <Header />
-          <main className="flex-1 overflow-y-auto">
+          <main className="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-900">
             {children}
           </main>
         </div>

@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useApp } from '@/contexts/AppContext';
+import React from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useApp } from "@/contexts/AppContext";
 import {
   LayoutDashboard,
   ShoppingCart,
@@ -14,18 +14,63 @@ import {
   Settings,
   Truck,
   Receipt,
-} from 'lucide-react';
+} from "lucide-react";
 
 const menuItems = [
-  { name: 'Dashboard', icon: LayoutDashboard, path: '/dashboard', permission: 'canViewDashboard' as const },
-  { name: 'Billing', icon: ShoppingCart, path: '/billing', permission: 'canManageBilling' as const },
-  { name: 'Inventory', icon: Package, path: '/inventory', permission: 'canViewInventory' as const },
-  { name: 'Customers', icon: Users, path: '/customers', permission: 'canManageCustomers' as const },
-  { name: 'Employees', icon: UserCog, path: '/employees', permission: 'canManageEmployees' as const },
-  { name: 'Sales History', icon: TrendingUp, path: '/sales', permission: 'canViewSales' as const },
-  { name: 'Suppliers', icon: Truck, path: '/suppliers', permission: 'canManageSuppliers' as const },
-  { name: 'Expenses', icon: Receipt, path: '/expenses', permission: 'canManageExpenses' as const },
-  { name: 'Settings', icon: Settings, path: '/settings', permission: 'canAccessSettings' as const },
+  {
+    name: "Dashboard",
+    icon: LayoutDashboard,
+    path: "/dashboard",
+    permission: "canViewDashboard" as const,
+  },
+  {
+    name: "Billing",
+    icon: ShoppingCart,
+    path: "/billing",
+    permission: "canManageBilling" as const,
+  },
+  {
+    name: "Inventory",
+    icon: Package,
+    path: "/inventory",
+    permission: "canViewInventory" as const,
+  },
+  {
+    name: "Customers",
+    icon: Users,
+    path: "/customers",
+    permission: "canManageCustomers" as const,
+  },
+  {
+    name: "Employees",
+    icon: UserCog,
+    path: "/employees",
+    permission: "canManageEmployees" as const,
+  },
+  {
+    name: "Sales History",
+    icon: TrendingUp,
+    path: "/sales",
+    permission: "canViewSales" as const,
+  },
+  {
+    name: "Suppliers",
+    icon: Truck,
+    path: "/suppliers",
+    permission: "canManageSuppliers" as const,
+  },
+  {
+    name: "Expenses",
+    icon: Receipt,
+    path: "/expenses",
+    permission: "canManageExpenses" as const,
+  },
+  {
+    name: "Settings",
+    icon: Settings,
+    path: "/settings",
+    permission: "canAccessSettings" as const,
+  },
 ];
 
 export default function Sidebar() {
@@ -40,11 +85,14 @@ export default function Sidebar() {
   });
 
   return (
-    <aside className="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 h-screen sticky top-0 overflow-y-auto">
+    <aside className="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 h-screen sticky top-0 overflow-y-auto transition-colors duration-300">
       <div className="p-6">
-        <h1 className="text-2xl font-bold text-blue-600 dark:text-blue-400">Hardware POS</h1>
-        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-          {currentUser.role.charAt(0).toUpperCase() + currentUser.role.slice(1)} Portal
+        <h1 className="text-2xl font-bold text-blue-600 dark:text-blue-400 transition-colors duration-300">
+          Hardware POS
+        </h1>
+        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 transition-colors duration-300">
+          {currentUser.role.charAt(0).toUpperCase() + currentUser.role.slice(1)}{" "}
+          Portal
         </p>
       </div>
 
@@ -53,15 +101,15 @@ export default function Sidebar() {
           {accessibleMenuItems.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.path;
-            
+
             return (
               <li key={item.path}>
                 <Link
                   href={item.path}
                   className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                     isActive
-                      ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-medium'
-                      : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+                      ? "bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-medium"
+                      : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
                   }`}
                 >
                   <Icon className="w-5 h-5" />
@@ -83,7 +131,9 @@ export default function Sidebar() {
             <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
               {currentUser.name}
             </p>
-            <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{currentUser.email}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+              {currentUser.email}
+            </p>
           </div>
         </div>
       </div>

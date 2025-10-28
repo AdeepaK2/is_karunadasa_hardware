@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useApp } from '@/contexts/AppContext';
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useApp } from "@/contexts/AppContext";
 import {
   Home,
   ShoppingBag,
@@ -11,14 +11,14 @@ import {
   LogOut,
   Store,
   Package,
-} from 'lucide-react';
+} from "lucide-react";
 
 const navigation = [
-  { name: 'Dashboard', href: '/customer-dashboard', icon: Home },
-  { name: 'Products', href: '/customer-dashboard/products', icon: ShoppingBag },
-  { name: 'Cart', href: '/customer-dashboard/cart', icon: ShoppingCart },
-  { name: 'Orders', href: '/customer-dashboard/orders', icon: Package },
-  { name: 'Profile', href: '/customer-dashboard/profile', icon: User },
+  { name: "Dashboard", href: "/customer-dashboard", icon: Home },
+  { name: "Products", href: "/customer-dashboard/products", icon: ShoppingBag },
+  { name: "Cart", href: "/customer-dashboard/cart", icon: ShoppingCart },
+  { name: "Orders", href: "/customer-dashboard/orders", icon: Package },
+  { name: "Profile", href: "/customer-dashboard/profile", icon: User },
 ];
 
 export default function CustomerSidebar() {
@@ -26,9 +26,9 @@ export default function CustomerSidebar() {
   const pathname = usePathname();
 
   return (
-    <div className="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col">
+    <div className="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col transition-colors duration-300">
       {/* Logo */}
-      <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+      <div className="p-6 border-b border-gray-200 dark:border-gray-700 transition-colors duration-300">
         <div className="flex items-center gap-2">
           <img
             src="/hw_logo.png"
@@ -57,8 +57,8 @@ export default function CustomerSidebar() {
               href={item.href}
               className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                 isActive
-                  ? 'bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400'
-                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                  ? "bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400"
+                  : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
               }`}
             >
               <Icon className="w-5 h-5" />
@@ -80,9 +80,7 @@ export default function CustomerSidebar() {
             <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
               {currentUser?.name}
             </p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">
-              Customer
-            </p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">Customer</p>
           </div>
         </div>
         <button

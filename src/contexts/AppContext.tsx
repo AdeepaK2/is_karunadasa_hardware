@@ -154,14 +154,36 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         setCurrentUser(userWithPermissions);
       }
 
-      // Apply stored theme immediately on mount
+      // Initialize theme: Check localStorage first, then OS preference
       const storedTheme = storage.getTheme();
+      let initialTheme: "light" | "dark";
+
       if (storedTheme === "light" || storedTheme === "dark") {
-        document.documentElement.classList.remove("light", "dark");
-        document.documentElement.classList.add(storedTheme);
+        initialTheme = storedTheme;
       } else {
-        document.documentElement.classList.add("light");
+        // Detect OS theme preference
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)"
+        ).matches;
+        initialTheme = prefersDark ? "dark" : "light";
       }
+
+      setTheme(initialTheme);
+      document.documentElement.classList.remove("light", "dark");
+      document.documentElement.classList.add(initialTheme);
+
+      // Listen for OS theme changes
+      const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+      const handleThemeChange = (e: MediaQueryListEvent) => {
+        // Only auto-switch if user hasn't explicitly set a preference
+        if (!storage.getTheme()) {
+          const newTheme = e.matches ? "dark" : "light";
+          setTheme(newTheme);
+        }
+      };
+
+      mediaQuery.addEventListener("change", handleThemeChange);
+      return () => mediaQuery.removeEventListener("change", handleThemeChange);
     }
   }, []);
 
@@ -211,10 +233,23 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (isInitialized && typeof window !== "undefined") {
       storage.setTheme(theme);
+      console.log("🎨 Theme changing to:", theme);
       // Remove both classes first
       document.documentElement.classList.remove("light", "dark");
       // Add the current theme
       document.documentElement.classList.add(theme);
+      console.log(
+        "📋 HTML classList:",
+        document.documentElement.classList.toString()
+      );
+      console.log(
+        "🎯 HTML has .light:",
+        document.documentElement.classList.contains("light")
+      );
+      console.log(
+        "🌙 HTML has .dark:",
+        document.documentElement.classList.contains("dark")
+      );
     }
   }, [theme, isInitialized]);
 
