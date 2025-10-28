@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useNotifications } from '@/contexts/NotificationContext';
-import { X, Bell, Check, CheckCheck, Trash2, Clock } from 'lucide-react';
+import { X, Bell, CheckCircle, AlertCircle, AlertTriangle, Info, Package, CreditCard } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 
 export default function NotificationSidebar() {
@@ -24,13 +24,30 @@ export default function NotificationSidebar() {
   const getNotificationIcon = (type: string) => {
     switch (type) {
       case 'success':
-        return '✅';
+        return <CheckCircle className="w-5 h-5 text-green-500" />;
       case 'error':
-        return '❌';
+        return <AlertCircle className="w-5 h-5 text-red-500" />;
       case 'warning':
-        return '⚠️';
+        return <AlertTriangle className="w-5 h-5 text-yellow-500" />;
+      case 'info':
+        return <Info className="w-5 h-5 text-blue-500" />;
       default:
-        return 'ℹ️';
+        return <Bell className="w-5 h-5 text-gray-500" />;
+    }
+  };
+
+  const getNotificationBorderColor = (type: string) => {
+    switch (type) {
+      case 'success':
+        return 'border-l-green-500';
+      case 'error':
+        return 'border-l-red-500';
+      case 'warning':
+        return 'border-l-yellow-500';
+      case 'info':
+        return 'border-l-blue-500';
+      default:
+        return 'border-l-gray-300';
     }
   };
 
@@ -90,15 +107,15 @@ export default function NotificationSidebar() {
               {notifications.map((notification) => (
                 <div
                   key={notification.id}
-                  className={`p-3 hover:bg-gray-50 dark:hover:bg-gray-700/50 cursor-pointer transition-colors group ${
-                    !notification.isRead ? 'bg-blue-50/50 dark:bg-blue-900/10' : ''
+                  className={`p-3 border-l-4 ${getNotificationBorderColor(notification.type)} hover:bg-gray-50 dark:hover:bg-gray-700/50 cursor-pointer transition-colors group ${
+                    !notification.isRead ? 'bg-blue-50/30 dark:bg-blue-900/10' : ''
                   }`}
                   onClick={() => !notification.isRead && markAsRead(notification.id)}
                 >
                   <div className="flex gap-3">
                     {/* Icon */}
                     <div className="flex-shrink-0 mt-0.5">
-                      <span className="text-lg">{notification.icon || getNotificationIcon(notification.type)}</span>
+                      {getNotificationIcon(notification.type)}
                     </div>
 
                     {/* Content */}

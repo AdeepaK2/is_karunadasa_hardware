@@ -513,6 +513,70 @@ function generateSalesData(): Sale[] {
 // Mock Sales
 export const mockSales: Sale[] = [
   ...generateSalesData(),
+  // Last 24 hours sales (today)
+  ...Array.from({ length: 15 }, (_, i) => {
+    const product = mockProducts[i % mockProducts.length];
+    const customer = mockCustomers[i % mockCustomers.length];
+    const quantity = Math.floor(Math.random() * 4) + 1;
+    const discount = Math.random() > 0.6 ? Math.floor(Math.random() * 50) + 25 : 0;
+    const subtotal = product.sellingPrice * quantity;
+    const tax = Math.floor((subtotal - discount) * 0.18);
+    const total = subtotal - discount + tax;
+    const now = new Date();
+    
+    return {
+      id: `today-${i}`,
+      invoiceNumber: `INV-2025-${20000 + i}`,
+      customerId: customer.id,
+      customerName: customer.name,
+      items: [{
+        product: product,
+        quantity: quantity,
+        discount: discount
+      }],
+      subtotal: subtotal,
+      discount: discount,
+      tax: tax,
+      total: total,
+      paymentMode: ['cash', 'card', 'upi'][Math.floor(Math.random() * 3)] as any,
+      cashierId: '3',
+      cashierName: 'Dilini Cashier',
+      date: new Date(now.getTime() - Math.random() * 24 * 60 * 60 * 1000),
+      status: 'completed' as any
+    };
+  }),
+  // Recent sales for better dashboard visualization (Last 7 days)
+  ...Array.from({ length: 50 }, (_, i) => {
+    const daysAgo = Math.floor(i / 7) + 1;
+    const product = mockProducts[i % mockProducts.length];
+    const customer = mockCustomers[i % mockCustomers.length];
+    const quantity = Math.floor(Math.random() * 5) + 1;
+    const discount = Math.random() > 0.7 ? Math.floor(Math.random() * 100) + 50 : 0;
+    const subtotal = product.sellingPrice * quantity;
+    const tax = Math.floor((subtotal - discount) * 0.18);
+    const total = subtotal - discount + tax;
+    
+    return {
+      id: `recent-${i}`,
+      invoiceNumber: `INV-2025-${10000 + i}`,
+      customerId: customer.id,
+      customerName: customer.name,
+      items: [{
+        product: product,
+        quantity: quantity,
+        discount: discount
+      }],
+      subtotal: subtotal,
+      discount: discount,
+      tax: tax,
+      total: total,
+      paymentMode: ['cash', 'card', 'upi'][Math.floor(Math.random() * 3)] as any,
+      cashierId: '3',
+      cashierName: 'Dilini Cashier',
+      date: new Date(Date.now() - daysAgo * 24 * 60 * 60 * 1000 - Math.random() * 24 * 60 * 60 * 1000),
+      status: 'completed' as any
+    };
+  }),
   // Additional dummy orders for recent dates
   {
     id: "99991",
@@ -1180,6 +1244,27 @@ export const mockSuppliers: Supplier[] = [
 
 // Mock Expenses
 export const mockExpenses: Expense[] = [
+  // Recent expenses for better visualization (Last 30 days)
+  ...Array.from({ length: 20 }, (_, i) => {
+    const categories: Array<'Rent' | 'Utilities' | 'Supplies' | 'Transportation' | 'Marketing' | 'Maintenance' | 'Salaries'> = 
+      ['Rent', 'Utilities', 'Supplies', 'Transportation', 'Marketing', 'Maintenance', 'Salaries'];
+    const vendors = ['Dialog Axiata', 'CEB', 'Office Mart', 'Lanka Fuel', 'Facebook Ads', 'Tech Solutions', 'Staff Payroll'];
+    const category = categories[i % categories.length];
+    const daysAgo = Math.floor(Math.random() * 30);
+    const paymentMethods: Array<'Cash' | 'Card' | 'Bank Transfer'> = ['Cash', 'Card', 'Bank Transfer'];
+    
+    return {
+      id: `recent-exp-${i}`,
+      date: new Date(Date.now() - daysAgo * 24 * 60 * 60 * 1000),
+      category: category,
+      vendor: vendors[i % vendors.length],
+      description: `${category} expense - ${vendors[i % vendors.length]}`,
+      paymentMethod: paymentMethods[Math.floor(Math.random() * 3)],
+      amount: Math.floor(Math.random() * 20000) + 1000,
+      paidBy: 'Admin User',
+      createdAt: new Date(Date.now() - daysAgo * 24 * 60 * 60 * 1000)
+    };
+  }),
   // October 2025 Expenses
   {
     id: "1",
