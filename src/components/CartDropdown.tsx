@@ -46,12 +46,11 @@ export default function CartDropdown({ isOpen, onClose }: CartDropdownProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-black bg-opacity-25" onClick={onClose}>
-      <div 
-        ref={dropdownRef}
-        className="absolute right-4 top-16 w-96 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 max-h-[80vh] flex flex-col"
-        onClick={(e) => e.stopPropagation()}
-      >
+    <div 
+      ref={dropdownRef}
+      className="fixed right-4 top-16 w-96 bg-white dark:bg-gray-800 rounded-lg shadow-2xl border border-gray-200 dark:border-gray-700 max-h-[80vh] flex flex-col z-50"
+      onClick={(e) => e.stopPropagation()}
+    >
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -183,6 +182,5 @@ export default function CartDropdown({ isOpen, onClose }: CartDropdownProps) {
           </div>
         )}
       </div>
-    </div>
   );
 }

@@ -21,68 +21,59 @@ export default function NotificationSidebar() {
     return null;
   }
 
-  const getNotificationTypeColor = (type: string) => {
+  const getNotificationIcon = (type: string) => {
     switch (type) {
       case 'success':
-        return 'bg-green-100 border-green-200 text-green-800 dark:bg-green-900 dark:border-green-800 dark:text-green-100';
+        return '✅';
       case 'error':
-        return 'bg-red-100 border-red-200 text-red-800 dark:bg-red-900 dark:border-red-800 dark:text-red-100';
+        return '❌';
       case 'warning':
-        return 'bg-yellow-100 border-yellow-200 text-yellow-800 dark:bg-yellow-900 dark:border-yellow-800 dark:text-yellow-100';
+        return '⚠️';
       default:
-        return 'bg-blue-100 border-blue-200 text-blue-800 dark:bg-blue-900 dark:border-blue-800 dark:text-blue-100';
+        return 'ℹ️';
     }
   };
 
   return (
-    <>
-      {/* Backdrop */}
-      <div
-        className="fixed inset-0 bg-black bg-opacity-50 z-40"
-        onClick={closeNotificationSidebar}
-      />
-
-      {/* Sidebar */}
-      <div className="fixed right-0 top-0 h-full w-96 bg-white dark:bg-gray-800 shadow-lg z-50 transform transition-transform duration-300 ease-in-out overflow-hidden">
-        {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
-          <div className="flex items-center gap-2">
-            <Bell className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-              Notifications
-            </h2>
-            {unreadCount > 0 && (
-              <span className="bg-red-500 text-white text-xs rounded-full px-2 py-1 min-w-[20px] text-center">
-                {unreadCount}
-              </span>
-            )}
-          </div>
-          <button
-            onClick={closeNotificationSidebar}
-            className="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
-          >
-            <X className="w-5 h-5 text-gray-500 dark:text-gray-400" />
-          </button>
+    <div className="fixed right-0 top-0 h-full w-80 bg-white dark:bg-gray-800 shadow-2xl z-50 overflow-hidden flex flex-col">
+      {/* Header */}
+      <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+        <div className="flex items-center gap-2">
+          <Bell className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+          <h2 className="text-base font-semibold text-gray-900 dark:text-white">
+            Notifications
+          </h2>
+          {unreadCount > 0 && (
+            <span className="bg-blue-500 text-white text-xs rounded-full px-1.5 py-0.5 min-w-[18px] text-center">
+              {unreadCount}
+            </span>
+          )}
         </div>
+        <button
+          onClick={closeNotificationSidebar}
+          className="p-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+        >
+          <X className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+        </button>
+      </div>
 
         {/* Action Buttons */}
         {notifications.length > 0 && (
-          <div className="flex gap-2 p-4 border-b border-gray-200 dark:border-gray-700">
+          <div className="flex gap-2 px-4 py-2 bg-gray-50 dark:bg-gray-750">
             {unreadCount > 0 && (
               <button
                 onClick={markAllAsRead}
-                className="flex items-center gap-1 px-3 py-1 text-sm bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300 rounded-md hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors"
+                className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium"
               >
-                <CheckCheck className="w-4 h-4" />
-                Mark All Read
+                Mark all read
               </button>
             )}
+            <span className="text-gray-300 dark:text-gray-600">·</span>
             <button
               onClick={clearAllNotifications}
-              className="flex items-center gap-1 px-3 py-1 text-sm bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300 rounded-md hover:bg-red-200 dark:hover:bg-red-800 transition-colors"
+              className="text-xs text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300"
             >
-              <Trash2 className="w-4 h-4" />
-              Clear All
+              Clear all
             </button>
           </div>
         )}
@@ -90,65 +81,55 @@ export default function NotificationSidebar() {
         {/* Notifications List */}
         <div className="flex-1 overflow-y-auto">
           {notifications.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-64 text-gray-500 dark:text-gray-400">
-              <Bell className="w-12 h-12 mb-4 opacity-50" />
-              <p className="text-lg font-medium">No notifications</p>
-              <p className="text-sm">You're all caught up!</p>
+            <div className="flex flex-col items-center justify-center h-64 text-gray-400 dark:text-gray-500">
+              <Bell className="w-10 h-10 mb-2 opacity-20" />
+              <p className="text-sm">All clear!</p>
             </div>
           ) : (
-            <div className="p-4 space-y-3">
+            <div className="divide-y divide-gray-100 dark:divide-gray-700">
               {notifications.map((notification) => (
                 <div
                   key={notification.id}
-                  className={`relative p-4 rounded-lg border transition-all duration-200 hover:shadow-md ${
-                    notification.isRead
-                      ? 'bg-gray-50 border-gray-200 dark:bg-gray-700 dark:border-gray-600'
-                      : getNotificationTypeColor(notification.type)
+                  className={`p-3 hover:bg-gray-50 dark:hover:bg-gray-700/50 cursor-pointer transition-colors group ${
+                    !notification.isRead ? 'bg-blue-50/50 dark:bg-blue-900/10' : ''
                   }`}
+                  onClick={() => !notification.isRead && markAsRead(notification.id)}
                 >
-                  {/* Unread indicator */}
-                  {!notification.isRead && (
-                    <div className="absolute top-2 left-2 w-2 h-2 bg-blue-500 rounded-full"></div>
-                  )}
-
-                  {/* Notification content */}
-                  <div className="ml-4">
-                    <div className="flex items-start justify-between">
-                      <div className="flex items-center gap-2 mb-1">
-                        {notification.icon && (
-                          <span className="text-lg">{notification.icon}</span>
-                        )}
-                        <h3 className="font-medium text-gray-900 dark:text-white">
-                          {notification.title}
-                        </h3>
-                      </div>
-                      <button
-                        onClick={() => removeNotification(notification.id)}
-                        className="p-1 opacity-0 group-hover:opacity-100 hover:bg-gray-200 dark:hover:bg-gray-600 rounded transition-all"
-                      >
-                        <X className="w-4 h-4 text-gray-500 dark:text-gray-400" />
-                      </button>
+                  <div className="flex gap-3">
+                    {/* Icon */}
+                    <div className="flex-shrink-0 mt-0.5">
+                      <span className="text-lg">{notification.icon || getNotificationIcon(notification.type)}</span>
                     </div>
 
-                    <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
-                      {notification.message}
-                    </p>
-
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
-                        <Clock className="w-3 h-3" />
-                        {formatDistanceToNow(notification.timestamp, { addSuffix: true })}
+                    {/* Content */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between gap-2 mb-1">
+                        <h4 className="text-sm font-medium text-gray-900 dark:text-white">
+                          {notification.title}
+                        </h4>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            removeNotification(notification.id);
+                          }}
+                          className="opacity-0 group-hover:opacity-100 p-0.5 hover:bg-gray-200 dark:hover:bg-gray-600 rounded transition-all"
+                        >
+                          <X className="w-3.5 h-3.5 text-gray-400" />
+                        </button>
                       </div>
 
-                      {!notification.isRead && (
-                        <button
-                          onClick={() => markAsRead(notification.id)}
-                          className="flex items-center gap-1 px-2 py-1 text-xs bg-white dark:bg-gray-600 border border-gray-300 dark:border-gray-500 rounded hover:bg-gray-50 dark:hover:bg-gray-500 transition-colors"
-                        >
-                          <Check className="w-3 h-3" />
-                          Mark Read
-                        </button>
-                      )}
+                      <p className="text-xs text-gray-600 dark:text-gray-400 mb-2">
+                        {notification.message}
+                      </p>
+
+                      <div className="flex items-center justify-between text-xs">
+                        <span className="text-gray-400 dark:text-gray-500">
+                          {formatDistanceToNow(notification.timestamp, { addSuffix: true })}
+                        </span>
+                        {!notification.isRead && (
+                          <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -157,6 +138,5 @@ export default function NotificationSidebar() {
           )}
         </div>
       </div>
-    </>
   );
 }
