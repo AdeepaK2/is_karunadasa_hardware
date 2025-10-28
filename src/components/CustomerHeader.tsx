@@ -1,10 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import { useApp } from "@/contexts/AppContext";
 import { Bell, Search, ShoppingCart, Moon, Sun } from "lucide-react";
+import CartDropdown from "./CartDropdown";
 
 export default function CustomerHeader() {
   const { cart, theme, toggleTheme } = useApp();
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   const cartItemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 

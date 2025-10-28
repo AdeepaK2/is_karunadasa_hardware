@@ -10,10 +10,11 @@ export default function ProductsPage() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [sortBy, setSortBy] = useState("name");
 
-  // Update product image URLs to use the correct path
+  // Update product image URLs to use the provided product.imageUrl when available,
+  // otherwise fall back to using the product ID (e.g. `/1.png`).
   const products = mockProducts.map((product) => ({
     ...product,
-    imageUrl: `/${product.id}.png`, // Use the product ID to map to 1.png, 2.png, etc.
+    imageUrl: product.imageUrl || `/${product.id}.png`,
   }));
 
   // Get unique categories
