@@ -10,11 +10,14 @@ export default function LoginPage() {
   const [role, setRole] = useState<'admin' | 'manager' | 'cashier' | 'customer'>('customer');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-  const { login, users, customers } = useApp();
+  const { login, logout, users, customers } = useApp();
   const router = useRouter();
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Clear any previous session first
+    logout();
 
     let user;
 
