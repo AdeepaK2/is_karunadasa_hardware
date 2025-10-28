@@ -3,8 +3,10 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useApp } from "@/contexts/AppContext";
+import { NotificationProvider } from "@/contexts/NotificationContext";
 import CustomerSidebar from "@/components/CustomerSidebar";
 import CustomerHeader from "@/components/CustomerHeader";
+import NotificationSidebar from "@/components/NotificationSidebar";
 import ThemeProvider from "@/components/ThemeProvider";
 
 export default function CustomerDashboardLayout({
@@ -34,15 +36,18 @@ export default function CustomerDashboardLayout({
 
   return (
     <ThemeProvider>
-      <div className="flex h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
-        <CustomerSidebar />
-        <div className="flex-1 flex flex-col overflow-hidden">
-          <CustomerHeader />
-          <main className="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-900">
-            {children}
-          </main>
+      <NotificationProvider>
+        <div className="flex h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
+          <CustomerSidebar />
+          <div className="flex-1 flex flex-col overflow-hidden">
+            <CustomerHeader />
+            <main className="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-900">
+              {children}
+            </main>
+          </div>
+          <NotificationSidebar />
         </div>
-      </div>
+      </NotificationProvider>
     </ThemeProvider>
   );
 }

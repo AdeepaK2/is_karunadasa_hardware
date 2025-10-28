@@ -2,18 +2,21 @@
 
 import { useState, useMemo } from "react";
 import Image from "next/image";
+import { useApp } from "@/contexts/AppContext";
 import { mockProducts } from "@/lib/mockData";
 import { Product } from "@/types";
 
 export default function ProductsPage() {
+  const { addToCart } = useApp();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [sortBy, setSortBy] = useState("name");
 
-  // Update product image URLs to use the correct path
+  // Update product image URLs to use the provided product.imageUrl when available,
+  // otherwise fall back to using the product ID (e.g. `/1.png`).
   const products = mockProducts.map((product) => ({
     ...product,
-    imageUrl: `/${product.id}.png`, // Use the product ID to map to 1.png, 2.png, etc.
+    imageUrl: product.imageUrl || `/${product.id}.png`,
   }));
 
   // Get unique categories
@@ -53,10 +56,8 @@ export default function ProductsPage() {
     return filtered;
   }, [searchTerm, selectedCategory, sortBy]);
 
-  const addToCart = (product: Product) => {
-    // TODO: Implement add to cart functionality
-    console.log("Adding to cart:", product.name);
-    alert(`${product.name} added to cart!`);
+  const handleAddToCart = (product: Product) => {
+    addToCart(product, 1); // Add 1 quantity by default
   };
 
   return (
@@ -219,7 +220,7 @@ export default function ProductsPage() {
 
               {/* Add to Cart Button */}
               <button
-                onClick={() => addToCart(product)}
+                onClick={() => handleAddToCart(product)}
                 disabled={product.quantity === 0}
                 className={`w-full py-2 px-4 rounded-md font-medium transition-colors duration-200 ${
                   product.quantity === 0
