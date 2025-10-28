@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useApp } from '@/contexts/AppContext';
-import { Bell, Search, ShoppingCart } from 'lucide-react';
+import { useApp } from "@/contexts/AppContext";
+import { Bell, Search, ShoppingCart, Moon, Sun } from "lucide-react";
 
 export default function CustomerHeader() {
-  const { cart } = useApp();
+  const { cart, theme, toggleTheme } = useApp();
 
   const cartItemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
@@ -39,6 +39,19 @@ export default function CustomerHeader() {
               )}
             </button>
           </div>
+
+          {/* Theme Toggle */}
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            aria-label="Toggle theme"
+          >
+            {theme === "light" ? (
+              <Moon className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+            ) : (
+              <Sun className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+            )}
+          </button>
 
           {/* Notifications */}
           <button className="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
