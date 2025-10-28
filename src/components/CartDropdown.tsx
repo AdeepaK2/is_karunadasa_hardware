@@ -106,11 +106,11 @@ export default function CartDropdown({ isOpen, onClose }: CartDropdownProps) {
                       </p>
                       <div className="flex items-center gap-2 mt-1">
                         <span className="text-sm font-medium text-orange-600 dark:text-orange-400">
-                          Rs. {discountedPrice.toFixed(2)}
+                          LKR {discountedPrice.toFixed(2)}
                         </span>
                         {item.discount > 0 && (
                           <span className="text-xs text-gray-500 line-through">
-                            Rs. {item.product.sellingPrice.toFixed(2)}
+                            LKR {item.product.sellingPrice.toFixed(2)}
                           </span>
                         )}
                       </div>
@@ -160,7 +160,7 @@ export default function CartDropdown({ isOpen, onClose }: CartDropdownProps) {
                 Total:
               </span>
               <span className="text-lg font-bold text-orange-600 dark:text-orange-400">
-                Rs. {total.toFixed(2)}
+                LKR {total.toFixed(2)}
               </span>
             </div>
 

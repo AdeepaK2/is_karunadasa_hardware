@@ -50,7 +50,7 @@ export default function CustomerDashboard() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Spent</p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">Rs. {totalSpent.toFixed(2)}</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">LKR {totalSpent.toFixed(2)}</p>
             </div>
             <CreditCard className="w-8 h-8 text-green-600 dark:text-green-400" />
           </div>
@@ -101,7 +101,7 @@ export default function CustomerDashboard() {
                     </div>
                     <div className="text-right">
                       <p className="font-semibold text-gray-900 dark:text-white">
-                        Rs. {order.total.toFixed(2)}
+                        LKR {order.total.toFixed(2)}
                       </p>
                       <span className={`inline-block px-2 py-1 text-xs rounded-full ${
                         order.status === 'completed'

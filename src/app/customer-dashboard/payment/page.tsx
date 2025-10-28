@@ -383,7 +383,7 @@ export default function PaymentPage() {
                         Bank Transfer Instructions
                       </p>
                       <p className="text-xs text-yellow-700 dark:text-yellow-300 mt-1">
-                        Please transfer Rs. {orderData.total.toFixed(2)} to our bank account. Order will be processed after payment confirmation.
+                        Please transfer LKR {orderData.total.toFixed(2)} to our bank account. Order will be processed after payment confirmation.
                       </p>
                     </div>
                   </div>
@@ -400,7 +400,7 @@ export default function PaymentPage() {
                   Cash on Delivery
                 </h3>
                 <p className="text-sm text-green-700 dark:text-green-300">
-                  You will pay Rs. {orderData.total.toFixed(2)} when your order is delivered to your doorstep.
+                  You will pay LKR {orderData.total.toFixed(2)} when your order is delivered to your doorstep.
                 </p>
               </div>
             )}
@@ -419,7 +419,7 @@ export default function PaymentPage() {
               ) : paymentMethod === "cash-on-delivery" ? (
                 "Confirm Order"
               ) : (
-                `Pay Rs. ${orderData.total.toFixed(2)}`
+                `Pay LKR ${orderData.total.toFixed(2)}`
               )}
             </button>
           </div>
@@ -435,18 +435,18 @@ export default function PaymentPage() {
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span className="text-gray-600 dark:text-gray-400">Items ({orderData.items.length})</span>
-                <span className="font-medium">Rs. {orderData.subtotal.toFixed(2)}</span>
+                <span className="font-medium">LKR {orderData.subtotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600 dark:text-gray-400">Delivery</span>
                 <span className="font-medium">
-                  {orderData.deliveryFee === 0 ? "Free" : `Rs. ${orderData.deliveryFee.toFixed(2)}`}
+                  {orderData.deliveryFee === 0 ? "Free" : `LKR ${orderData.deliveryFee.toFixed(2)}`}
                 </span>
               </div>
               <div className="border-t border-gray-200 dark:border-gray-700 pt-2 mt-2">
                 <div className="flex justify-between text-lg font-bold">
                   <span>Total</span>
-                  <span className="text-green-600 dark:text-green-400">Rs. {orderData.total.toFixed(2)}</span>
+                  <span className="text-green-600 dark:text-green-400">LKR {orderData.total.toFixed(2)}</span>
                 </div>
               </div>
             </div>

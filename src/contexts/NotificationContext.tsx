@@ -35,27 +35,24 @@ const mockNotifications: Notification[] = [
     title: 'Order Confirmation',
     message: 'Your order #INV-2025-001 has been confirmed and is being processed.',
     type: 'success',
-    timestamp: new Date(Date.now() - 1000 * 60 * 30), // 30 minutes ago
+    timestamp: new Date(Date.now() - 1000 * 60 * 36), // 36 minutes ago
     isRead: false,
-    icon: '✅',
   },
   {
     id: '2',
     title: 'New Product Alert',
     message: 'New power tools have been added to our inventory. Check them out!',
     type: 'info',
-    timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2), // 2 hours ago
+    timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2), // about 2 hours ago
     isRead: false,
-    icon: '🔧',
   },
   {
     id: '3',
     title: 'Special Offer',
     message: '20% off on all hand tools this weekend. Limited time offer!',
     type: 'warning',
-    timestamp: new Date(Date.now() - 1000 * 60 * 60 * 4), // 4 hours ago
+    timestamp: new Date(Date.now() - 1000 * 60 * 60 * 4), // about 4 hours ago
     isRead: true,
-    icon: '🏷️',
   },
   {
     id: '4',
@@ -64,7 +61,6 @@ const mockNotifications: Notification[] = [
     type: 'success',
     timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24), // 1 day ago
     isRead: true,
-    icon: '👤',
   },
   {
     id: '5',
@@ -73,7 +69,6 @@ const mockNotifications: Notification[] = [
     type: 'warning',
     timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24 * 2), // 2 days ago
     isRead: false,
-    icon: '💳',
   },
 ];
 
