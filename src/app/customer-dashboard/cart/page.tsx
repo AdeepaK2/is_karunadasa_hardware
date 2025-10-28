@@ -164,7 +164,7 @@ export default function CartPage() {
                       SKU: {item.product.sku}
                     </p>
                     <p className="text-lg font-bold text-orange-600 dark:text-orange-400 mt-1">
-                      ₹{item.product.sellingPrice.toLocaleString()}
+                      LKR {item.product.sellingPrice.toLocaleString()}
                     </p>
                   </div>
 
@@ -191,7 +191,7 @@ export default function CartPage() {
                   {/* Item Total & Remove */}
                   <div className="text-right">
                     <p className="font-semibold text-gray-900 dark:text-white">
-                      ₹{(item.product.sellingPrice * item.quantity).toLocaleString()}
+                      LKR {(item.product.sellingPrice * item.quantity).toLocaleString()}
                     </p>
                     <button
                       onClick={() => removeFromCart(item.product.id)}
@@ -251,16 +251,16 @@ export default function CartPage() {
               <div className="space-y-3">
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600 dark:text-gray-400">Subtotal</span>
-                  <span className="text-gray-900 dark:text-white">₹{subtotal.toLocaleString()}</span>
+                  <span className="text-gray-900 dark:text-white">LKR {subtotal.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600 dark:text-gray-400">Tax (18% GST)</span>
-                  <span className="text-gray-900 dark:text-white">₹{tax.toLocaleString()}</span>
+                  <span className="text-gray-600 dark:text-gray-400">Tax (18% VAT)</span>
+                  <span className="text-gray-900 dark:text-white">LKR {tax.toLocaleString()}</span>
                 </div>
                 <div className="border-t border-gray-200 dark:border-gray-700 pt-3">
                   <div className="flex justify-between text-lg font-semibold">
                     <span className="text-gray-900 dark:text-white">Total</span>
-                    <span className="text-orange-600 dark:text-orange-400">₹{total.toLocaleString()}</span>
+                    <span className="text-orange-600 dark:text-orange-400">LKR {total.toLocaleString()}</span>
                   </div>
                 </div>
               </div>

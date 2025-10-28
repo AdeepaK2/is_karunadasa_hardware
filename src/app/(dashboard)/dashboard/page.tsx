@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from "react";
 import { useApp } from "@/contexts/AppContext";
 import { useRouteProtection } from "@/hooks/useRouteProtection";
+import AIInsightsSidebar from "@/components/AIInsightsSidebar";
 import {
   DollarSign,
   ShoppingCart,
@@ -11,6 +12,7 @@ import {
   TrendingUp,
   AlertTriangle,
   Calendar,
+  Brain,
 } from "lucide-react";
 import {
   AreaChart,
@@ -48,6 +50,7 @@ export default function DashboardPage() {
   const [timeRange, setTimeRange] = useState<TimeRange>("24hours");
   const [customStartDate, setCustomStartDate] = useState("");
   const [customEndDate, setCustomEndDate] = useState("");
+  const [isAIInsightsOpen, setIsAIInsightsOpen] = useState(false);
 
   if (!hasAccess) {
     return (
@@ -499,6 +502,12 @@ export default function DashboardPage() {
 
   return (
     <div className="p-6 space-y-6">
+      {/* AI Insights Sidebar */}
+      <AIInsightsSidebar 
+        isOpen={isAIInsightsOpen} 
+        onClose={() => setIsAIInsightsOpen(false)} 
+      />
+
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
@@ -510,15 +519,25 @@ export default function DashboardPage() {
           </p>
         </div>
 
-        {/* Time Range Filter */}
-        <div className="flex items-center gap-2 bg-white dark:bg-gray-800 rounded-lg p-2 border border-gray-200 dark:border-gray-700 flex-wrap">
-          <Calendar className="w-5 h-5 text-gray-500 dark:text-gray-400 ml-2" />
+        <div className="flex items-center gap-2 flex-wrap">
+          {/* AI Insights Button */}
           <button
-            onClick={() => setTimeRange("24hours")}
-            className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-              timeRange === "24hours"
-                ? "bg-blue-600 text-white"
-                : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+            onClick={() => setIsAIInsightsOpen(true)}
+            className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white rounded-lg font-medium transition-colors shadow-sm"
+          >
+            <Brain className="w-5 h-5" />
+            AI Insights
+          </button>
+
+          {/* Time Range Filter */}
+          <div className="flex items-center gap-2 bg-white dark:bg-gray-800 rounded-lg p-2 border border-gray-200 dark:border-gray-700 flex-wrap">
+            <Calendar className="w-5 h-5 text-gray-500 dark:text-gray-400 ml-2" />
+            <button
+              onClick={() => setTimeRange("24hours")}
+              className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                timeRange === "24hours"
+                  ? "bg-blue-600 text-white"
+                  : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
             }`}
           >
             24h
@@ -573,6 +592,7 @@ export default function DashboardPage() {
           >
             Custom
           </button>
+          </div>
         </div>
       </div>
 
