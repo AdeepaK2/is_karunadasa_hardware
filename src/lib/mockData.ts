@@ -59,12 +59,12 @@ export const mockProducts: Product[] = [
     sellingPrice: 250,
     quantity: 45,
     reorderLevel: 10,
-    supplier: 'Tools Wholesale',
-    barcode: '1234567890123',
-    description: 'Professional claw hammer with fiberglass handle',
-  imageUrl: '/hammer.png',
-    createdAt: new Date('2024-01-15'),
-    updatedAt: new Date('2024-01-15'),
+    supplier: "Tools Wholesale",
+    barcode: "1234567890123",
+    description: "Professional claw hammer with fiberglass handle",
+    imageUrl: "/hammer.png",
+    createdAt: new Date("2024-01-15"),
+    updatedAt: new Date("2024-01-15"),
   },
   {
     id: "2",
@@ -76,12 +76,12 @@ export const mockProducts: Product[] = [
     sellingPrice: 450,
     quantity: 30,
     reorderLevel: 15,
-    supplier: 'Tools Wholesale',
-    barcode: '1234567890124',
-    description: 'Complete screwdriver set with various sizes and types',
-  imageUrl: '/screwdriver.png',
-    createdAt: new Date('2024-01-15'),
-    updatedAt: new Date('2024-01-15'),
+    supplier: "Tools Wholesale",
+    barcode: "1234567890124",
+    description: "Complete screwdriver set with various sizes and types",
+    imageUrl: "/screwdriver.png",
+    createdAt: new Date("2024-01-15"),
+    updatedAt: new Date("2024-01-15"),
   },
   {
     id: "3",
@@ -93,12 +93,12 @@ export const mockProducts: Product[] = [
     sellingPrice: 5200,
     quantity: 8,
     reorderLevel: 5,
-    supplier: 'Power Tools Inc',
-    barcode: '1234567890125',
-    description: 'Cordless electric drill with variable speed control',
-  imageUrl: '/electricdrill.png',
-    createdAt: new Date('2024-01-15'),
-    updatedAt: new Date('2024-01-15'),
+    supplier: "Power Tools Inc",
+    barcode: "1234567890125",
+    description: "Cordless electric drill with variable speed control",
+    imageUrl: "/electricdrill.png",
+    createdAt: new Date("2024-01-15"),
+    updatedAt: new Date("2024-01-15"),
   },
   {
     id: "4",
@@ -110,12 +110,12 @@ export const mockProducts: Product[] = [
     sellingPrice: 85,
     quantity: 120,
     reorderLevel: 30,
-    supplier: 'Paint Supplies Co',
-    barcode: '1234567890126',
-    description: 'Professional paint brush for all types of paint',
-  imageUrl: '/brush.png',
-    createdAt: new Date('2024-01-15'),
-    updatedAt: new Date('2024-01-15'),
+    supplier: "Paint Supplies Co",
+    barcode: "1234567890126",
+    description: "Professional paint brush for all types of paint",
+    imageUrl: "/brush.png",
+    createdAt: new Date("2024-01-15"),
+    updatedAt: new Date("2024-01-15"),
   },
   {
     id: "5",
@@ -127,12 +127,12 @@ export const mockProducts: Product[] = [
     sellingPrice: 120,
     quantity: 200,
     reorderLevel: 50,
-    supplier: 'Electrical Depot',
-    barcode: '1234567890127',
-    description: 'Energy efficient LED bulb with cool white light',
-  imageUrl: '/bulb.png',
-    createdAt: new Date('2024-01-15'),
-    updatedAt: new Date('2024-01-15'),
+    supplier: "Electrical Depot",
+    barcode: "1234567890127",
+    description: "Energy efficient LED bulb with cool white light",
+    imageUrl: "/bulb.png",
+    createdAt: new Date("2024-01-15"),
+    updatedAt: new Date("2024-01-15"),
   },
   {
     id: "6",
@@ -144,12 +144,12 @@ export const mockProducts: Product[] = [
     sellingPrice: 180,
     quantity: 6,
     reorderLevel: 10,
-    supplier: 'Plumbing Supplies',
-    barcode: '1234567890128',
-    description: 'High quality PVC pipe for plumbing applications',
-  imageUrl: '/slon.png',
-    createdAt: new Date('2024-01-15'),
-    updatedAt: new Date('2024-01-15'),
+    supplier: "Plumbing Supplies",
+    barcode: "1234567890128",
+    description: "High quality PVC pipe for plumbing applications",
+    imageUrl: "/slon.png",
+    createdAt: new Date("2024-01-15"),
+    updatedAt: new Date("2024-01-15"),
   },
   {
     id: "7",
@@ -161,12 +161,12 @@ export const mockProducts: Product[] = [
     sellingPrice: 160,
     quantity: 55,
     reorderLevel: 20,
-    supplier: 'Tools Wholesale',
-    barcode: '1234567890129',
-    description: 'Professional measuring tape with lock mechanism',
-  imageUrl: '/tape.png',
-    createdAt: new Date('2024-01-15'),
-    updatedAt: new Date('2024-01-15'),
+    supplier: "Tools Wholesale",
+    barcode: "1234567890129",
+    description: "Professional measuring tape with lock mechanism",
+    imageUrl: "/tape.png",
+    createdAt: new Date("2024-01-15"),
+    updatedAt: new Date("2024-01-15"),
   },
   {
     id: "8",
@@ -178,12 +178,12 @@ export const mockProducts: Product[] = [
     sellingPrice: 250,
     quantity: 40,
     reorderLevel: 15,
-    supplier: 'Safety Equipment Co',
-    barcode: '1234567890130',
-    description: 'Anti-fog safety goggles for eye protection',
-  imageUrl: '/goggle.png',
-    createdAt: new Date('2024-01-15'),
-    updatedAt: new Date('2024-01-15'),
+    supplier: "Safety Equipment Co",
+    barcode: "1234567890130",
+    description: "Anti-fog safety goggles for eye protection",
+    imageUrl: "/goggle.png",
+    createdAt: new Date("2024-01-15"),
+    updatedAt: new Date("2024-01-15"),
   },
 ];
 
@@ -235,6 +235,77 @@ export const mockCustomers: Customer[] = [
     loyaltyPoints: 980,
     createdAt: new Date("2023-05-10"),
     lastPurchase: new Date("2024-10-20"),
+  },
+  {
+    id: "5",
+    name: "Demo Customer",
+    phone: "+94 71 111 2222",
+    email: "demo@example.com",
+    address: "Demo Address, Colombo",
+    nic: "200171892822",
+    outstandingBalance: 0,
+    loyaltyPoints: 0,
+    createdAt: new Date("2024-10-01"),
+    lastPurchase: new Date("2024-10-28"),
+  },
+  {
+    id: "6",
+    name: "Amali Wickramasinghe",
+    phone: "+94 77 998 8776",
+    email: "amali.w@example.com",
+    address: "45 Hill Street, Gampaha",
+    nic: "976543875V",
+    outstandingBalance: 25000,
+    loyaltyPoints: 450,
+    createdAt: new Date("2023-08-15"),
+    lastPurchase: new Date("2024-10-25"),
+  },
+  {
+    id: "7",
+    name: "Nuwan Rajapaksa",
+    phone: "+94 76 543 2198",
+    email: "nuwan.r@example.com",
+    address: "78 Lake Road, Kurunegala",
+    nic: "199523456789",
+    outstandingBalance: 105000,
+    loyaltyPoints: 1250,
+    createdAt: new Date("2022-11-20"),
+    lastPurchase: new Date("2024-10-26"),
+  },
+  {
+    id: "8",
+    name: "Chamari Dissanayake",
+    phone: "+94 71 876 5432",
+    email: "chamari.d@example.com",
+    address: "22 Beach Road, Matara",
+    nic: "198734567890",
+    outstandingBalance: 0,
+    loyaltyPoints: 320,
+    createdAt: new Date("2024-04-05"),
+    lastPurchase: new Date("2024-10-22"),
+  },
+  {
+    id: "9",
+    name: "Tharaka Bandara",
+    phone: "+94 77 654 3210",
+    address: "90 Station Road, Anuradhapura",
+    nic: "945678901V",
+    outstandingBalance: 45000,
+    loyaltyPoints: 580,
+    createdAt: new Date("2023-12-10"),
+    lastPurchase: new Date("2024-10-24"),
+  },
+  {
+    id: "10",
+    name: "Dilini Gamage",
+    phone: "+94 76 321 9876",
+    email: "dilini.g@example.com",
+    address: "12 School Lane, Kalutara",
+    nic: "200298765432",
+    outstandingBalance: 92000,
+    loyaltyPoints: 1100,
+    createdAt: new Date("2023-03-18"),
+    lastPurchase: new Date("2024-10-27"),
   },
 ];
 
@@ -528,7 +599,7 @@ export const mockSales: Sale[] = [
     cashierId: "3",
     cashierName: "Dilini Cashier",
     date: new Date(2025, 9, 28, 8, 30),
-    status: "completed" as any
+    status: "completed" as any,
   },
   {
     id: "24h-2",
@@ -544,7 +615,7 @@ export const mockSales: Sale[] = [
     cashierId: "3",
     cashierName: "Dilini Cashier",
     date: new Date(2025, 9, 28, 9, 15),
-    status: "completed" as any
+    status: "completed" as any,
   },
   {
     id: "24h-3",
@@ -560,7 +631,7 @@ export const mockSales: Sale[] = [
     cashierId: "3",
     cashierName: "Dilini Cashier",
     date: new Date(2025, 9, 28, 10, 45),
-    status: "completed" as any
+    status: "completed" as any,
   },
   {
     id: "24h-4",
@@ -576,7 +647,7 @@ export const mockSales: Sale[] = [
     cashierId: "3",
     cashierName: "Dilini Cashier",
     date: new Date(2025, 9, 28, 11, 20),
-    status: "completed" as any
+    status: "completed" as any,
   },
   {
     id: "24h-5",
@@ -592,7 +663,7 @@ export const mockSales: Sale[] = [
     cashierId: "3",
     cashierName: "Dilini Cashier",
     date: new Date(2025, 9, 28, 13, 30),
-    status: "completed" as any
+    status: "completed" as any,
   },
   {
     id: "24h-6",
@@ -608,7 +679,7 @@ export const mockSales: Sale[] = [
     cashierId: "3",
     cashierName: "Dilini Cashier",
     date: new Date(2025, 9, 28, 14, 50),
-    status: "completed" as any
+    status: "completed" as any,
   },
   {
     id: "24h-7",
@@ -624,7 +695,7 @@ export const mockSales: Sale[] = [
     cashierId: "3",
     cashierName: "Dilini Cashier",
     date: new Date(2025, 9, 28, 15, 15),
-    status: "completed" as any
+    status: "completed" as any,
   },
   {
     id: "24h-8",
@@ -640,7 +711,7 @@ export const mockSales: Sale[] = [
     cashierId: "3",
     cashierName: "Dilini Cashier",
     date: new Date(2025, 9, 28, 16, 40),
-    status: "completed" as any
+    status: "completed" as any,
   },
   // Recent sales for better dashboard visualization (Last 7 days)
   ...Array.from({ length: 50 }, (_, i) => {
@@ -648,30 +719,39 @@ export const mockSales: Sale[] = [
     const product = mockProducts[i % mockProducts.length];
     const customer = mockCustomers[i % mockCustomers.length];
     const quantity = Math.floor(Math.random() * 5) + 1;
-    const discount = Math.random() > 0.7 ? Math.floor(Math.random() * 100) + 50 : 0;
+    const discount =
+      Math.random() > 0.7 ? Math.floor(Math.random() * 100) + 50 : 0;
     const subtotal = product.sellingPrice * quantity;
     const tax = Math.floor((subtotal - discount) * 0.18);
     const total = subtotal - discount + tax;
-    
+
     return {
       id: `recent-${i}`,
       invoiceNumber: `INV-2025-${10000 + i}`,
       customerId: customer.id,
       customerName: customer.name,
-      items: [{
-        product: product,
-        quantity: quantity,
-        discount: discount
-      }],
+      items: [
+        {
+          product: product,
+          quantity: quantity,
+          discount: discount,
+        },
+      ],
       subtotal: subtotal,
       discount: discount,
       tax: tax,
       total: total,
-      paymentMode: ['cash', 'card', 'upi'][Math.floor(Math.random() * 3)] as any,
-      cashierId: '3',
-      cashierName: 'Dilini Cashier',
-      date: new Date(Date.now() - daysAgo * 24 * 60 * 60 * 1000 - Math.random() * 24 * 60 * 60 * 1000),
-      status: 'completed' as any
+      paymentMode: ["cash", "card", "upi"][
+        Math.floor(Math.random() * 3)
+      ] as any,
+      cashierId: "3",
+      cashierName: "Dilini Cashier",
+      date: new Date(
+        Date.now() -
+          daysAgo * 24 * 60 * 60 * 1000 -
+          Math.random() * 24 * 60 * 60 * 1000
+      ),
+      status: "completed" as any,
     };
   }),
   // Additional dummy orders for recent dates
@@ -692,10 +772,20 @@ export const mockSales: Sale[] = [
         discount: 0,
       },
     ],
-    subtotal: (mockProducts[0].sellingPrice * 2) + mockProducts[1].sellingPrice,
+    subtotal: mockProducts[0].sellingPrice * 2 + mockProducts[1].sellingPrice,
     discount: 50,
-    tax: Math.floor(((mockProducts[0].sellingPrice * 2) + mockProducts[1].sellingPrice - 50) * 0.15),
-    total: (mockProducts[0].sellingPrice * 2) + mockProducts[1].sellingPrice - 50 + Math.floor(((mockProducts[0].sellingPrice * 2) + mockProducts[1].sellingPrice - 50) * 0.15),
+    tax: Math.floor(
+      (mockProducts[0].sellingPrice * 2 + mockProducts[1].sellingPrice - 50) *
+        0.15
+    ),
+    total:
+      mockProducts[0].sellingPrice * 2 +
+      mockProducts[1].sellingPrice -
+      50 +
+      Math.floor(
+        (mockProducts[0].sellingPrice * 2 + mockProducts[1].sellingPrice - 50) *
+          0.15
+      ),
     paymentMode: "cash",
     cashierId: "3",
     cashierName: "Dilini Cashier",
@@ -719,10 +809,25 @@ export const mockSales: Sale[] = [
         discount: 0,
       },
     ],
-    subtotal: (mockProducts[3].sellingPrice * 5) + (mockProducts[4].sellingPrice * 10),
+    subtotal:
+      mockProducts[3].sellingPrice * 5 + mockProducts[4].sellingPrice * 10,
     discount: 100,
-    tax: Math.floor(((mockProducts[3].sellingPrice * 5) + (mockProducts[4].sellingPrice * 10) - 100) * 0.15),
-    total: (mockProducts[3].sellingPrice * 5) + (mockProducts[4].sellingPrice * 10) - 100 + Math.floor(((mockProducts[3].sellingPrice * 5) + (mockProducts[4].sellingPrice * 10) - 100) * 0.15),
+    tax: Math.floor(
+      (mockProducts[3].sellingPrice * 5 +
+        mockProducts[4].sellingPrice * 10 -
+        100) *
+        0.15
+    ),
+    total:
+      mockProducts[3].sellingPrice * 5 +
+      mockProducts[4].sellingPrice * 10 -
+      100 +
+      Math.floor(
+        (mockProducts[3].sellingPrice * 5 +
+          mockProducts[4].sellingPrice * 10 -
+          100) *
+          0.15
+      ),
     paymentMode: "card",
     cashierId: "4",
     cashierName: "Rohan Cashier",
@@ -744,7 +849,10 @@ export const mockSales: Sale[] = [
     subtotal: mockProducts[2].sellingPrice,
     discount: 500,
     tax: Math.floor((mockProducts[2].sellingPrice - 500) * 0.15),
-    total: mockProducts[2].sellingPrice - 500 + Math.floor((mockProducts[2].sellingPrice - 500) * 0.15),
+    total:
+      mockProducts[2].sellingPrice -
+      500 +
+      Math.floor((mockProducts[2].sellingPrice - 500) * 0.15),
     paymentMode: "upi",
     cashierId: "3",
     cashierName: "Dilini Cashier",
@@ -773,10 +881,30 @@ export const mockSales: Sale[] = [
         discount: 0,
       },
     ],
-    subtotal: (mockProducts[6].sellingPrice * 3) + (mockProducts[7].sellingPrice * 2) + mockProducts[5].sellingPrice,
+    subtotal:
+      mockProducts[6].sellingPrice * 3 +
+      mockProducts[7].sellingPrice * 2 +
+      mockProducts[5].sellingPrice,
     discount: 30,
-    tax: Math.floor(((mockProducts[6].sellingPrice * 3) + (mockProducts[7].sellingPrice * 2) + mockProducts[5].sellingPrice - 30) * 0.15),
-    total: (mockProducts[6].sellingPrice * 3) + (mockProducts[7].sellingPrice * 2) + mockProducts[5].sellingPrice - 30 + Math.floor(((mockProducts[6].sellingPrice * 3) + (mockProducts[7].sellingPrice * 2) + mockProducts[5].sellingPrice - 30) * 0.15),
+    tax: Math.floor(
+      (mockProducts[6].sellingPrice * 3 +
+        mockProducts[7].sellingPrice * 2 +
+        mockProducts[5].sellingPrice -
+        30) *
+        0.15
+    ),
+    total:
+      mockProducts[6].sellingPrice * 3 +
+      mockProducts[7].sellingPrice * 2 +
+      mockProducts[5].sellingPrice -
+      30 +
+      Math.floor(
+        (mockProducts[6].sellingPrice * 3 +
+          mockProducts[7].sellingPrice * 2 +
+          mockProducts[5].sellingPrice -
+          30) *
+          0.15
+      ),
     paymentMode: "credit",
     cashierId: "2",
     cashierName: "Chaminda Manager",
@@ -800,10 +928,20 @@ export const mockSales: Sale[] = [
         discount: 50,
       },
     ],
-    subtotal: mockProducts[1].sellingPrice + (mockProducts[4].sellingPrice * 5),
+    subtotal: mockProducts[1].sellingPrice + mockProducts[4].sellingPrice * 5,
     discount: 50,
-    tax: Math.floor((mockProducts[1].sellingPrice + (mockProducts[4].sellingPrice * 5) - 50) * 0.15),
-    total: mockProducts[1].sellingPrice + (mockProducts[4].sellingPrice * 5) - 50 + Math.floor((mockProducts[1].sellingPrice + (mockProducts[4].sellingPrice * 5) - 50) * 0.15),
+    tax: Math.floor(
+      (mockProducts[1].sellingPrice + mockProducts[4].sellingPrice * 5 - 50) *
+        0.15
+    ),
+    total:
+      mockProducts[1].sellingPrice +
+      mockProducts[4].sellingPrice * 5 -
+      50 +
+      Math.floor(
+        (mockProducts[1].sellingPrice + mockProducts[4].sellingPrice * 5 - 50) *
+          0.15
+      ),
     paymentMode: "cash",
     cashierId: "5",
     cashierName: "Sanduni Perera",
@@ -827,10 +965,20 @@ export const mockSales: Sale[] = [
         discount: 20,
       },
     ],
-    subtotal: mockProducts[0].sellingPrice + (mockProducts[3].sellingPrice * 3),
+    subtotal: mockProducts[0].sellingPrice + mockProducts[3].sellingPrice * 3,
     discount: 20,
-    tax: Math.floor((mockProducts[0].sellingPrice + (mockProducts[3].sellingPrice * 3) - 20) * 0.15),
-    total: mockProducts[0].sellingPrice + (mockProducts[3].sellingPrice * 3) - 20 + Math.floor((mockProducts[0].sellingPrice + (mockProducts[3].sellingPrice * 3) - 20) * 0.15),
+    tax: Math.floor(
+      (mockProducts[0].sellingPrice + mockProducts[3].sellingPrice * 3 - 20) *
+        0.15
+    ),
+    total:
+      mockProducts[0].sellingPrice +
+      mockProducts[3].sellingPrice * 3 -
+      20 +
+      Math.floor(
+        (mockProducts[0].sellingPrice + mockProducts[3].sellingPrice * 3 - 20) *
+          0.15
+      ),
     paymentMode: "card",
     cashierId: "3",
     cashierName: "Dilini Cashier",
@@ -855,10 +1003,20 @@ export const mockSales: Sale[] = [
         discount: 25,
       },
     ],
-    subtotal: mockProducts[0].sellingPrice + (mockProducts[3].sellingPrice * 2),
+    subtotal: mockProducts[0].sellingPrice + mockProducts[3].sellingPrice * 2,
     discount: 25,
-    tax: Math.floor((mockProducts[0].sellingPrice + (mockProducts[3].sellingPrice * 2) - 25) * 0.15),
-    total: mockProducts[0].sellingPrice + (mockProducts[3].sellingPrice * 2) - 25 + Math.floor((mockProducts[0].sellingPrice + (mockProducts[3].sellingPrice * 2) - 25) * 0.15),
+    tax: Math.floor(
+      (mockProducts[0].sellingPrice + mockProducts[3].sellingPrice * 2 - 25) *
+        0.15
+    ),
+    total:
+      mockProducts[0].sellingPrice +
+      mockProducts[3].sellingPrice * 2 -
+      25 +
+      Math.floor(
+        (mockProducts[0].sellingPrice + mockProducts[3].sellingPrice * 2 - 25) *
+          0.15
+      ),
     paymentMode: "cash",
     cashierId: "3",
     cashierName: "Dilini Cashier",
@@ -882,10 +1040,17 @@ export const mockSales: Sale[] = [
         discount: 0,
       },
     ],
-    subtotal: (mockProducts[4].sellingPrice * 4) + mockProducts[6].sellingPrice,
+    subtotal: mockProducts[4].sellingPrice * 4 + mockProducts[6].sellingPrice,
     discount: 0,
-    tax: Math.floor(((mockProducts[4].sellingPrice * 4) + mockProducts[6].sellingPrice) * 0.15),
-    total: (mockProducts[4].sellingPrice * 4) + mockProducts[6].sellingPrice + Math.floor(((mockProducts[4].sellingPrice * 4) + mockProducts[6].sellingPrice) * 0.15),
+    tax: Math.floor(
+      (mockProducts[4].sellingPrice * 4 + mockProducts[6].sellingPrice) * 0.15
+    ),
+    total:
+      mockProducts[4].sellingPrice * 4 +
+      mockProducts[6].sellingPrice +
+      Math.floor(
+        (mockProducts[4].sellingPrice * 4 + mockProducts[6].sellingPrice) * 0.15
+      ),
     paymentMode: "card",
     cashierId: "4",
     cashierName: "Rohan Cashier",
@@ -907,7 +1072,9 @@ export const mockSales: Sale[] = [
     subtotal: mockProducts[7].sellingPrice,
     discount: 0,
     tax: Math.floor(mockProducts[7].sellingPrice * 0.15),
-    total: mockProducts[7].sellingPrice + Math.floor(mockProducts[7].sellingPrice * 0.15),
+    total:
+      mockProducts[7].sellingPrice +
+      Math.floor(mockProducts[7].sellingPrice * 0.15),
     paymentMode: "upi",
     cashierId: "5",
     cashierName: "Sanduni Perera",
@@ -932,10 +1099,22 @@ export const mockSales: Sale[] = [
         discount: 0,
       },
     ],
-    subtotal: mockProducts[2].sellingPrice + (mockProducts[7].sellingPrice * 2),
+    subtotal: mockProducts[2].sellingPrice + mockProducts[7].sellingPrice * 2,
     discount: 200,
-    tax: Math.floor((mockProducts[2].sellingPrice + (mockProducts[7].sellingPrice * 2) - 200) * 0.15),
-    total: mockProducts[2].sellingPrice + (mockProducts[7].sellingPrice * 2) - 200 + Math.floor((mockProducts[2].sellingPrice + (mockProducts[7].sellingPrice * 2) - 200) * 0.15),
+    tax: Math.floor(
+      (mockProducts[2].sellingPrice + mockProducts[7].sellingPrice * 2 - 200) *
+        0.15
+    ),
+    total:
+      mockProducts[2].sellingPrice +
+      mockProducts[7].sellingPrice * 2 -
+      200 +
+      Math.floor(
+        (mockProducts[2].sellingPrice +
+          mockProducts[7].sellingPrice * 2 -
+          200) *
+          0.15
+      ),
     paymentMode: "card",
     cashierId: "3",
     cashierName: "Dilini Cashier",
@@ -959,10 +1138,20 @@ export const mockSales: Sale[] = [
         discount: 10,
       },
     ],
-    subtotal: (mockProducts[5].sellingPrice * 3) + mockProducts[3].sellingPrice,
+    subtotal: mockProducts[5].sellingPrice * 3 + mockProducts[3].sellingPrice,
     discount: 10,
-    tax: Math.floor(((mockProducts[5].sellingPrice * 3) + mockProducts[3].sellingPrice - 10) * 0.15),
-    total: (mockProducts[5].sellingPrice * 3) + mockProducts[3].sellingPrice - 10 + Math.floor(((mockProducts[5].sellingPrice * 3) + mockProducts[3].sellingPrice - 10) * 0.15),
+    tax: Math.floor(
+      (mockProducts[5].sellingPrice * 3 + mockProducts[3].sellingPrice - 10) *
+        0.15
+    ),
+    total:
+      mockProducts[5].sellingPrice * 3 +
+      mockProducts[3].sellingPrice -
+      10 +
+      Math.floor(
+        (mockProducts[5].sellingPrice * 3 + mockProducts[3].sellingPrice - 10) *
+          0.15
+      ),
     paymentMode: "cash",
     cashierId: "4",
     cashierName: "Rohan Cashier",
@@ -984,7 +1173,10 @@ export const mockSales: Sale[] = [
     subtotal: mockProducts[1].sellingPrice * 2,
     discount: 50,
     tax: Math.floor((mockProducts[1].sellingPrice * 2 - 50) * 0.15),
-    total: mockProducts[1].sellingPrice * 2 - 50 + Math.floor((mockProducts[1].sellingPrice * 2 - 50) * 0.15),
+    total:
+      mockProducts[1].sellingPrice * 2 -
+      50 +
+      Math.floor((mockProducts[1].sellingPrice * 2 - 50) * 0.15),
     paymentMode: "upi",
     cashierId: "5",
     cashierName: "Sanduni Perera",
@@ -1008,10 +1200,20 @@ export const mockSales: Sale[] = [
         discount: 25,
       },
     ],
-    subtotal: (mockProducts[4].sellingPrice * 8) + mockProducts[0].sellingPrice,
+    subtotal: mockProducts[4].sellingPrice * 8 + mockProducts[0].sellingPrice,
     discount: 25,
-    tax: Math.floor(((mockProducts[4].sellingPrice * 8) + mockProducts[0].sellingPrice - 25) * 0.15),
-    total: (mockProducts[4].sellingPrice * 8) + mockProducts[0].sellingPrice - 25 + Math.floor(((mockProducts[4].sellingPrice * 8) + mockProducts[0].sellingPrice - 25) * 0.15),
+    tax: Math.floor(
+      (mockProducts[4].sellingPrice * 8 + mockProducts[0].sellingPrice - 25) *
+        0.15
+    ),
+    total:
+      mockProducts[4].sellingPrice * 8 +
+      mockProducts[0].sellingPrice -
+      25 +
+      Math.floor(
+        (mockProducts[4].sellingPrice * 8 + mockProducts[0].sellingPrice - 25) *
+          0.15
+      ),
     paymentMode: "card",
     cashierId: "2",
     cashierName: "Chaminda Manager",
@@ -1035,10 +1237,25 @@ export const mockSales: Sale[] = [
         discount: 40,
       },
     ],
-    subtotal: (mockProducts[6].sellingPrice * 2) + (mockProducts[3].sellingPrice * 4),
+    subtotal:
+      mockProducts[6].sellingPrice * 2 + mockProducts[3].sellingPrice * 4,
     discount: 40,
-    tax: Math.floor(((mockProducts[6].sellingPrice * 2) + (mockProducts[3].sellingPrice * 4) - 40) * 0.15),
-    total: (mockProducts[6].sellingPrice * 2) + (mockProducts[3].sellingPrice * 4) - 40 + Math.floor(((mockProducts[6].sellingPrice * 2) + (mockProducts[3].sellingPrice * 4) - 40) * 0.15),
+    tax: Math.floor(
+      (mockProducts[6].sellingPrice * 2 +
+        mockProducts[3].sellingPrice * 4 -
+        40) *
+        0.15
+    ),
+    total:
+      mockProducts[6].sellingPrice * 2 +
+      mockProducts[3].sellingPrice * 4 -
+      40 +
+      Math.floor(
+        (mockProducts[6].sellingPrice * 2 +
+          mockProducts[3].sellingPrice * 4 -
+          40) *
+          0.15
+      ),
     paymentMode: "cash",
     cashierId: "3",
     cashierName: "Dilini Cashier",
@@ -1060,7 +1277,10 @@ export const mockSales: Sale[] = [
     subtotal: mockProducts[7].sellingPrice * 3,
     discount: 75,
     tax: Math.floor((mockProducts[7].sellingPrice * 3 - 75) * 0.15),
-    total: mockProducts[7].sellingPrice * 3 - 75 + Math.floor((mockProducts[7].sellingPrice * 3 - 75) * 0.15),
+    total:
+      mockProducts[7].sellingPrice * 3 -
+      75 +
+      Math.floor((mockProducts[7].sellingPrice * 3 - 75) * 0.15),
     paymentMode: "credit",
     cashierId: "4",
     cashierName: "Rohan Cashier",
@@ -1089,10 +1309,27 @@ export const mockSales: Sale[] = [
         discount: 0,
       },
     ],
-    subtotal: mockProducts[0].sellingPrice + mockProducts[1].sellingPrice + mockProducts[6].sellingPrice,
+    subtotal:
+      mockProducts[0].sellingPrice +
+      mockProducts[1].sellingPrice +
+      mockProducts[6].sellingPrice,
     discount: 0,
-    tax: Math.floor((mockProducts[0].sellingPrice + mockProducts[1].sellingPrice + mockProducts[6].sellingPrice) * 0.15),
-    total: mockProducts[0].sellingPrice + mockProducts[1].sellingPrice + mockProducts[6].sellingPrice + Math.floor((mockProducts[0].sellingPrice + mockProducts[1].sellingPrice + mockProducts[6].sellingPrice) * 0.15),
+    tax: Math.floor(
+      (mockProducts[0].sellingPrice +
+        mockProducts[1].sellingPrice +
+        mockProducts[6].sellingPrice) *
+        0.15
+    ),
+    total:
+      mockProducts[0].sellingPrice +
+      mockProducts[1].sellingPrice +
+      mockProducts[6].sellingPrice +
+      Math.floor(
+        (mockProducts[0].sellingPrice +
+          mockProducts[1].sellingPrice +
+          mockProducts[6].sellingPrice) *
+          0.15
+      ),
     paymentMode: "card",
     cashierId: "5",
     cashierName: "Sanduni Perera",
@@ -1114,7 +1351,10 @@ export const mockSales: Sale[] = [
     subtotal: mockProducts[2].sellingPrice,
     discount: 300,
     tax: Math.floor((mockProducts[2].sellingPrice - 300) * 0.15),
-    total: mockProducts[2].sellingPrice - 300 + Math.floor((mockProducts[2].sellingPrice - 300) * 0.15),
+    total:
+      mockProducts[2].sellingPrice -
+      300 +
+      Math.floor((mockProducts[2].sellingPrice - 300) * 0.15),
     paymentMode: "upi",
     cashierId: "2",
     cashierName: "Chaminda Manager",
@@ -1138,10 +1378,25 @@ export const mockSales: Sale[] = [
         discount: 30,
       },
     ],
-    subtotal: (mockProducts[4].sellingPrice * 6) + (mockProducts[5].sellingPrice * 2),
+    subtotal:
+      mockProducts[4].sellingPrice * 6 + mockProducts[5].sellingPrice * 2,
     discount: 30,
-    tax: Math.floor(((mockProducts[4].sellingPrice * 6) + (mockProducts[5].sellingPrice * 2) - 30) * 0.15),
-    total: (mockProducts[4].sellingPrice * 6) + (mockProducts[5].sellingPrice * 2) - 30 + Math.floor(((mockProducts[4].sellingPrice * 6) + (mockProducts[5].sellingPrice * 2) - 30) * 0.15),
+    tax: Math.floor(
+      (mockProducts[4].sellingPrice * 6 +
+        mockProducts[5].sellingPrice * 2 -
+        30) *
+        0.15
+    ),
+    total:
+      mockProducts[4].sellingPrice * 6 +
+      mockProducts[5].sellingPrice * 2 -
+      30 +
+      Math.floor(
+        (mockProducts[4].sellingPrice * 6 +
+          mockProducts[5].sellingPrice * 2 -
+          30) *
+          0.15
+      ),
     paymentMode: "cash",
     cashierId: "3",
     cashierName: "Dilini Cashier",
@@ -1163,7 +1418,10 @@ export const mockSales: Sale[] = [
     subtotal: mockProducts[3].sellingPrice * 6,
     discount: 50,
     tax: Math.floor((mockProducts[3].sellingPrice * 6 - 50) * 0.15),
-    total: mockProducts[3].sellingPrice * 6 - 50 + Math.floor((mockProducts[3].sellingPrice * 6 - 50) * 0.15),
+    total:
+      mockProducts[3].sellingPrice * 6 -
+      50 +
+      Math.floor((mockProducts[3].sellingPrice * 6 - 50) * 0.15),
     paymentMode: "card",
     cashierId: "4",
     cashierName: "Rohan Cashier",
@@ -1187,10 +1445,22 @@ export const mockSales: Sale[] = [
         discount: 100,
       },
     ],
-    subtotal: mockProducts[7].sellingPrice + (mockProducts[0].sellingPrice * 2),
+    subtotal: mockProducts[7].sellingPrice + mockProducts[0].sellingPrice * 2,
     discount: 100,
-    tax: Math.floor((mockProducts[7].sellingPrice + (mockProducts[0].sellingPrice * 2) - 100) * 0.15),
-    total: mockProducts[7].sellingPrice + (mockProducts[0].sellingPrice * 2) - 100 + Math.floor((mockProducts[7].sellingPrice + (mockProducts[0].sellingPrice * 2) - 100) * 0.15),
+    tax: Math.floor(
+      (mockProducts[7].sellingPrice + mockProducts[0].sellingPrice * 2 - 100) *
+        0.15
+    ),
+    total:
+      mockProducts[7].sellingPrice +
+      mockProducts[0].sellingPrice * 2 -
+      100 +
+      Math.floor(
+        (mockProducts[7].sellingPrice +
+          mockProducts[0].sellingPrice * 2 -
+          100) *
+          0.15
+      ),
     paymentMode: "upi",
     cashierId: "5",
     cashierName: "Sanduni Perera",
@@ -1215,10 +1485,17 @@ export const mockSales: Sale[] = [
         discount: 0,
       },
     ],
-    subtotal: mockProducts[1].sellingPrice + (mockProducts[4].sellingPrice * 3),
+    subtotal: mockProducts[1].sellingPrice + mockProducts[4].sellingPrice * 3,
     discount: 0,
-    tax: Math.floor((mockProducts[1].sellingPrice + (mockProducts[4].sellingPrice * 3)) * 0.15),
-    total: mockProducts[1].sellingPrice + (mockProducts[4].sellingPrice * 3) + Math.floor((mockProducts[1].sellingPrice + (mockProducts[4].sellingPrice * 3)) * 0.15),
+    tax: Math.floor(
+      (mockProducts[1].sellingPrice + mockProducts[4].sellingPrice * 3) * 0.15
+    ),
+    total:
+      mockProducts[1].sellingPrice +
+      mockProducts[4].sellingPrice * 3 +
+      Math.floor(
+        (mockProducts[1].sellingPrice + mockProducts[4].sellingPrice * 3) * 0.15
+      ),
     paymentMode: "cash",
     cashierId: "3",
     cashierName: "Dilini Cashier",
@@ -1351,7 +1628,7 @@ export const mockExpenses: Expense[] = [
     paymentMethod: "Card",
     amount: 200,
     paidBy: "Admin User",
-    createdAt: new Date(2025, 9, 28, 9, 0)
+    createdAt: new Date(2025, 9, 28, 9, 0),
   },
   {
     id: "exp-oct-28-2",
@@ -1362,7 +1639,7 @@ export const mockExpenses: Expense[] = [
     paymentMethod: "Cash",
     amount: 300,
     paidBy: "Dilini Cashier",
-    createdAt: new Date(2025, 9, 28, 14, 30)
+    createdAt: new Date(2025, 9, 28, 14, 30),
   },
   // October 2025 - Monthly fixed expenses (but reduced for realistic margins)
   {
