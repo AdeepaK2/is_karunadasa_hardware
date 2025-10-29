@@ -4,14 +4,20 @@ import React from 'react';
 import { useApp } from '@/contexts/AppContext';
 import { Package, ShoppingCart, User, CreditCard, Star, TrendingUp, Truck } from 'lucide-react';
 import Image from 'next/image';
+import { customerDemoOrders } from '@/lib/customerDemoData';
 
 export default function CustomerDashboard() {
   const { currentUser, sales, products } = useApp();
 
   // Get customer's orders
-  const customerOrders = sales.filter(sale =>
+  let customerOrders = sales.filter(sale =>
     sale.customerId === currentUser?.id
   );
+
+  // If no orders found, use demo data
+  if (customerOrders.length === 0) {
+    customerOrders = customerDemoOrders;
+  }
 
   // Calculate customer stats
   const totalSpent = customerOrders.reduce((sum, order) => sum + order.total, 0);
