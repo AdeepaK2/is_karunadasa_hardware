@@ -2,7 +2,8 @@
 
 import React from 'react';
 import { useApp } from '@/contexts/AppContext';
-import { Package, ShoppingCart, User, CreditCard, Star, TrendingUp } from 'lucide-react';
+import { Package, ShoppingCart, User, CreditCard, Star, TrendingUp, Truck } from 'lucide-react';
+import Image from 'next/image';
 
 export default function CustomerDashboard() {
   const { currentUser, sales, products } = useApp();
@@ -21,6 +22,14 @@ export default function CustomerDashboard() {
   const recentOrders = customerOrders
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .slice(0, 5);
+
+  // Get previously bought products with images
+  const previouslyBoughtProducts = customerOrders
+    .flatMap(order => order.items.map(item => item.product))
+    .filter((product, index, self) => 
+      index === self.findIndex(p => p.id === product.id)
+    )
+    .slice(0, 6); // Show first 6 unique products
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
@@ -76,6 +85,55 @@ export default function CustomerDashboard() {
           </div>
         </div>
       </div>
+
+      {/* Free Delivery Banner */}
+      <div className="mb-8 bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded-lg p-4">
+        <div className="flex items-center gap-3">
+          <Truck className="w-6 h-6 text-green-600 dark:text-green-400" />
+          <div>
+            <p className="font-semibold text-green-800 dark:text-green-300">
+              Free Delivery on Orders Over LKR 5,000!
+            </p>
+            <p className="text-sm text-green-700 dark:text-green-400">
+              Shop now and enjoy free shipping on your order
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Previously Bought Products */}
+      {previouslyBoughtProducts.length > 0 && (
+        <div className="mb-8 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+          <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Previously Purchased Items</h2>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Items you've ordered before</p>
+          </div>
+          <div className="p-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+              {previouslyBoughtProducts.map((product) => (
+                <div key={product.id} className="group">
+                  <div className="relative aspect-square bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden mb-2">
+                    {product.imageUrl ? (
+                      <Image
+                        src={product.imageUrl}
+                        alt={product.name}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-200"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <Package className="w-8 h-8 text-gray-400" />
+                      </div>
+                    )}
+                  </div>
+                  <h3 className="text-sm font-medium text-gray-900 dark:text-white truncate">{product.name}</h3>
+                  <p className="text-sm text-orange-600 dark:text-orange-400 font-semibold">LKR {product.sellingPrice.toLocaleString()}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Recent Orders */}
