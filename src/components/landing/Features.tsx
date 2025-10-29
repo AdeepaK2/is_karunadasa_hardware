@@ -5,7 +5,7 @@ import { Wrench, Package, Truck, Shield, Clock, DollarSign } from 'lucide-react'
 const features = [
   {
     icon: Wrench,
-    title: 'Quality Tools',
+    title: 'Quality Tools Best In the market',
     description: 'Hand tools, power tools, and everything in between from trusted brands.',
   },
   {
