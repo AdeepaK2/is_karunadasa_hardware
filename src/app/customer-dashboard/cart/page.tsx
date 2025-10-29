@@ -24,8 +24,8 @@ export default function CartPage() {
 
   // Calculate totals
   const subtotal = cart.reduce((sum, item) => sum + (item.product.sellingPrice * item.quantity), 0);
-  const tax = subtotal * 0.18; // 18% GST
-  const total = subtotal + tax;
+  const deliveryFee = subtotal >= 5000 ? 0 : 500;
+  const total = subtotal + deliveryFee;
 
   // Handle quantity change
   const handleQuantityChange = (productId: string, newQuantity: number) => {
@@ -50,7 +50,7 @@ export default function CartPage() {
         items: cart,
         subtotal: subtotal,
         discount: 0, // No discount for customer purchases
-        tax: tax,
+        tax: 0,
         total: total,
         paymentMode: 'cash' as const,
         cashierId: 'system', // System-generated for customer purchases
@@ -254,9 +254,25 @@ export default function CartPage() {
                   <span className="text-gray-900 dark:text-white">LKR {subtotal.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600 dark:text-gray-400">Tax (18% VAT)</span>
-                  <span className="text-gray-900 dark:text-white">LKR {tax.toLocaleString()}</span>
+                  <span className="text-gray-600 dark:text-gray-400">Delivery Fee</span>
+                  <span className={deliveryFee === 0 ? "text-green-600 dark:text-green-400 font-semibold" : "text-gray-900 dark:text-white"}>
+                    {deliveryFee === 0 ? 'FREE' : `LKR ${deliveryFee.toLocaleString()}`}
+                  </span>
                 </div>
+                {subtotal >= 5000 && (
+                  <div className="bg-green-50 dark:bg-green-900/30 p-2 rounded-lg">
+                    <p className="text-xs text-green-700 dark:text-green-400 text-center">
+                      🎉 You qualify for free delivery!
+                    </p>
+                  </div>
+                )}
+                {subtotal < 5000 && (
+                  <div className="bg-orange-50 dark:bg-orange-900/30 p-2 rounded-lg">
+                    <p className="text-xs text-orange-700 dark:text-orange-400 text-center">
+                      Add LKR {(5000 - subtotal).toLocaleString()} more for free delivery
+                    </p>
+                  </div>
+                )}
                 <div className="border-t border-gray-200 dark:border-gray-700 pt-3">
                   <div className="flex justify-between text-lg font-semibold">
                     <span className="text-gray-900 dark:text-white">Total</span>

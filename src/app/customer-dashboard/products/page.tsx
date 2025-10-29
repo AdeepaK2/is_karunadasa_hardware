@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useApp } from "@/contexts/AppContext";
 import { mockProducts } from "@/lib/mockData";
 import { Product } from "@/types";
+import { Truck } from "lucide-react";
 
 export default function ProductsPage() {
   const { addToCart } = useApp();
@@ -69,6 +70,20 @@ export default function ProductsPage() {
         <p className="text-gray-600 dark:text-gray-400">
           Browse our complete range of hardware products
         </p>
+        {/* Free Delivery Banner */}
+        <div className="mt-4 bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded-lg p-4">
+          <div className="flex items-center gap-3">
+            <Truck className="w-6 h-6 text-green-600 dark:text-green-400" />
+            <div>
+              <p className="font-semibold text-green-800 dark:text-green-300">
+                Free Delivery on Orders Over LKR 5,000!
+              </p>
+              <p className="text-sm text-green-700 dark:text-green-400">
+                Shop now and enjoy free shipping on your order
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Search and Filter Controls */}

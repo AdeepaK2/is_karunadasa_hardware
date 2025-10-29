@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useApp } from '@/contexts/AppContext';
 import {
   Package,
@@ -12,13 +13,17 @@ import {
   Search,
   Filter,
   ShoppingBag,
+  X,
 } from 'lucide-react';
 import { format } from 'date-fns';
+import { Sale } from '@/types';
 
 export default function OrdersPage() {
   const { currentUser, sales, customers } = useApp();
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
+  const [selectedOrder, setSelectedOrder] = useState<Sale | null>(null);
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
 
   // Find customer data
   const customerData = customers.find(c =>
@@ -607,6 +612,53 @@ export default function OrdersPage() {
     }
   };
 
+  // View order details
+  const handleViewDetails = (order: Sale) => {
+    setSelectedOrder(order);
+    setShowDetailsModal(true);
+  };
+
+  // Download invoice
+  const handleDownloadInvoice = (order: Sale) => {
+    const invoiceContent = `
+KARUNADASA HARDWARE STORE
+=====================================
+Invoice: ${order.invoiceNumber}
+Date: ${format(new Date(order.date), 'PPP')}
+Customer: ${order.customerName}
+
+=====================================
+ITEMS:
+${order.items.map((item, index) => `
+${index + 1}. ${item.product.name}
+   SKU: ${item.product.sku}
+   Qty: ${item.quantity} x LKR ${item.product.sellingPrice.toLocaleString()}
+   Subtotal: LKR ${(item.quantity * item.product.sellingPrice).toLocaleString()}
+`).join('')}
+=====================================
+Subtotal: LKR ${order.subtotal.toLocaleString()}
+Discount: LKR ${order.discount.toLocaleString()}
+Delivery: ${order.subtotal >= 5000 ? 'FREE' : 'LKR 500'}
+-------------------------------------
+TOTAL: LKR ${order.total.toLocaleString()}
+=====================================
+Payment Mode: ${order.paymentMode.toUpperCase()}
+Status: ${order.status.toUpperCase()}
+
+Thank you for shopping with us!
+    `.trim();
+
+    const blob = new Blob([invoiceContent], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${order.invoiceNumber}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div className="p-6 space-y-6">
       {/* Header */}
@@ -748,9 +800,9 @@ export default function OrdersPage() {
                     </div>
                   </div>
                   <div>
-                    <span className="text-sm text-gray-600 dark:text-gray-400">Tax</span>
-                    <div className="font-semibold text-gray-900 dark:text-white">
-                      LKR {order.tax.toLocaleString()}
+                    <span className="text-sm text-gray-600 dark:text-gray-400">Delivery</span>
+                    <div className={`font-semibold ${order.subtotal >= 5000 ? 'text-green-600 dark:text-green-400' : 'text-gray-900 dark:text-white'}`}>
+                      {order.subtotal >= 5000 ? 'FREE' : 'LKR 500'}
                     </div>
                   </div>
                   <div>
@@ -761,11 +813,17 @@ export default function OrdersPage() {
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <button className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg transition-colors">
+                  <button 
+                    onClick={() => handleViewDetails(order)}
+                    className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg transition-colors"
+                  >
                     <Eye className="w-4 h-4" />
                     View Details
                   </button>
-                  <button className="flex items-center gap-2 px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-colors">
+                  <button 
+                    onClick={() => handleDownloadInvoice(order)}
+                    className="flex items-center gap-2 px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-colors"
+                  >
                     <Download className="w-4 h-4" />
                     Download Invoice
                   </button>
@@ -775,6 +833,154 @@ export default function OrdersPage() {
           ))
         )}
       </div>
+
+      {/* Order Details Modal */}
+      {showDetailsModal && selectedOrder && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+            {/* Modal Header */}
+            <div className="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-6 flex items-center justify-between z-10">
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                  Order Details
+                </h2>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                  {selectedOrder.invoiceNumber}
+                </p>
+              </div>
+              <button
+                onClick={() => setShowDetailsModal(false)}
+                className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="p-6 space-y-6">
+              {/* Order Info */}
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Date</p>
+                  <p className="font-semibold text-gray-900 dark:text-white">
+                    {format(new Date(selectedOrder.date), 'PPP p')}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Payment Method</p>
+                  <p className="font-semibold text-gray-900 dark:text-white">
+                    {getPaymentModeIcon(selectedOrder.paymentMode)} {selectedOrder.paymentMode.toUpperCase()}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Status</p>
+                  <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(selectedOrder.status)}`}>
+                    {selectedOrder.status.toUpperCase()}
+                  </span>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Customer</p>
+                  <p className="font-semibold text-gray-900 dark:text-white">
+                    {selectedOrder.customerName}
+                  </p>
+                </div>
+              </div>
+
+              {/* Items */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                  Order Items
+                </h3>
+                <div className="space-y-4">
+                  {selectedOrder.items.map((item, index) => (
+                    <div key={index} className="flex items-center gap-4 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                      <div className="relative w-20 h-20 bg-gray-200 dark:bg-gray-600 rounded-lg overflow-hidden">
+                        {item.product.imageUrl ? (
+                          <Image
+                            src={item.product.imageUrl}
+                            alt={item.product.name}
+                            fill
+                            className="object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center">
+                            <Package className="w-8 h-8 text-gray-400" />
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="font-semibold text-gray-900 dark:text-white">
+                          {item.product.name}
+                        </h4>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          SKU: {item.product.sku} | Brand: {item.product.brand}
+                        </p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          Quantity: {item.quantity}
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-bold text-gray-900 dark:text-white">
+                          LKR {item.product.sellingPrice.toLocaleString()}
+                        </p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          × {item.quantity}
+                        </p>
+                        <p className="text-sm font-semibold text-orange-600 dark:text-orange-400">
+                          LKR {(item.product.sellingPrice * item.quantity).toLocaleString()}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Order Summary */}
+              <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600 dark:text-gray-400">Subtotal</span>
+                    <span className="text-gray-900 dark:text-white">LKR {selectedOrder.subtotal.toLocaleString()}</span>
+                  </div>
+                  {selectedOrder.discount > 0 && (
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600 dark:text-gray-400">Discount</span>
+                      <span className="text-green-600 dark:text-green-400">-LKR {selectedOrder.discount.toLocaleString()}</span>
+                    </div>
+                  )}
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600 dark:text-gray-400">Delivery Fee</span>
+                    <span className={selectedOrder.subtotal >= 5000 ? 'text-green-600 dark:text-green-400 font-semibold' : 'text-gray-900 dark:text-white'}>
+                      {selectedOrder.subtotal >= 5000 ? 'FREE' : 'LKR 500'}
+                    </span>
+                  </div>
+                  <div className="flex justify-between text-lg font-bold pt-2 border-t border-gray-200 dark:border-gray-700">
+                    <span className="text-gray-900 dark:text-white">Total</span>
+                    <span className="text-orange-600 dark:text-orange-400">LKR {selectedOrder.total.toLocaleString()}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Actions */}
+              <div className="flex gap-3">
+                <button
+                  onClick={() => handleDownloadInvoice(selectedOrder)}
+                  className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-colors font-semibold"
+                >
+                  <Download className="w-5 h-5" />
+                  Download Invoice
+                </button>
+                <button
+                  onClick={() => setShowDetailsModal(false)}
+                  className="px-6 py-3 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg transition-colors font-semibold"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Summary Stats */}
       {customerOrders.length > 0 && (
